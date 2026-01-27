@@ -22,7 +22,7 @@ limitations:
   - "Zep Graphiti self-hosted costs estimated based on infrastructure requirements"
   - "Convex @convex-dev/rag v0.5.4 capabilities may expand in future releases"
 responds_to: null
-implications_for: [ADR-03-01, A02, A04]
+implications_for: [ADR-03-01, ADR-02-01, ADR-04-01]
 ---
 
 # Memory and Retrieval Architecture Research Findings

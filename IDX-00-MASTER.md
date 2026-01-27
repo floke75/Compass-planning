@@ -25,7 +25,7 @@ This document provides structured navigation for LLM agents working with Compass
 
 | ID | File | Type | Domain | One-Line Purpose |
 |----|------|------|--------|------------------|
-| — | `Compass___System_Definition.md` | Core Spec | System | **Authoritative system specification**—what Compass is, requirements, architecture |
+| SYS-00 | `SYS-00-system-definition.md` | Core Spec | System | **Authoritative system specification**—what Compass is, requirements, architecture |
 | DD-12-01 | `DD-12-01-repository-definitions.md` | Definition | Structure | Repository layout, naming conventions, git workflow |
 | DD-13-01 | `DD-13-01-artifacts-definitions.md` | Definition | Documentation | Artifact types, frontmatter schema, lifecycle states, templates |
 | DD-14-01 | `DD-14-01-ecosystem-definitions.md` | Definition | EFN Tools | Tool archetypes, reliability tiers, integration patterns |
@@ -1477,7 +1477,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - Added Planning Arc Stages quick lookup table with document references
 - Added Widget Categories quick lookup table
 - Updated Required Reading by Task with arc and widget implementation entries
-- Tier 3 now 100% complete (A04, A07, A18, A19 done)
+- Tier 3 now 100% complete (RF-04-01/ADR-04-01 Documentation, RF-07-01/ADR-07-01 Widgets, DD-18-01 Questioning Arc, DD-19-01 Widget Schema done)
 
 **Previous updates (v1.4):**
 - Added RF-04-01 Documentation Platform Findings (Obsidian + Git recommended)

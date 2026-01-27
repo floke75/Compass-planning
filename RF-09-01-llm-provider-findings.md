@@ -1,5 +1,5 @@
 ---
-id: RF-01-09
+id: RF-09-01
 type: rf
 area: 09-llm-provider
 title: LLM Provider Research Findings
@@ -634,4 +634,4 @@ This achieves **87% budget headroom** at Phase 3 ($108 vs $800 ceiling).
 
 ---
 
-*End of LLM Provider Research Findings (RF-01-09)*
+*End of LLM Provider Research Findings (RF-09-01)*

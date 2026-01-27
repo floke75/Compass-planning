@@ -10,7 +10,7 @@ author: compass-research
 summary: Selects Claude Opus 4.5 as the primary LLM for planning tasks (frontier reasoning) with Claude Haiku 4.5 for orchestration (reliable instruction following), backed by Gemini 3 Pro/2.5 Flash and GPT-5.2/Mini as fallbacks
 tags: [llm, provider, decision, anthropic, openai, google]
 related:
-  - RF-01-09
+  - RF-09-01
 decision_date: null
 deciders: []
 supersedes: null
@@ -264,7 +264,7 @@ Recommended approach: Lightweight custom abstraction or Vercel AI SDK rather tha
 
 ## Related Documents
 
-- **RF-01-09**: LLM Provider Research Findings (companion research)
+- **RF-09-01**: LLM Provider Research Findings (companion research)
 - **Compass System Definition**: §1.7 (LLM-agnostic), §4.1 (Budget)
 - **ADR-02-01**: LLM Orchestration Selection (pending, informed by this decision)
 
