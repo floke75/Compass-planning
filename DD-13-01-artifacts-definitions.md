@@ -267,7 +267,7 @@ id: "SPEC-auth-001"              # Unique identifier, never reused
 type: spec                       # spec | adr | rb | rf | dd | std | handoff | idx
 area: "01-backend"               # Research area code (optional for some types)
 title: "OAuth2 Authentication Flow"
-status: draft                    # draft | review | active | deprecated
+status: draft                    # draft | review | active | deprecated (ADRs may also use: proposed | accepted)
 created: 2026-01-25
 updated: 2026-01-25
 author: "jsmith"                 # Primary author or "compass-research" for generated
@@ -410,7 +410,9 @@ Compass uses four lifecycle states with clear meanings and transition rules:
 |-------|---------|-------------|---------------|
 | **draft** | Work in progress, not ready for use | Authors and reviewers | No—don't reference drafts |
 | **review** | Complete, awaiting peer evaluation | All team members | Cautiously, noting "pending review" |
+| **proposed** | (ADR-specific) Decision documented, awaiting evaluation | All team members | Cautiously, noting "proposed decision" |
 | **active** | Approved and authoritative | Everyone | Yes—this is the source of truth |
+| **accepted** | (ADR-specific) Decision finalized and authoritative | Everyone | Yes—this is the source of truth |
 | **deprecated** | Superseded or retired, preserved for history | Everyone | Only for historical context |
 
 ### 3.3 Transition Rules
@@ -438,6 +440,30 @@ Some documents (like Standards and Definitions) remain in `active` status for lo
 - Document significant changes in a changelog section
 - Consider version numbering for major revisions
 - Don't change status just because content was updated
+
+### 3.5 ADR-Specific Status Values
+
+Architecture Decision Records (ADRs) use domain-specific status terminology that maps to the general lifecycle model:
+
+| ADR Status | Equivalent | Meaning |
+|------------|------------|---------|
+| **draft** | draft | Decision being researched and documented |
+| **proposed** | review | Decision documented, awaiting stakeholder evaluation |
+| **accepted** | active | Decision finalized and authoritative |
+| **deprecated** | deprecated | Decision superseded or retired |
+
+**ADR Transition Rules:**
+
+| From | To | Trigger | Required Actions |
+|------|-----|---------|------------------|
+| draft | proposed | Author completes decision documentation | All options evaluated, recommendation stated |
+| proposed | draft | Stakeholder requests changes | Document feedback |
+| proposed | accepted | Stakeholder approval | Set `decision_date`, record `deciders` |
+| accepted | deprecated | New decision supersedes | Link to replacement via `superseded_by` |
+
+**Why different terminology?**
+
+ADR conventions follow industry standards (MADR, Documenting Architecture Decisions). The terms `proposed` and `accepted` communicate decision-specific meaning: a "proposed" decision is actively under consideration, while an "accepted" decision has been formally adopted. This aligns with how ADRs are used in the broader software engineering community.
 
 ---
 

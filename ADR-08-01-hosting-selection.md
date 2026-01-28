@@ -67,7 +67,7 @@ Cloudflare Pages is a frontend deployment platform built on Cloudflare's global 
 
 Cloudflare uses flat-rate pricing: $20/month for the Pro plan regardless of team size. Bandwidth is genuinely unlimited on all tiers with no overage charges. At Phase 3 scale with 10-20 users, Cloudflare would cost $20/month versus $100-200/month on Vercel—a significant difference.
 
-The CDN network is the largest in the industry, with over 300 points of presence globally. For a financial news broadcaster where breaking stories can cause sudden traffic surges, unlimited bandwidth eliminates billing anxiety entirely.
+The CDN network is the largest in the industry, with over 300 points of presence globally *(as_of: 2026-01-25)*. For a financial news broadcaster where breaking stories can cause sudden traffic surges, unlimited bandwidth eliminates billing anxiety entirely.
 
 **Cons:**
 
@@ -216,7 +216,7 @@ This migration can be completed in a single work session and poses minimal risk 
 
 **Backend context**: ADR-01-01 documents the Convex selection that establishes the requirement for external frontend hosting.
 
-**Informs downstream research**: A10 (Dev Tooling) should incorporate Vercel deployment patterns into the development workflow specification.
+**Informs downstream research**: Area 10 (Dev Tooling—research pending) should incorporate Vercel deployment patterns into the development workflow specification.
 
 **System requirements**: The Compass System Definition provides the operational constraints, budget targets, and team capacity context that shaped this decision.
 

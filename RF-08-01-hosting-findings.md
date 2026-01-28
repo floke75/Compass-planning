@@ -19,7 +19,7 @@ limitations:
   - "No hands-on deployment testing performed"
   - "Netlify's credit-based pricing model is new (September 2025) and may evolve"
 responds_to: null
-implications_for: [ADR-08-01, A10]
+implications_for: [ADR-08-01]
 ---
 
 # Frontend Hosting Platform Research Findings

@@ -1,11 +1,27 @@
-# Compass — System Definition  
-  
-**Core system specification for LLM-driven planning, research, and documentation**  
-  
-**Version**: 2.0  
-  
-**Last updated**: 2026-01-24  
-⸻  
+---
+id: SYS-00
+type: spec
+title: Compass System Definition
+status: active
+created: 2026-01-24
+updated: 2026-01-24
+author: compass-research
+summary: Authoritative system specification defining what Compass is, its requirements, architecture, and constraints
+tags: [system, specification, compass, architecture, core]
+related:
+  - DD-12-01
+  - DD-13-01
+  - DD-14-01
+---
+
+# Compass — System Definition
+
+**Core system specification for LLM-driven planning, research, and documentation**
+
+**Version**: 2.0
+
+**Last updated**: 2026-01-24
+⸻
 ## Document Purpose  
   
 This document defines what Compass is, what it must accomplish, and the technical and organizational constraints it must operate within. It serves as the authoritative reference for understanding Compass as a system.  

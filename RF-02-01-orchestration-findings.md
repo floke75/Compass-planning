@@ -12,7 +12,7 @@ tags: [orchestration, llm, framework, mastra, vercel-ai-sdk, langchain, typescri
 related:
   - DD-13-01
   - DD-14-01
-  - RF-01-09
+  - RF-09-01
   - ADR-09-01
 confidence: high
 methodology: "Web research with official vendor documentation, GitHub repositories, community discussions, and third-party comparison reports"
@@ -480,7 +480,7 @@ All sources assessed per STD-20-01 evidence standards.
 
 ## Appendix B: Related Documents
 
-- **RF-01-09**: LLM Provider Research Findings (tiered model strategy)
+- **RF-09-01**: LLM Provider Research Findings (tiered model strategy)
 - **ADR-09-01**: LLM Provider Selection (Claude Opus/Haiku 4.5 decision)
 - **ADR-01-01**: Backend Platform Selection (PostgreSQL via Supabase)
 - **DD-13-01**: Artifact Taxonomy (document formatting standards)

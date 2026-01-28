@@ -18,7 +18,7 @@ limitations:
   - "Real-time collaboration assessment based on documentation rather than hands-on testing"
   - "Mobile sync performance claims not independently verified"
 responds_to: null
-implications_for: [A06]
+implications_for: []
 ---
 
 # Documentation Platform Research Findings
@@ -36,7 +36,7 @@ implications_for: [A06]
 
 **Alternative**: GitBook when prioritizing native llms.txt generation, polished collaboration UI, and professional documentation appearance over wiki-style backlinks. Budget ~$30-95/month depending on tier.
 
-The documentation platform landscape underwent significant transformation in 2024-2025 with MCP (Model Context Protocol) adoption across major platforms. Anthropic donated MCP to the Linux Foundation in December 2025, and it is now supported by OpenAI, Google DeepMind, and over 2,000 MCP servers exist in the ecosystem. This fundamentally changes how LLM agents access documentation—native MCP support is now a realistic selection criterion rather than a nice-to-have.
+The documentation platform landscape underwent significant transformation in 2024-2025 with MCP (Model Context Protocol) adoption across major platforms. Anthropic donated MCP to the Linux Foundation in December 2025, and it is now supported by OpenAI, Google DeepMind, and over 2,000 MCP servers exist in the ecosystem *(as_of: 2026-01-26)*. This fundamentally changes how LLM agents access documentation—native MCP support is now a realistic selection criterion rather than a nice-to-have.
 
 ---
 

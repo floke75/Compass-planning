@@ -11,7 +11,7 @@ summary: Selects Mastra + Vercel AI SDK v6 as the LLM orchestration architecture
 tags: [orchestration, llm, framework, mastra, vercel-ai-sdk, architecture, decision]
 related:
   - RF-02-01
-  - RF-01-09
+  - RF-09-01
   - ADR-09-01
   - ADR-01-01
   - DD-13-01
@@ -80,7 +80,7 @@ No implementation effort. Retains flexibility to choose based on changing requir
 
 **Cons:**
 
-Blocks dependent research areas (A07, A18, A19) that need to know orchestration patterns. Delays Compass development timeline. Risk of making hasty decisions during implementation.
+Blocks dependent research areas (RF-07-01/ADR-07-01 Widget Libraries, DD-18-01 Questioning Arc, DD-19-01 Widget Schema) that need to know orchestration patterns. Delays Compass development timeline. Risk of making hasty decisions during implementation.
 
 ## Decision
 
@@ -164,7 +164,7 @@ const branchSchema = z.object({
 ## Related Documents
 
 - **RF-02-01**: LLM Orchestration Framework Research Findings (detailed evaluation)
-- **RF-01-09**: LLM Provider Research Findings (model selection)
+- **RF-09-01**: LLM Provider Research Findings (model selection)
 - **ADR-09-01**: LLM Provider Selection (tiered model strategy)
 - **ADR-01-01**: Backend Platform Selection (Supabase/PostgreSQL)
 - **DD-13-01**: Artifact Taxonomy (document standards)

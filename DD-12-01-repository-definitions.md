@@ -622,7 +622,7 @@ The good example can be understood in isolation. The bad example requires contex
 ## Appendix C: Research Foundation
 
 This document synthesizes patterns from:
-- BMAD Method repository organization (31,600+ GitHub stars)
+- BMAD Method repository organization (31,600+ GitHub stars, as_of: 2026-01-25)
 - Google, 18F, and Harvard data management naming conventions
 - llms.txt standard by Jeremy Howard (Answer.AI)
 - GitHub Flow documentation practices

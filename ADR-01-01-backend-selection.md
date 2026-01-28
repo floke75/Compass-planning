@@ -111,7 +111,7 @@ Neon is a serverless PostgreSQL database with copy-on-write branching, scale-to-
 
 **Pros:**
 
-Database branching enables unique LLM safety workflows. Branches create in approximately one second regardless of database size using copy-on-write. LLM agents can operate with full freedom on sandbox branches; humans review diffs; approved changes merge to main. Neon reports that over 80% of their databases are now created by AI agents.
+Database branching enables unique LLM safety workflows. Branches create in approximately one second regardless of database size using copy-on-write. LLM agents can operate with full freedom on sandbox branches; humans review diffs; approved changes merge to main. Neon reports that over 80% of their databases are now created by AI agents *(as_of: 2026-01-25)*.
 
 The comprehensive MCP server and llms.txt documentation provide the highest LLM maintainability score among evaluated platforms. Standard PostgreSQL ensures maximum vendor independence.
 
@@ -137,7 +137,7 @@ No immediate implementation effort. Additional research could surface new option
 
 **Cons:**
 
-Backend selection blocks multiple downstream research phases: A02 (LLM Orchestration), A03 (Memory & Retrieval), A08 (Hosting), A10 (Dev Tooling), and A17 (Integration Patterns). The research program cannot progress meaningfully without this foundational decision.
+Backend selection blocks multiple downstream research phases: RF-02-01 (LLM Orchestration), RF-03-01 (Memory & Retrieval), RF-08-01 (Hosting), Area 10 (Dev Tooling—research pending), and DD-17-01 (Integration Patterns). The research program cannot progress meaningfully without this foundational decision.
 
 The evaluated platforms (Convex, Supabase, Neon) represent the leading options for LLM-assisted development. Waiting for hypothetical better options provides no concrete benefit.
 
@@ -227,7 +227,7 @@ Document the integration patterns that enable different tools to share data or c
 
 **Research foundation**: RF-01-01 provides the comprehensive research findings that informed this decision, including detailed platform evaluations, comparative analysis, and community sentiment.
 
-**Informs downstream research**: This decision enables A02 (LLM Orchestration), A03 (Memory & Retrieval), A08 (Hosting), A10 (Dev Tooling), and A17 (Integration Patterns) to proceed with Convex as the backend assumption.
+**Informs downstream research**: This decision enables RF-02-01 (LLM Orchestration), RF-03-01 (Memory & Retrieval), RF-08-01 (Hosting), Area 10 (Dev Tooling—research pending), and DD-17-01 (Integration Patterns) to proceed with Convex as the backend assumption.
 
 **Ecosystem context**: DD-14-01 (EFN Tooling Ecosystem Requirements) defines the tool archetypes and reliability tiers that Convex must support as the platform expands beyond Compass.
 

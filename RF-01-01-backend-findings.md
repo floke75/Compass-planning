@@ -571,7 +571,7 @@ Neon has the most comprehensive LLM development tooling of any evaluated platfor
 | TypeScript Types | ✅ Auto-generated | Via Neon CLI |
 | Standard Patterns | ✅ Pure PostgreSQL | No proprietary query language |
 
-Neon reports that **over 80% of their databases are now created by AI agents**—a remarkable indicator of the platform's fit for agentic workflows.
+Neon reports that **over 80% of their databases are now created by AI agents** *(as_of: 2026-01-25)*—a remarkable indicator of the platform's fit for agentic workflows.
 
 **MCP Server capabilities** (@neondatabase/mcp-server-neon):
 
