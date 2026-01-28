@@ -12,6 +12,7 @@ tags: [widgets, components, decision, generative-ui, thesys]
 related:
   - RF-07-01
   - ADR-02-01
+  - DD-19-01
 decision_date: null
 deciders: []
 supersedes: null
