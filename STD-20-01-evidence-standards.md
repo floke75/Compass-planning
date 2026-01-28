@@ -12,6 +12,7 @@ tags: [evidence, citations, format, specification, compliance]
 related:
   - DD-20-01
   - DD-13-01
+  - DD-12-01
 companion: DD-20-01
 enforcement: Research Finding review checklist
 ---

@@ -356,7 +356,7 @@ If Mastra's workflow DSL proves too constraining, the alternative is **AI SDK v6
 | Provider abstraction | Vercel AI SDK v6 | Native |
 | Structured output | Vercel AI SDK v6 | Output.object() |
 | State machine | XState v5 | Actor model |
-| Persistence | Custom + Supabase | Per ADR-01-01 |
+| Persistence | Custom + Convex | Per ADR-01-01 |
 | Branching | Custom | Tree structure |
 
 ---
@@ -482,7 +482,7 @@ All sources assessed per STD-20-01 evidence standards.
 
 - **RF-09-01**: LLM Provider Research Findings (tiered model strategy)
 - **ADR-09-01**: LLM Provider Selection (Claude Opus/Haiku 4.5 decision)
-- **ADR-01-01**: Backend Platform Selection (PostgreSQL via Supabase)
+- **ADR-01-01**: Backend Platform Selection (Convex)
 - **DD-13-01**: Artifact Taxonomy (document formatting standards)
 - **DD-14-01**: EFN Ecosystem Definitions (integration requirements)
 - **Compass System Definition**: Authoritative system specification (§2.1, §2.2, §2.6, §3.1)

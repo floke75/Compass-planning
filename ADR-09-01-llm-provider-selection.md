@@ -11,6 +11,7 @@ summary: Selects Claude Opus 4.5 as the primary LLM for planning tasks (frontier
 tags: [llm, provider, decision, anthropic, openai, google]
 related:
   - RF-09-01
+  - ADR-02-01
 decision_date: null
 deciders: []
 supersedes: null

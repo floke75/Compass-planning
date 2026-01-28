@@ -40,7 +40,7 @@ Mastra provides workflow orchestration with native state machines, suspend/resum
 
 **Pros:**
 
-Directly models Compass's planning workflow with `.then()`, `.branch()`, and `.parallel()` primitives. Thread-based memory with Zod schema validation provides structured state management. Suspend/resume maps to the questioning arc's human-in-the-loop requirements. PostgreSQL persistence aligns with ADR-01-01 backend selection. Integration time estimated at 2-3 weeks versus 6-10 weeks for custom alternatives.
+Directly models Compass's planning workflow with `.then()`, `.branch()`, and `.parallel()` primitives. Thread-based memory with Zod schema validation provides structured state management. Suspend/resume maps to the questioning arc's human-in-the-loop requirements. Mastra's persistence adapters integrate with the Convex backend selected in ADR-01-01. Integration time estimated at 2-3 weeks versus 6-10 weeks for custom alternatives.
 
 **Cons:**
 
@@ -86,7 +86,7 @@ Blocks dependent research areas (RF-07-01/ADR-07-01 Widget Libraries, DD-18-01 Q
 
 We will use **Mastra + Vercel AI SDK v6** as the LLM orchestration architecture because Mastra directly addresses Compass's workflow requirements while minimizing engineering effort.
 
-The key factors in this decision are that Mastra's workflow primitives map naturally to Compass's planning state machine (OPEN→FOLLOW→SHARPEN→BOUNDARY→GROUND), suspend/resume enables the questioning arc's human-in-the-loop design, thread-based persistence with PostgreSQL aligns with ADR-01-01, and integration time (2-3 weeks) is 60-70% less than custom alternatives.
+The key factors in this decision are that Mastra's workflow primitives map naturally to Compass's planning state machine (OPEN→FOLLOW→SHARPEN→BOUNDARY→GROUND), suspend/resume enables the questioning arc's human-in-the-loop design, thread-based persistence integrates with the Convex backend from ADR-01-01, and integration time (2-3 weeks) is 60-70% less than custom alternatives.
 
 If Mastra's DSL proves too constraining during implementation, the fallback strategy is to use AI SDK v6 + XState v5, accepting the additional development time.
 
@@ -127,12 +127,12 @@ const orchestrationAgent = createAgent({
 
 ### Persistence Configuration
 
-Use PostgreSQL adapter for Mastra memory, aligned with Supabase selection from ADR-01-01:
+Configure Mastra memory to integrate with the Convex backend selected in ADR-01-01. Mastra's thread-based persistence can be configured to use Convex for workflow state storage:
 
 ```typescript
 const mastra = new Mastra({
-  memory: new PostgresAdapter({
-    connectionString: process.env.DATABASE_URL,
+  memory: new ConvexAdapter({
+    client: convexClient,
   }),
 });
 ```
@@ -166,7 +166,7 @@ const branchSchema = z.object({
 - **RF-02-01**: LLM Orchestration Framework Research Findings (detailed evaluation)
 - **RF-09-01**: LLM Provider Research Findings (model selection)
 - **ADR-09-01**: LLM Provider Selection (tiered model strategy)
-- **ADR-01-01**: Backend Platform Selection (Supabase/PostgreSQL)
+- **ADR-01-01**: Backend Platform Selection (Convex)
 - **DD-13-01**: Artifact Taxonomy (document standards)
 - **Compass System Definition**: Authoritative system specification (§2.1, §2.2, §2.6, §3.1)
 
