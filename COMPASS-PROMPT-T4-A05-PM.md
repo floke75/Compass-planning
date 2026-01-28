@@ -15,8 +15,8 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Pre-Research Setup
 
 ### Mandatory Context (Must Be Available)
-- **Compass System Definition** (`Compass___System_Definition.md`) — Read Part 1.5 (Who Uses Compass) and Part 3.6 (External Integrations)
-- **COMPASS-00-REFERENCE-INDEX.md** — Check for any completed prior research
+- **Compass System Definition** (`SYS-00-system-definition.md`) — Read Part 1.5 (Who Uses Compass) and Part 3.6 (External Integrations)
+- **IDX-00-MASTER.md** — Check for any completed prior research
 
 ### Optional Context (Use If Available)
 - `DD-17-01-integration-definitions.md` — Integration patterns (idempotency, retry, error handling)

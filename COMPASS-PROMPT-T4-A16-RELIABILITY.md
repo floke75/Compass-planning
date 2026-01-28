@@ -13,15 +13,15 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Pre-Research Setup
 
 ### Mandatory Context (Must Be Available)
-- **Compass System Definition** (`Compass___System_Definition.md`) — Read Part 3.8 (Reliability and Recovery), Part 4.2 (Team Capacity), and Part 1.1 (The Core Problem)
-- **COMPASS-00-REFERENCE-INDEX.md** — Check for completed prior research
+- **Compass System Definition** (`SYS-00-system-definition.md`) — Read Part 3.8 (Reliability and Recovery), Part 4.2 (Team Capacity), and Part 1.1 (The Core Problem)
+- **IDX-00-MASTER.md** — Check for completed prior research
 
 ### Required Prior Research (Include If Available)
 - `DD-14-01-ecosystem-definitions.md` — EFN tool archetypes (maps to reliability tiers)
 - `STD-14-01-ecosystem-standards.md` — Per-archetype requirements informing tier definitions
 
 ### Optional Context (Use If Available)
-- `DD-17-01-integration-patterns.md` — Error handling and degradation patterns
+- `DD-17-01-integration-definitions.md` — Error handling and degradation patterns
 - `ADR-01-01-backend-selection.md` — Backend SLA and reliability characteristics
 
 ---

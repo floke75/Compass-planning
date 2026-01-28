@@ -13,8 +13,8 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Pre-Research Setup
 
 ### Mandatory Context (Must Be Available)
-- **Compass System Definition** (`Compass___System_Definition.md`) — Read Part 2.7 (Handoff to Implementation), Part 2.4 (Documentation as Ground Truth), and Appendix A (Glossary)
-- **COMPASS-00-REFERENCE-INDEX.md** — Check for completed prior research
+- **Compass System Definition** (`SYS-00-system-definition.md`) — Read Part 2.7 (Handoff to Implementation), Part 2.4 (Documentation as Ground Truth), and Appendix A (Glossary)
+- **IDX-00-MASTER.md** — Check for completed prior research
 
 ### Required Prior Research (Include If Available)
 - `DD-12-01-repository-definitions.md` — Repository structure and naming conventions
