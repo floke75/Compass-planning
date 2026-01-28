@@ -15,8 +15,8 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Pre-Research Setup
 
 ### Mandatory Context (Must Be Available)
-- **Compass System Definition** (`Compass___System_Definition.md`) — Read Part 2.3 (Research Integration), Part 5.1 (Pristine Context Layer)
-- **COMPASS-00-REFERENCE-INDEX.md** — Check for completed prior research
+- **Compass System Definition** (`SYS-00-system-definition.md`) — Read Part 2.3 (Research Integration), Part 5.1 (The Layers — Pristine Context Layer)
+- **IDX-00-MASTER.md** — Check for completed prior research
 
 ### Required Prior Research (Must Be Available)
 - `DD-20-01-evidence-definitions.md` — Evidence grading and source qualification
@@ -36,10 +36,10 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
    - Part 3.2: Memory layers (evidence storage)
 
 2. **DD-20-01 and STD-20-01 are required** — These define evidence standards that tools must support. Extract:
-   - Source tier definitions (T1-T5)
-   - Reliability ratings (S1-S4)
-   - Required citation fields
-   - Freshness/staleness rules
+   - Five-tier source taxonomy (T1-T5) from Part 2.1
+   - Source reliability ratings (S1-S4) from Part 1.2
+   - Required citation fields from Part 3.1
+   - Freshness/staleness rules from Part 4
 
 3. **Do not ask the user technical questions** — research and evaluate tools against evidence standards.
 
@@ -50,11 +50,12 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Available Context (If Present)
 
 ### From DD-20-01/STD-20-01 (Evidence Standards) — Required:
-- Five-tier source taxonomy (T1 Authoritative → T5 Unverified)
-- Reliability ratings (S1-S4)
-- Required citation fields (id, source_url, title, source_type, retrieved_at)
-- Freshness thresholds by content type
-- Evidence artifact schema
+- Five-tier source taxonomy (Part 2.1: T1 Authoritative → T5 Unverified)
+- Source reliability ratings (Part 1.2: S1-S4)
+- Information quality ratings (Part 1.3: I1-I4)
+- Required citation fields (Part 3.1: id, source_url, title, source_type, retrieved_at)
+- Freshness thresholds by content type (Part 4.2)
+- Evidence artifact schema (Part 5.1)
 
 ### From ADR-04-01 (Documentation) — If Available:
 - Selected documentation platform

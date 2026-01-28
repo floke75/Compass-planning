@@ -15,8 +15,8 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ## Pre-Research Setup
 
 ### Mandatory Context (Must Be Available)
-- **Compass System Definition** (`Compass___System_Definition.md`) — Read Part 4.2 (Team Capacity), Part 1.7 (Guiding Principles)
-- **COMPASS-00-REFERENCE-INDEX.md** — Check for completed prior research
+- **Compass System Definition** (`SYS-00-system-definition.md`) — Read Part 4.2 (Team Capacity), Part 1.7 (Guiding Principles)
+- **IDX-00-MASTER.md** — Check for completed prior research
 
 ### Required Prior Research (Must Be Available)
 - `RF-01-01-backend-findings.md` — Backend platform capabilities
@@ -25,7 +25,7 @@ Copy everything below this line and paste it into a new Claude chat. Ensure the 
 ### Optional Context (Use If Available)
 - `RF-08-01-hosting-findings.md` — Hosting approach
 - `ADR-08-01-hosting-selection.md` — Deployment pipeline context
-- `DD-17-01-integration-patterns.md` — Secret management requirements
+- `DD-17-01-integration-definitions.md` — Secret management requirements
 
 ---
 
