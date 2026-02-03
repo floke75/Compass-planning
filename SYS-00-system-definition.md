@@ -101,14 +101,33 @@ EFN's highest-value tools are deeply interconnected. The same curated financial 
   
 This interconnection is not incidental; it is a competitive advantage. Compass must treat EFN's tools as an ecosystem: specs must describe tools and their integration points, research must cover cross-cutting patterns not isolated decisions, and documentation must capture data flows, contracts, and shared standards so the ecosystem stays coherent over time.  
   
-### 1.5 Who Uses Compass  
-  
-**Primary users (planning level)**: 2–3 people initially who run the full workflow: planning, research, specs, decisions, and documentation reconciliation.  
-  
-**Secondary users (organization level)**: Broader EFN stakeholders who submit bugs and requests, track progress, and consume documentation via familiar tools. They should not need to learn the full planning interface to benefit from Compass.  
-  
-**Future users (multi-team level)**: Domain experts using simplified specification flows for their areas. This is out of scope for the first iteration, but today's architecture should not make it impossible tomorrow.  
-  
+### 1.5 Who Uses Compass
+
+**Primary users (planning level)**: 2–3 people initially who run the full workflow: planning, research, specs, decisions, and documentation reconciliation.
+
+**Secondary users (organization level)**: Broader EFN stakeholders who submit bugs and requests, track progress, and consume documentation via familiar tools. They should not need to learn the full planning interface to benefit from Compass.
+
+**Future users (multi-team level)**: Domain experts using simplified specification flows for their areas. This is out of scope for the first iteration, but today's architecture should not make it impossible tomorrow.
+
+#### User Role Cross-Reference
+
+User and role definitions appear across multiple documents serving different purposes. This table maps how user types relate across the documentation:
+
+| User Type | Governance Role (DD-15-01) | Compass Access | Tool Context (DD-14-01) |
+|-----------|---------------------------|----------------|------------------------|
+| **Builder** | Owner or Planner | Primary user—full planning workflow | Creates/maintains all archetypes |
+| **Domain Expert** | Contributor | Future user—simplified spec flows | Varies by archetype expertise |
+| **Stakeholder** | Viewer | Secondary user—consumes outputs | Consumer of tool outputs |
+| **LLM Agent** | Agent (scoped by sponsor) | Automated—executes delegated tasks | Implementation platform |
+
+**Document purpose distinctions**:
+
+- **SYS-00 (this document)**: Defines *who uses Compass* as a system and at what access level
+- **DD-15-01 (Governance)**: Defines *permissions and approval workflows* for artifact management
+- **DD-14-01 (Ecosystem)**: Defines *who uses EFN tools* by archetype (broadcast producers, editors, operations)
+
+**Cross-reference note**: When planning permissions for a new feature, consult DD-15-01 for the governance model. When classifying a tool's users, consult DD-14-01 for archetype-specific stakeholders.
+
 ### 1.6 Core Promises  
   
 Compass must reliably produce and maintain:  
