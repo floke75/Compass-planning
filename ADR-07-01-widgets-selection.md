@@ -5,7 +5,7 @@ area: 07-widget-libraries
 title: Widget Component Library Selection
 status: proposed
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Selects Thesys C1 with custom shadcn/ui components as the widget rendering approach for Compass
 tags: [widgets, components, decision, generative-ui, thesys]
@@ -13,6 +13,13 @@ related:
   - RF-07-01
   - ADR-02-01
   - DD-19-01
+links:
+  - rel: related
+    target_id: "RF-07-01"
+  - rel: related
+    target_id: "ADR-02-01"
+  - rel: related
+    target_id: "DD-19-01"
 decision_date: null
 deciders: []
 supersedes: null

@@ -5,7 +5,7 @@ area: 04-documentation
 title: Documentation Platform Selection
 status: proposed
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Selects Obsidian with Git as the documentation platform for Compass based on frontmatter preservation, backlinks, MCP support, and zero cost
 tags: [documentation, platform, decision, obsidian, git]
@@ -13,6 +13,13 @@ related:
   - RF-04-01
   - DD-12-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "RF-04-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
 decision_date: null
 deciders: []
 supersedes: null

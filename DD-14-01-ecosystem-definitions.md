@@ -5,7 +5,7 @@ area: 14-efn-ecosystem
 title: EFN Tooling Ecosystem Requirements
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines the taxonomy, requirements, and standards for EFN's internal tooling ecosystem including project archetypes and integration patterns
 tags: [ecosystem, archetypes, reliability, integration, tools]
@@ -13,6 +13,15 @@ related:
   - STD-14-01
   - DD-12-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "STD-14-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: companion
+    target_id: "STD-14-01"
 companion: STD-14-01
 ---
 

@@ -5,13 +5,20 @@ area: 15-governance
 title: Governance, Roles, Permissions, and Audit
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines roles, permissions, approval workflows, and audit requirements for Compass with emphasis on practical accountability over bureaucracy
 tags: [governance, roles, permissions, audit, security]
 related:
   - DD-13-01
   - DD-14-01
+links:
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: companion
+    target_id: "STD-15-01"
 companion: STD-15-01
 ---
 

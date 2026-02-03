@@ -4,11 +4,12 @@ type: index
 title: Compass Project Reference Index
 status: active
 created: 2026-01-25
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Master navigation index for LLM agents traversing Compass documentation
 tags: [index, navigation, reference, retrieval]
 related: []
+links: []
 ---
 
 # Compass Project Reference Index
@@ -18,6 +19,8 @@ related: []
 This document provides structured navigation for LLM agents working with Compass documentation. Use it to locate specific concepts, understand document relationships, and find authoritative sources for requirements.
 
 **Navigation strategy**: Start with the Document Registry to identify relevant documents, then use Section Maps for specific content, and Concept Index for term definitions.
+
+**LLM retrieval note**: When LLM views are available, start with `llm/LLM-INDEX.md` for optimized retrieval. Canonical artifacts remain the source of truth.
 
 ---
 

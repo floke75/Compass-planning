@@ -5,7 +5,7 @@ area: 18-questioning-arc
 title: Questioning Arc Standards
 status: draft
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Establishes validation rules, completion checklists, and quality criteria for the questioning arc workflow, including stage transition requirements and merge gate protocols
 tags: [questioning-arc, standards, validation, checklists, quality]
@@ -14,6 +14,17 @@ related:
   - DD-13-01
   - DD-15-01
   - STD-15-01
+links:
+  - rel: related
+    target_id: "DD-18-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-15-01"
+  - rel: related
+    target_id: "STD-15-01"
+  - rel: companion
+    target_id: "DD-18-01"
 companion: DD-18-01
 ---
 

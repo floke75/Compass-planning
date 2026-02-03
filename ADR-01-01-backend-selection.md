@@ -5,7 +5,7 @@ area: 01-backend
 title: Backend Platform Selection
 status: accepted
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Selects Convex as the backend platform for Compass and the broader EFN tool ecosystem based on TypeScript-native development, built-in LLM agent infrastructure, automatic real-time collaboration, and transactional safety for AI-generated code
 tags: [backend, database, convex, llm, typescript, real-time, decision]
@@ -14,6 +14,15 @@ related:
   - DD-14-01
   - DD-12-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "RF-01-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
 decision_date: 2026-01-25
 deciders: [efn-builders]
 supersedes: null

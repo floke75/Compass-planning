@@ -5,7 +5,7 @@ area: 05-pm-integration
 title: Project Management Integration Selection
 status: proposed
 created: 2026-02-01
-updated: 2026-02-01
+updated: 2026-02-03
 author: compass-research
 summary: Selects Linear as primary PM tool for Compass integration, with GitHub Issues/Projects as budget alternative
 tags: [pm, integration, decision, linear, github]
@@ -14,6 +14,15 @@ related:
   - DD-17-01
   - STD-17-01
   - SYS-00
+links:
+  - rel: related
+    target_id: "RF-05-01"
+  - rel: related
+    target_id: "DD-17-01"
+  - rel: related
+    target_id: "STD-17-01"
+  - rel: related
+    target_id: "SYS-00"
 decision_date: null
 deciders: []
 supersedes: null

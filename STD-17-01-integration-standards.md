@@ -5,7 +5,7 @@ area: 17-integration-patterns
 title: Integration Standards
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Specifies integration compliance requirements for secret management, error logging, and pre-deployment verification
 tags: [integration, standards, secrets, errors, compliance]
@@ -13,6 +13,15 @@ related:
   - DD-17-01
   - DD-14-01
   - STD-14-01
+links:
+  - rel: related
+    target_id: "DD-17-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "STD-14-01"
+  - rel: companion
+    target_id: "DD-17-01"
 companion: DD-17-01
 enforcement: Code review and integration testing
 ---

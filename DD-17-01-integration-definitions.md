@@ -5,7 +5,7 @@ area: 17-integration-patterns
 title: Integration Architecture Patterns
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines standard patterns for external system integration including webhooks, retries, error handling, and secret management
 tags: [integration, patterns, api, webhooks, reliability, secrets]
@@ -13,6 +13,15 @@ related:
   - RF-01-01
   - DD-14-01
   - STD-14-01
+links:
+  - rel: related
+    target_id: "RF-01-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "STD-14-01"
+  - rel: companion
+    target_id: "STD-17-01"
 companion: STD-17-01
 ---
 

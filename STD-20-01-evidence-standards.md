@@ -5,7 +5,7 @@ area: 20-evidence-standards
 title: Evidence Citation Format Specification
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Specifies the required citation format, provides examples of properly formatted citations, and documents common errors to avoid
 tags: [evidence, citations, format, specification, compliance]
@@ -13,6 +13,15 @@ related:
   - DD-20-01
   - DD-13-01
   - DD-12-01
+links:
+  - rel: related
+    target_id: "DD-20-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: companion
+    target_id: "DD-20-01"
 companion: DD-20-01
 enforcement: Research Finding review checklist
 ---

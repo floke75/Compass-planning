@@ -5,13 +5,18 @@ area: 12-repository-structure
 title: Repository Structure and Organization Standards
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines the repository structure, naming conventions, and organization patterns for Compass documentation and artifacts
 tags: [repository, structure, naming, git, organization]
 related:
   - DD-13-01
   - DD-14-01
+links:
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-14-01"
 ---
 
 # Repository Structure and Organization Standards
@@ -348,6 +353,10 @@ If the file is renamed or moved, the ID remains stable. Tooling can resolve IDs 
 - Use IDs for cross-repo references
 - Run link validation on every PR
 
+### 4.4 Structured Cross-Links
+
+Use the `links` frontmatter array for typed, structured relationships between artifacts (see DD-13-01). This is the preferred mechanism for cross-linking. The legacy `related` list remains for broad associations and backward compatibility.
+
 **Detection:**
 - `markdownlint` for Markdown syntax
 - Link checker tools in CI pipeline
@@ -591,6 +600,55 @@ The process is similar to what we described before.
 ```
 
 The good example can be understood in isolation. The bad example requires context that may not be retrieved together.
+
+### 7.4 LLM Views (Parallel Retrieval Surface)
+
+Compass maintains parallel **LLM views** of canonical artifacts to optimize for both whole-document reading and chunk retrieval. LLM views are **derived**, not authoritative.
+
+**Location:** `llm/`
+
+**Naming:** `LLM-{source-id}-{slug}.md`
+
+**Frontmatter additions:** `view: llm`, `source_id`, `source_updated`, `staleness`
+
+**ID convention:** Append `-LLM` to the source artifact ID to keep lineage while staying unique.
+
+**Exception:** `llm/LLM-INDEX.md` is the primary LLM navigation index.
+
+**Required sections (in order):**
+- `LLM Summary`
+- `Canonical Statements`
+- `Scope and Non-Goals`
+- `Dependencies and Interfaces`
+- `Evidence and Freshness`
+- `Open Questions`
+- `Change Log`
+
+**Rules:**
+- LLM views must not introduce new decisions or requirements.
+- If a discrepancy is found, update the canonical artifact first, then refresh the LLM view.
+
+### 7.5 LLM View Update Workflow
+
+When a canonical artifact changes:
+
+1. Update the canonical document and bump `updated`.
+2. Run `scripts/validate_docs.py` to identify stale LLM views.
+3. Update the LLM view:
+   - Refresh the `LLM Summary` and any affected sections.
+   - Set `source_updated` to match the canonical `updated` date.
+   - Set LLM view `updated` to today.
+   - Set `staleness` using the rules in 7.6.
+   - Copy the `links` block from the canonical artifact.
+4. Update `llm/LLM-INDEX.md` if a new artifact was added or status changed.
+
+### 7.6 LLM View Staleness Rules
+
+LLM view `staleness` is based on the difference between the canonical `updated` date and the LLM view `source_updated` date:
+
+- `fresh`: `source_updated` equals canonical `updated`
+- `review`: mismatch is 1-30 days
+- `stale`: mismatch is more than 30 days
 
 ---
 

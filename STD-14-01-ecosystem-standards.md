@@ -5,7 +5,7 @@ area: 14-efn-ecosystem
 title: EFN Shared Standards and Compliance Checklist
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Provides enforceable standards and compliance checklists for EFN tools based on archetype requirements
 tags: [standards, compliance, checklist, ecosystem, verification]
@@ -13,6 +13,15 @@ related:
   - DD-14-01
   - DD-12-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: companion
+    target_id: "DD-14-01"
 companion: DD-14-01
 enforcement: Pre-launch review and periodic audits
 ---
