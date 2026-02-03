@@ -645,7 +645,278 @@ repair_queue:
 
 ---
 
+## Model Selection Strategy
+
+Different pipeline phases have different cognitive profiles. Model selection should balance capability, context window, cost, and throughput.
+
+### Task Cognitive Profiles
+
+| Task | Reasoning Depth | Context Needs | Judgment Calls | Error Cost |
+|------|----------------|---------------|----------------|------------|
+| **Anchor extraction** | High | Medium | Many | High (propagates) |
+| **Standard compaction** | Medium | High | Moderate | Medium |
+| **Reconciliation** | High | Medium-High | Many | High |
+| **Repair decisions** | High | Low-Medium | Many | Medium |
+| **Targeted repair** | Medium | Medium | Few (directed) | Low |
+| **Validation/QA** | Low-Medium | High | Few | Low |
+
+### Model Capability vs. Context Trade-off
+
+When a high-capability model (Opus) has smaller context than a mid-tier model (Sonnet):
+
+```
+                    ┌─────────────────────────────────────────┐
+                    │         CONTEXT WINDOW SIZE             │
+                    │  Small ◄─────────────────────► Large    │
+                    └─────────────────────────────────────────┘
+                              │                   │
+     ┌────────────────────────┼───────────────────┼────────────────────────┐
+     │                        │                   │                        │
+HIGH │   Opus: Anchor         │                   │   Sonnet: Large doc    │
+     │   extraction,          │                   │   compaction where     │
+R    │   reconciliation,      │                   │   full context needed  │
+E    │   ambiguity judgment   │                   │                        │
+A    │                        │                   │                        │
+S    ├────────────────────────┼───────────────────┼────────────────────────┤
+O    │                        │                   │                        │
+N    │   Sonnet: Standard     │                   │   Sonnet: Bulk         │
+I    │   compaction,          │                   │   parallel processing  │
+N    │   repair execution     │                   │                        │
+G    │                        │                   │                        │
+     ├────────────────────────┼───────────────────┼────────────────────────┤
+     │                        │                   │                        │
+LOW  │   Haiku: Schema        │                   │   Haiku: Format        │
+     │   validation,          │                   │   validation,          │
+     │   frontmatter checks   │                   │   batch QA passes      │
+     │                        │                   │                        │
+     └────────────────────────┴───────────────────┴────────────────────────┘
+```
+
+### Recommended Model Assignment by Phase
+
+#### Pattern 1 & 4 (Pre-Flight / Anchor + Satellite)
+
+| Phase | Model | Rationale |
+|-------|-------|-----------|
+| Anchor extraction | **Opus** | High-stakes; errors propagate to all satellites. Worth the cost. |
+| Context YAML generation | **Haiku** | Mechanical transformation of extracted data. |
+| Satellite compaction | **Sonnet** | Bulk parallel; needs full context window for large sources. |
+| Validation pass | **Haiku** | Schema compliance, format checks. |
+
+#### Pattern 2 (Three-Phase Pipeline)
+
+| Phase | Model | Rationale |
+|-------|-------|-----------|
+| Phase 1: Raw extraction | **Sonnet** | Needs full source context; moderate judgment. |
+| Phase 2: Reconciliation | **Opus** | Cross-document reasoning, conflict detection, judgment-heavy. |
+| Phase 3: Targeted repair | **Sonnet** | Directed fixes with specific instructions; lower judgment. |
+| Final validation | **Haiku** | Mechanical compliance checking. |
+
+#### Pattern 3 (Dependency Waves)
+
+| Phase | Model | Rationale |
+|-------|-------|-----------|
+| Wave 1 (foundations) | **Opus** | These define canonical terms; errors cascade. |
+| Context extraction | **Haiku** | Mechanical YAML generation. |
+| Wave 2+ (dependent docs) | **Sonnet** | Standard compaction with injected context. |
+| Cross-wave validation | **Sonnet** | Check context accumulation correctness. |
+
+### Context Window Strategies
+
+When source document exceeds high-capability model's context window:
+
+#### Strategy A: Chunked Extraction with Opus Synthesis
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Large source document (exceeds Opus context)            │
+└─────────────────────────────────────────────────────────┘
+                         │
+         ┌───────────────┼───────────────┐
+         ▼               ▼               ▼
+    ┌─────────┐     ┌─────────┐     ┌─────────┐
+    │ Chunk 1 │     │ Chunk 2 │     │ Chunk 3 │  ← Sonnet extracts
+    │ Sonnet  │     │ Sonnet  │     │ Sonnet  │    each chunk
+    └─────────┘     └─────────┘     └─────────┘
+         │               │               │
+         └───────────────┼───────────────┘
+                         ▼
+              ┌─────────────────────┐
+              │ Opus synthesizes    │  ← Opus merges chunk
+              │ chunk extractions   │    outputs (fits context)
+              │ into final LLM view │
+              └─────────────────────┘
+```
+
+**Chunk extraction prompt addition**:
+```
+You are extracting from CHUNK {n} of {total} of document {DOC-ID}.
+
+Additional instructions:
+- Extract all content as if standalone, but note [CONTINUES FROM PREVIOUS]
+  or [CONTINUES IN NEXT] for split sections
+- Do not attempt to summarize content from other chunks
+- Preserve all cross-references even if target is in another chunk
+- Output structured extraction, not final prose
+```
+
+**Synthesis prompt**:
+```
+You are synthesizing {n} chunk extractions into a single LLM view.
+
+Chunk extractions:
+{chunk_1_output}
+{chunk_2_output}
+...
+
+Instructions:
+- Merge overlapping content, preferring more complete version
+- Resolve [CONTINUES] markers into coherent sections
+- Deduplicate repeated content (from chunk overlap)
+- Ensure all cross-references are preserved
+- Apply standard LLM view formatting
+```
+
+#### Strategy B: Sonnet Full-Context with Opus Review
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Large source document                                    │
+└─────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Sonnet compacts     │  ← Full context available
+              │ (draft LLM view)    │
+              └─────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Opus reviews        │  ← LLM view fits Opus context
+              │ draft + source      │    even if source didn't
+              │ excerpts for QA     │
+              └─────────────────────┘
+```
+
+**Opus review prompt**:
+```
+You are reviewing an LLM view extraction for quality.
+
+Draft LLM view:
+{sonnet_output}
+
+Source document excerpts (high-signal sections):
+{key_sections_from_source}
+
+Review for:
+1. [OMISSION] Important content in source excerpts missing from draft
+2. [DISTORTION] Content that misrepresents source meaning
+3. [INTERPRETATION] Ambiguities resolved without flagging
+4. [VERBOSITY] Content that should be further compressed
+
+Output: List of specific issues with line references, or "APPROVED" if none.
+```
+
+### Cost Optimization Strategies
+
+#### 1. Haiku Pre-Filter
+
+Before expensive Opus processing, use Haiku to classify documents:
+
+```
+Haiku classification prompt:
+"Analyze this document and classify:
+- SIMPLE: Straightforward structure, few cross-references, no ambiguities
+- MODERATE: Standard complexity, some judgment needed
+- COMPLEX: Dense cross-references, ambiguous content, high-stakes definitions
+
+Output only: SIMPLE, MODERATE, or COMPLEX"
+```
+
+Route:
+- SIMPLE → Sonnet only
+- MODERATE → Sonnet + Haiku validation
+- COMPLEX → Opus (or Sonnet + Opus review)
+
+#### 2. Selective Opus Escalation
+
+Use Sonnet for all extractions, but escalate to Opus when Sonnet flags uncertainty:
+
+```
+Sonnet extraction addition:
+"If you encounter content where you have LOW CONFIDENCE in correct extraction,
+flag the section as [NEEDS REVIEW: reason] and continue with best effort.
+
+Do not attempt to resolve unclear content—flag it."
+```
+
+Then route only flagged documents/sections to Opus for targeted review.
+
+#### 3. Batch Validation Economics
+
+For large corpus, validation cost matters:
+
+| Validation Type | Model | Per-Doc Cost | Batch Strategy |
+|-----------------|-------|--------------|----------------|
+| Schema compliance | Haiku | ~$0.001 | Run on all |
+| Enumeration completeness | Haiku | ~$0.002 | Run on all |
+| Cross-reference validity | Haiku | ~$0.003 | Run on all |
+| Semantic accuracy | Sonnet | ~$0.02 | Sample 20% |
+| Deep judgment review | Opus | ~$0.15 | Only flagged |
+
+### Model Selection Decision Tree
+
+```
+START: Document to compact
+  │
+  ├─► Is this an anchor/foundation document?
+  │     YES → Use Opus
+  │     NO ──┐
+  │          │
+  │          ├─► Does source exceed Sonnet context?
+  │          │     YES → Chunked extraction (Sonnet) + Opus synthesis
+  │          │     NO ──┐
+  │          │          │
+  │          │          ├─► Is document COMPLEX (per Haiku classification)?
+  │          │          │     YES → Sonnet extraction + Opus review
+  │          │          │     NO ──┐
+  │          │          │          │
+  │          │          │          └─► Sonnet extraction + Haiku validation
+  │          │          │
+  │          │          └─► Did Sonnet flag [NEEDS REVIEW]?
+  │          │                YES → Route flagged sections to Opus
+  │          │                NO → Accept Sonnet output
+  │          │
+  │          └─► For reconciliation phase → Always Opus
+  │
+  └─► For validation/QA passes → Always Haiku
+```
+
+### Failure Mode Handling by Model
+
+| Model | Common Failure | Detection | Mitigation |
+|-------|---------------|-----------|------------|
+| **Haiku** | Misses nuance, over-simplifies | Spot-check samples with Sonnet | Use only for mechanical tasks |
+| **Sonnet** | Resolves ambiguity instead of flagging | Check Open Questions section is populated | Strong prompt emphasis on flagging |
+| **Opus** | Over-engineering, excessive detail | Output length > 50% of source | Add compression ratio check |
+
+### Example Cost Estimation
+
+For a 30-document corpus (Compass-scale):
+
+| Strategy | Opus Calls | Sonnet Calls | Haiku Calls | Est. Cost |
+|----------|-----------|--------------|-------------|-----------|
+| All Opus | 30 | 0 | 0 | ~$4.50 |
+| All Sonnet | 0 | 30 | 0 | ~$0.60 |
+| Recommended mix | 5 | 25 | 30 | ~$1.10 |
+| With Opus review | 5 + 10 review | 25 | 30 | ~$1.85 |
+
+*Estimates assume ~5K tokens input, ~2K tokens output per document. Actual costs vary.*
+
+---
+
 ## Version History
 
 - 2026-02-03: Initial version based on LLM documentation evaluation findings
 - 2026-02-03: Added parallel orchestration patterns for fresh-context-window processing
+- 2026-02-03: Added model selection strategy for capability/context/cost optimization
