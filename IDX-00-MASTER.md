@@ -29,6 +29,8 @@ This document provides structured navigation for LLM agents working with Compass
 | ID | File | Type | Domain | One-Line Purpose |
 |----|------|------|--------|------------------|
 | SYS-00 | `SYS-00-system-definition.md` | Core Spec | System | **Authoritative system specification**—what Compass is, requirements, architecture |
+| DD-11-01 | `DD-11-01-handoff-schema.md` | Definition | Handoff | Handoff bundle schema for transferring planning outputs to execution platforms |
+| STD-11-01 | `STD-11-01-handoff-standards.md` | Standard | Handoff | Validation and quality requirements for handoff bundles |
 | DD-12-01 | `DD-12-01-repository-definitions.md` | Definition | Structure | Repository layout, naming conventions, git workflow |
 | DD-13-01 | `DD-13-01-artifacts-definitions.md` | Definition | Documentation | Artifact types, frontmatter schema, lifecycle states, templates |
 | DD-14-01 | `DD-14-01-ecosystem-definitions.md` | Definition | EFN Tools | Tool archetypes, reliability tiers, integration patterns |
@@ -48,19 +50,29 @@ This document provides structured navigation for LLM agents working with Compass
 | RF-02-01 | `RF-02-01-orchestration-findings.md` | Research Finding | Orchestration | Orchestration evaluation: Mastra, Vercel AI SDK, LangGraph.js, Instructor |
 | ADR-02-01 | `ADR-02-01-orchestration-selection.md` | ADR | Orchestration | **Decision**: Mastra + Vercel AI SDK v6 for planning workflows |
 | RF-03-01 | `RF-03-01-memory-findings.md` | Research Finding | Memory | Memory/retrieval evaluation: Convex @convex-dev/rag, Zep, Supermemory, Mem0 |
+| ADR-03-01 | `ADR-03-01-memory-selection.md` | ADR | Memory | **Decision**: Convex-primary memory architecture using @convex-dev/rag |
 | RF-04-01 | `RF-04-01-documentation-findings.md` | Research Finding | Documentation | Documentation platform evaluation: Obsidian, GitBook, VS Code/Foam, Mintlify |
 | ADR-04-01 | `ADR-04-01-documentation-selection.md` | ADR | Documentation | **Decision**: Obsidian with Git selected for documentation platform |
+| RF-05-01 | `RF-05-01-pm-findings.md` | Research Finding | PM Integration | PM tool evaluation: Linear, GitHub Projects, Plane.so, Notion |
+| ADR-05-01 | `ADR-05-01-pm-selection.md` | ADR | PM Integration | **Decision**: Linear primary; GitHub Issues/Projects budget alternative |
+| RF-06-01 | `RF-06-01-research-tools-findings.md` | Research Finding | Research Tools | Research tool evaluation: Context7, Firecrawl, Tavily, Exa, Jina |
+| ADR-06-01 | `ADR-06-01-research-tools-selection.md` | ADR | Research Tools | **Decision**: Context7 + Firecrawl + Tavily for evidence collection |
 | RF-07-01 | `RF-07-01-widgets-findings.md` | Research Finding | Widgets | Widget library evaluation: Thesys C1, CopilotKit, shadcn/ui, SurveyJS |
 | ADR-07-01 | `ADR-07-01-widgets-selection.md` | ADR | Widgets | **Decision**: Thesys C1 + shadcn/ui hybrid for widget rendering |
 | RF-08-01 | `RF-08-01-hosting-findings.md` | Research Finding | Hosting | Frontend hosting evaluation: Vercel, Cloudflare Pages, Netlify, Railway |
 | ADR-08-01 | `ADR-08-01-hosting-selection.md` | ADR | Hosting | **Decision**: Vercel for frontend hosting |
 | RF-09-01 | `RF-09-01-llm-provider-findings.md` | Research Finding | LLM | LLM provider evaluation: Claude 4.5, GPT-5.2, Gemini 3, Groq, Mistral |
 | ADR-09-01 | `ADR-09-01-llm-provider-selection.md` | ADR | LLM | **Decision**: Tiered Claude strategy (Opus for planning, Haiku for orchestration) |
+| RF-10-01 | `RF-10-01-dev-tooling-findings.md` | Research Finding | Dev Tooling | Development tooling evaluation: testing, linting, CI/CD, environment |
+| ADR-10-01 | `ADR-10-01-dev-tooling-selection.md` | ADR | Dev Tooling | **Decision**: Vitest + convex-test, Biome, GitHub Actions, Vercel deploy |
 
 ### Document Relationships
 
 ```
 Compass System Definition (authoritative source)
+    │
+    ├── DD-11-01 Handoff Schema ←──companion──→ STD-11-01 Handoff Standards
+    │       └── output format for implementation handoff bundles
     │
     ├── DD-12-01 Repository Structure
     │
@@ -95,12 +107,20 @@ Compass System Definition (authoritative source)
     │
     ├── RF-03-01 Memory & Retrieval Evaluation (Area 03)
     │       ├── Evaluates: Convex @convex-dev/rag, Zep, Supermemory, Mem0
-    │       └── Recommends: Convex-primary (ADR pending)
+    │       └── ADR-03-01 Memory Selection ← formalizes decision
     │
     ├── RF-04-01 Documentation Platform Evaluation (Area 04)
     │       ├── Evaluates: Obsidian, GitBook, VS Code/Foam, Mintlify, Notion
     │       ├── Recommends: Obsidian with Git
     │       └── ADR-04-01 Documentation Selection ← formalizes decision
+    │
+    ├── RF-05-01 PM Integration Evaluation (Area 05)
+    │       ├── Evaluates: Linear, GitHub Projects, Plane.so, Notion
+    │       └── ADR-05-01 PM Integration Selection ← formalizes decision
+    │
+    ├── RF-06-01 Research Tools Evaluation (Area 06)
+    │       ├── Evaluates: Context7, Firecrawl, Tavily, Exa, Jina
+    │       └── ADR-06-01 Research Tools Selection ← formalizes decision
     │
     ├── RF-07-01 Widget Libraries Evaluation (Area 07)
     │       ├── Evaluates: Thesys C1, CopilotKit, shadcn/ui, SurveyJS
@@ -112,10 +132,14 @@ Compass System Definition (authoritative source)
     │       ├── Recommends: Vercel
     │       └── ADR-08-01 Hosting Selection ← formalizes decision
     │
-    └── RF-09-01 LLM Provider Evaluation (Area 09)
-            ├── Evaluates: Claude 4.5, GPT-5.2, Gemini 3, Groq, Mistral
-            ├── Recommends: Tiered strategy (Opus + Haiku)
-            └── ADR-09-01 LLM Provider Selection ← formalizes decision
+    ├── RF-09-01 LLM Provider Evaluation (Area 09)
+    │       ├── Evaluates: Claude 4.5, GPT-5.2, Gemini 3, Groq, Mistral
+    │       ├── Recommends: Tiered strategy (Opus + Haiku)
+    │       └── ADR-09-01 LLM Provider Selection ← formalizes decision
+    │
+    └── RF-10-01 Development Tooling Evaluation (Area 10)
+            ├── Evaluates: Vitest, Biome, GitHub Actions, Vercel
+            └── ADR-10-01 Development Tooling Selection ← formalizes decision
 ```
 
 ---
@@ -1197,6 +1221,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 
 | Definition | Standard | Topic |
 |------------|----------|-------|
+| DD-11-01 | STD-11-01 | Handoff bundles |
 | DD-14-01 | STD-14-01 | EFN tool requirements |
 | DD-15-01 | STD-15-01 | Governance and audit |
 | DD-17-01 | STD-17-01 | Integration patterns |
@@ -1212,11 +1237,14 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 |------------------|-----|-------|----------|
 | RF-01-01 | ADR-01-01 | Backend Platform | Convex |
 | RF-02-01 | ADR-02-01 | LLM Orchestration | Mastra + Vercel AI SDK v6 |
-| RF-03-01 | *(pending)* | Memory & Retrieval | Convex-primary (recommended) |
+| RF-03-01 | ADR-03-01 | Memory & Retrieval | Convex-primary (@convex-dev/rag) |
 | RF-04-01 | ADR-04-01 | Documentation Platform | Obsidian + Git |
+| RF-05-01 | ADR-05-01 | PM Integration | Linear (GitHub Issues/Projects alternative) |
+| RF-06-01 | ADR-06-01 | Research Tools | Context7 + Firecrawl + Tavily |
 | RF-07-01 | ADR-07-01 | Widget Libraries | Thesys C1 + shadcn/ui |
 | RF-08-01 | ADR-08-01 | Frontend Hosting | Vercel |
 | RF-09-01 | ADR-09-01 | LLM Provider | Claude (tiered: Opus + Haiku) |
+| RF-10-01 | ADR-10-01 | Dev Tooling | Vitest + convex-test, Biome, GitHub Actions |
 
 **Pattern**: RF documents provide research and analysis; ADR documents formalize the decision with rationale and consequences.
 
@@ -1233,10 +1261,14 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | **Implementing backend** | RF-01-01, ADR-01-01 | System Definition § 4 |
 | **Implementing LLM layer** | RF-09-01, ADR-09-01 | System Definition § 3 |
 | **Implementing orchestration** | RF-02-01, ADR-02-01 | RF-09-01 |
-| **Implementing memory** | RF-03-01 | ADR-01-01 |
+| **Implementing memory** | RF-03-01, ADR-03-01 | ADR-01-01 |
 | **Setting up documentation** | RF-04-01, ADR-04-01 | DD-12-01, DD-13-01 |
+| **Planning PM integration** | RF-05-01, ADR-05-01 | DD-17-01, STD-17-01 |
+| **Configuring research tools** | RF-06-01, ADR-06-01 | DD-20-01, STD-20-01 |
 | **Deploying frontend** | RF-08-01, ADR-08-01 | ADR-01-01 |
 | **Building widgets** | RF-07-01, ADR-07-01, DD-19-01 | System Definition § 2.2, ADR-02-01 |
+| **Setting up dev tooling** | RF-10-01, ADR-10-01 | ADR-01-01, ADR-08-01 |
+| **Creating handoff bundles** | DD-11-01, STD-11-01 | DD-18-01, DD-13-01 |
 | **Implementing questioning arc** | DD-18-01, STD-18-01 | ADR-02-01, DD-15-01 |
 | **Building integrations** | DD-17-01, STD-17-01 | DD-14-01 |
 | **Setting up governance** | DD-15-01, STD-15-01 | — |
@@ -1420,6 +1452,8 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | Document | Status | Last Updated |
 |----------|--------|--------------|
 | System Definition | active (v2.0) | 2026-01-24 |
+| DD-11-01 | draft | 2026-01-28 |
+| STD-11-01 | draft | 2026-01-28 |
 | DD-12-01 | draft | 2026-01-25 |
 | DD-13-01 | draft | 2026-01-25 |
 | DD-14-01 | draft | 2026-01-25 |
@@ -1439,15 +1473,22 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | RF-02-01 | draft | 2026-01-25 |
 | **ADR-02-01** | **draft** | 2026-01-25 |
 | RF-03-01 | draft | 2026-01-25 |
+| **ADR-03-01** | **proposed** | 2026-01-26 |
 | RF-04-01 | draft | 2026-01-26 |
 | **ADR-04-01** | **proposed** | 2026-01-26 |
+| RF-05-01 | draft | 2026-02-01 |
+| **ADR-05-01** | **proposed** | 2026-02-01 |
+| RF-06-01 | draft | 2026-01-28 |
+| **ADR-06-01** | **proposed** | 2026-01-28 |
 | RF-07-01 | draft | 2026-01-26 |
 | **ADR-07-01** | **proposed** | 2026-01-26 |
 | RF-08-01 | draft | 2026-01-25 |
 | **ADR-08-01** | **proposed** | 2026-01-25 |
 | RF-09-01 | draft | 2026-01-25 |
 | **ADR-09-01** | **proposed** | 2026-01-25 |
-| **This Index** | **1.5** | 2026-01-26 |
+| RF-10-01 | draft | 2026-01-28 |
+| **ADR-10-01** | **proposed** | 2026-01-28 |
+| **This Index** | **1.6** | 2026-02-03 |
 
 ---
 
@@ -1465,6 +1506,17 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - Task-oriented navigation (Cross-Reference Tables)
 - Document-by-document exploration (Section Maps)
 - Quick reference during work (Quick Lookup Tables)
+
+**Recent updates (v1.6):**
+- Added DD-11-01 Handoff Bundle Schema Definition and STD-11-01 Handoff Bundle Standard
+- Added ADR-03-01 Memory and Retrieval Architecture Selection
+- Added RF-05-01/ADR-05-01 PM integration research and decision
+- Added RF-06-01/ADR-06-01 research tools research and decision
+- Added RF-10-01/ADR-10-01 development tooling research and decision
+- Updated Document Relationships diagram with Areas 05, 06, 10, and handoff standards
+- Updated Cross-Reference Tables with new research/decision pairs and handoff standards pairing
+- Updated Required Reading by Task with PM integration, research tools, dev tooling, and handoff guidance
+- Updated Document Version Tracking for newly added artifacts
 
 **Recent updates (v1.5):**
 - Added DD-18-01 Questioning Arc Definition (five-stage workflow, research branching, merge gates)
