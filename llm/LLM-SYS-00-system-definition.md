@@ -45,6 +45,18 @@ Compass is an LLM-orchestrated planning, research, and documentation system that
 - The system SHOULD remain LLM-agnostic and tool-agnostic via adapter seams.
 - The system MUST support auditability, reversibility, and human merge gates.
 
+## User Role Cross-Reference
+User definitions span multiple documents with different purposes:
+
+| User Type | Governance (DD-15) | Compass Access | Tool Context (DD-14) |
+|-----------|-------------------|----------------|---------------------|
+| Builder | Owner/Planner | Primary user | All archetypes |
+| Domain Expert | Contributor | Future user | Varies by expertise |
+| Stakeholder | Viewer | Secondary user | Consumer of outputs |
+| LLM Agent | Agent (scoped) | Automated | Implementation platform |
+
+Document purposes: SYS-00 defines *who uses Compass*; DD-15-01 defines *permissions and workflows*; DD-14-01 defines *who uses EFN tools by archetype*.
+
 ## Scope and Non-Goals
 - In scope: Planning, research, and documentation workflows that yield rigorous, auditable specs.
 - Out of scope: Code execution, deployment/runtime management, PM replacement, or "chat that exports docs."
@@ -65,6 +77,7 @@ Compass is an LLM-orchestrated planning, research, and documentation system that
 - None.
 
 ## Change Log
+- 2026-02-03: Added User Role Cross-Reference table mapping user types across documents.
 - 2026-02-03: LLM view created from `SYS-00` with no semantic changes.
 
 ## Core Invariants
