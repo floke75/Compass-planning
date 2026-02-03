@@ -5,7 +5,7 @@ area: 11-handoff-schema
 title: Handoff Bundle Standard
 status: draft
 created: 2026-01-28
-updated: 2026-01-28
+updated: 2026-02-03
 author: compass-research
 summary: Enforceable standard for handoff bundle creation, validation, and quality assurance
 tags: [handoff, standard, validation, compliance, quality]
@@ -14,6 +14,17 @@ related:
   - DD-13-01
   - DD-14-01
   - STD-20-01
+links:
+  - rel: related
+    target_id: "DD-11-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "STD-20-01"
+  - rel: companion
+    target_id: "DD-11-01"
 companion: DD-11-01
 enforcement: Pre-handoff validation checklist
 ---

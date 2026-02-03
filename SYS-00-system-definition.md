@@ -4,7 +4,7 @@ type: spec
 title: Compass System Definition
 status: active
 created: 2026-01-24
-updated: 2026-01-24
+updated: 2026-02-03
 author: compass-research
 summary: Authoritative system specification defining what Compass is, its requirements, architecture, and constraints
 tags: [system, specification, compass, architecture, core]
@@ -12,6 +12,13 @@ related:
   - DD-12-01
   - DD-13-01
   - DD-14-01
+links:
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-14-01"
 ---
 
 # Compass — System Definition

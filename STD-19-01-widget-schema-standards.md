@@ -5,7 +5,7 @@ area: 19-widget-schema
 title: Widget Schema Standards
 status: draft
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Specifies required fields, interaction logging requirements, and schema compliance rules for all Compass widgets
 tags: [widgets, schema, standards, validation, compliance]
@@ -15,6 +15,19 @@ related:
   - ADR-02-01
   - RF-07-01
   - ADR-07-01
+links:
+  - rel: related
+    target_id: "DD-19-01"
+  - rel: related
+    target_id: "RF-02-01"
+  - rel: related
+    target_id: "ADR-02-01"
+  - rel: related
+    target_id: "RF-07-01"
+  - rel: related
+    target_id: "ADR-07-01"
+  - rel: companion
+    target_id: "DD-19-01"
 companion: DD-19-01
 enforcement: Schema validation in orchestration layer
 ---

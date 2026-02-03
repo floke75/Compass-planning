@@ -5,13 +5,18 @@ area: 08-hosting
 title: Frontend Hosting Platform Selection
 status: proposed
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Selects Vercel as the frontend hosting platform for Compass based on official Convex Marketplace integration, zero-configuration deployment workflows, and optimal documentation alignment for LLM coding agents
 tags: [hosting, frontend, deployment, vercel, convex, decision]
 related:
   - RF-08-01
   - ADR-01-01
+links:
+  - rel: related
+    target_id: "RF-08-01"
+  - rel: related
+    target_id: "ADR-01-01"
 decision_date: null
 deciders: []
 supersedes: null

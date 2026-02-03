@@ -5,7 +5,7 @@ area: 13-artifact-taxonomy
 title: Artifact Taxonomy and Documentation Standards
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines the canonical artifact types, frontmatter schema, lifecycle states, and reconciliation protocols for Compass documentation
 tags: [artifacts, taxonomy, documentation, standards, lifecycle]
@@ -14,6 +14,15 @@ related:
   - DD-14-01
   - DD-20-01
   - STD-20-01
+links:
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "DD-20-01"
+  - rel: related
+    target_id: "STD-20-01"
 ---
 
 # Artifact Taxonomy and Documentation Standards
@@ -294,6 +303,50 @@ related:
 | `summary` | Yes | Single sentence describing what this document covers |
 | `tags` | Yes | Array of relevant keywords for search and filtering |
 | `related` | Yes | Array of related artifact IDs (can be empty: `[]`) |
+
+### 2.1a Optional Fields for LLM Views
+
+LLM views are derived, LLM-optimized versions of canonical artifacts. When `view: llm` is present, include the following fields:
+
+```yaml
+view: llm                      # Marks this artifact as an LLM view
+source_id: "DD-12-01"           # Canonical artifact ID
+source_updated: 2026-01-25      # Last updated date of the canonical artifact
+staleness: fresh                # fresh | review | stale
+```
+
+**ID convention for LLM views:** Append `-LLM` to the source artifact ID (for example, `DD-12-01-LLM`). This preserves lineage and keeps IDs unique.
+
+**Validation note:** If `view: llm` is present, `source_id`, `source_updated`, and `staleness` are required.
+
+### 2.1b Structured Cross-Links (Optional)
+
+Artifacts may include a structured `links` array to encode typed relationships between documents. This is the preferred structured cross-linking mechanism; the legacy `related` list remains for broad associations.
+
+**Schema:**
+
+```yaml
+links:
+  - rel: companion
+    target_id: "STD-14-01"
+    note: "Compliance checklist for this definition"
+  - rel: informed_by
+    target_id: "RF-02-01"
+    target_section: "Executive Summary"
+```
+
+**Required fields:**
+- `rel` (enum): Relationship type
+- `target_id` (string): Target artifact ID
+
+**Optional fields:**
+- `target_section` (string): Section name in the target document
+- `target_doc` (string): Alternate file name if needed
+- `note` (string): Short explanation of the relationship
+- `strength` (string): Qualifier such as `primary` or `secondary`
+
+**Allowed `rel` values:**
+`related`, `companion`, `responds_to`, `implications_for`, `informed_by`, `supersedes`, `superseded_by`, `implements`, `depends_on`, `blocks`, `references`, `contradicts`, `duplicates`
 
 ### 2.2 Type-Specific Fields
 

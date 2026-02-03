@@ -5,7 +5,7 @@ area: 10-dev-tooling
 title: Development Tooling Selection
 status: proposed
 created: 2026-01-28
-updated: 2026-01-28
+updated: 2026-02-03
 author: compass-research
 summary: Selects Vitest + convex-test for testing, Biome for linting/formatting, GitHub Actions for CI validation, and Vercel-managed deployment as the development tooling stack for Compass
 tags: [dev-tooling, decision, testing, linting, ci-cd, vitest, biome]
@@ -13,6 +13,13 @@ related:
   - RF-10-01
   - ADR-01-01
   - ADR-08-01
+links:
+  - rel: related
+    target_id: "RF-10-01"
+  - rel: related
+    target_id: "ADR-01-01"
+  - rel: related
+    target_id: "ADR-08-01"
 decision_date: null
 deciders: []
 supersedes: null

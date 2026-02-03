@@ -5,13 +5,20 @@ area: 15-governance
 title: Governance and Audit Standards
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Specifies audit log schema, event type enumeration, and governance compliance requirements for Compass
 tags: [governance, audit, standards, logging, compliance]
 related:
   - DD-15-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "DD-15-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: companion
+    target_id: "DD-15-01"
 companion: DD-15-01
 enforcement: System configuration and periodic review
 ---

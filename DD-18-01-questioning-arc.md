@@ -5,7 +5,7 @@ area: 18-questioning-arc
 title: Questioning Arc Definition
 status: draft
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Defines the structured questioning progression that transforms vague intent into implementation-ready specifications, including the five-stage planning workflow, research branching, and merge gate protocols
 tags: [questioning-arc, planning, workflow, state-machine, conversation]
@@ -14,6 +14,19 @@ related:
   - ADR-02-01
   - DD-13-01
   - DD-15-01
+links:
+  - rel: related
+    target_id: "RF-02-01"
+  - rel: related
+    target_id: "ADR-02-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-15-01"
+  - rel: companion
+    target_id: "STD-18-01"
+  - rel: informed_by
+    target_id: "ADR-02-01"
 companion: STD-18-01
 informed_by: [ADR-02-01]
 ---

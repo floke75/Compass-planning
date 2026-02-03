@@ -5,7 +5,7 @@ area: 11-handoff-schema
 title: Handoff Bundle Schema Definition
 status: draft
 created: 2026-01-28
-updated: 2026-01-28
+updated: 2026-02-03
 author: compass-research
 summary: Defines the schema for implementation handoff bundles that transfer planning outputs to execution platforms
 tags: [handoff, schema, implementation, bundle, execution, platform]
@@ -15,6 +15,19 @@ related:
   - DD-14-01
   - DD-18-01
   - STD-20-01
+links:
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-14-01"
+  - rel: related
+    target_id: "DD-18-01"
+  - rel: related
+    target_id: "STD-20-01"
+  - rel: companion
+    target_id: "STD-11-01"
 companion: STD-11-01
 ---
 
