@@ -5,7 +5,7 @@ area: 02-llm-orchestration
 title: LLM Orchestration Framework Selection
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Selects Mastra + Vercel AI SDK v6 as the LLM orchestration architecture for Compass planning workflows
 tags: [orchestration, llm, framework, mastra, vercel-ai-sdk, architecture, decision]
@@ -15,6 +15,17 @@ related:
   - ADR-09-01
   - ADR-01-01
   - DD-13-01
+links:
+  - rel: related
+    target_id: "RF-02-01"
+  - rel: related
+    target_id: "RF-09-01"
+  - rel: related
+    target_id: "ADR-09-01"
+  - rel: related
+    target_id: "ADR-01-01"
+  - rel: related
+    target_id: "DD-13-01"
 decision_date: 2026-01-25
 deciders: [compass-research]
 supersedes: null

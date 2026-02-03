@@ -5,7 +5,7 @@ area: 19-widget-schema
 title: Widget Schema and Rendering Specification
 status: draft
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 summary: Defines JSON schemas for all widget types with validation, interaction logging, and LLM generation guidelines
 tags: [widgets, schema, json-schema, specification, zod]
@@ -16,6 +16,29 @@ related:
   - ADR-07-01
   - DD-18-01
   - STD-18-01
+links:
+  - rel: related
+    target_id: "RF-02-01"
+  - rel: related
+    target_id: "ADR-02-01"
+  - rel: related
+    target_id: "RF-07-01"
+  - rel: related
+    target_id: "ADR-07-01"
+  - rel: related
+    target_id: "DD-18-01"
+  - rel: related
+    target_id: "STD-18-01"
+  - rel: companion
+    target_id: "STD-19-01"
+  - rel: informed_by
+    target_id: "RF-02-01"
+  - rel: informed_by
+    target_id: "RF-07-01"
+  - rel: informed_by
+    target_id: "ADR-02-01"
+  - rel: informed_by
+    target_id: "ADR-07-01"
 companion: STD-19-01
 informed_by: [RF-02-01, RF-07-01, ADR-02-01, ADR-07-01]
 ---

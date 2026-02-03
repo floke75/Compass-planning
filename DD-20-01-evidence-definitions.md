@@ -5,7 +5,7 @@ area: 20-evidence-standards
 title: Evidence Standards for Citations and Sources
 status: draft
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Defines evidence grading, source classification, citation formats, and staleness rules for Compass research artifacts
 tags: [evidence, citations, sources, research, quality]
@@ -13,6 +13,15 @@ related:
   - STD-20-01
   - DD-13-01
   - DD-12-01
+links:
+  - rel: related
+    target_id: "STD-20-01"
+  - rel: related
+    target_id: "DD-13-01"
+  - rel: related
+    target_id: "DD-12-01"
+  - rel: companion
+    target_id: "STD-20-01"
 companion: STD-20-01
 ---
 

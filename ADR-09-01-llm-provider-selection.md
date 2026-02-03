@@ -5,13 +5,18 @@ area: 09-llm-provider
 title: LLM Provider Selection
 status: proposed
 created: 2026-01-25
-updated: 2026-01-25
+updated: 2026-02-03
 author: compass-research
 summary: Selects Claude Opus 4.5 as the primary LLM for planning tasks (frontier reasoning) with Claude Haiku 4.5 for orchestration (reliable instruction following), backed by Gemini 3 Pro/2.5 Flash and GPT-5.2/Mini as fallbacks
 tags: [llm, provider, decision, anthropic, openai, google]
 related:
   - RF-09-01
   - ADR-02-01
+links:
+  - rel: related
+    target_id: "RF-09-01"
+  - rel: related
+    target_id: "ADR-02-01"
 decision_date: null
 deciders: []
 supersedes: null

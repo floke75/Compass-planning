@@ -5,7 +5,7 @@ area: 06-research-tools
 title: Research Tools Selection
 status: proposed
 created: 2026-01-28
-updated: 2026-01-28
+updated: 2026-02-03
 author: compass-research
 summary: Selects Context7 + Firecrawl + Tavily as the research tool stack for Compass context collection
 tags: [research-tools, decision, context7, firecrawl, tavily, mcp]
@@ -14,6 +14,15 @@ related:
   - DD-20-01
   - STD-20-01
   - ADR-04-01
+links:
+  - rel: related
+    target_id: "RF-06-01"
+  - rel: related
+    target_id: "DD-20-01"
+  - rel: related
+    target_id: "STD-20-01"
+  - rel: related
+    target_id: "ADR-04-01"
 decision_date: null
 deciders: []
 supersedes: null

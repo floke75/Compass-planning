@@ -5,7 +5,7 @@ area: 03-memory-retrieval
 title: Memory and Retrieval Architecture Selection
 status: proposed
 created: 2026-01-26
-updated: 2026-01-26
+updated: 2026-02-03
 author: compass-research
 decision: Convex-primary architecture using @convex-dev/rag for three-layer memory (session, project, ecosystem) with optional Zep Graphiti or Supermemory enrichment in Phase 3
 summary: Adopts unified Convex memory architecture over external memory services based on integration simplicity, cost efficiency, and adequate capability coverage for Compass requirements
@@ -14,6 +14,15 @@ related:
   - RF-03-01
   - ADR-01-01
   - ADR-02-01
+links:
+  - rel: related
+    target_id: "RF-03-01"
+  - rel: related
+    target_id: "ADR-01-01"
+  - rel: related
+    target_id: "ADR-02-01"
+  - rel: responds_to
+    target_id: "RF-03-01"
 supersedes: null
 superseded_by: null
 responds_to: RF-03-01

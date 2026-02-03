@@ -1,0 +1,18 @@
+# Compass Documentation
+
+> LLM-orchestrated planning, research, and documentation system for EFN
+
+## Preferred LLM Navigation
+- [LLM Index](llm/LLM-INDEX.md): LLM-optimized views and guardrails
+- [Master Index](IDX-00-MASTER.md): Canonical navigation map
+- [System Definition](SYS-00-system-definition.md): Authoritative spec
+
+## Canonical Artifacts (Source of Truth)
+- [System Definition](SYS-00-system-definition.md)
+- [Definitions](DD-13-01-artifacts-definitions.md)
+- [Repository Structure](DD-12-01-repository-definitions.md)
+- [Evidence Standards](DD-20-01-evidence-definitions.md)
+- [Citation Format](STD-20-01-evidence-standards.md)
+
+## Decisions and Research
+- [Master Index](IDX-00-MASTER.md): Full list of ADRs and RFs
