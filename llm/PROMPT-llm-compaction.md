@@ -335,6 +335,317 @@ This prompt structure addresses the specific extraction variance patterns identi
 
 ---
 
+## Parallel Orchestration Patterns
+
+When processing documents in parallel with fresh context windows, cross-document consistency cannot be maintained during extraction. These patterns mitigate drift and enable post-hoc reconciliation.
+
+### The Problem
+
+| Risk | Cause | Example |
+|------|-------|---------|
+| **Terminology drift** | No shared glossary | Doc A extracts "lifecycle state", Doc B extracts "artifact status" for same concept |
+| **Enumeration divergence** | Partial extraction | Doc A lists 5 tiers, Doc B lists 4 (missed T5) |
+| **Cross-reference blindness** | Can't validate links | Doc A references DD-15 §3.2 which doesn't exist |
+| **Definition inconsistency** | Same term, different definitions | "Active" defined differently in DD-13 vs DD-15 extractions |
+
+### Pattern 1: Pre-Flight Context Injection
+
+**When to use**: You have identified "anchor documents" that define terms used across the corpus.
+
+**Process**:
+
+```
+Phase 1: Extract shared context (sequential, single context)
+┌─────────────────────────────────────────────────────────┐
+│ Input: SYS-00, DD-13, DD-15, DD-20 (foundational docs)  │
+│ Output: SHARED-CONTEXT.yaml                             │
+│   - canonical_glossary: {term: definition}              │
+│   - canonical_enumerations:                             │
+│       lifecycle_states: [draft, review, active, ...]    │
+│       source_tiers: [T1, T2, T3, T4, T5]               │
+│       roles: [Owner, Planner, Contributor, ...]         │
+│   - document_map: {id: {title, sections[]}}            │
+└─────────────────────────────────────────────────────────┘
+
+Phase 2: Parallel compaction with injected context
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│ DD-17 + CTX  │  │ DD-18 + CTX  │  │ RF-01 + CTX  │  ...
+└──────────────┘  └──────────────┘  └──────────────┘
+       │                 │                 │
+       ▼                 ▼                 ▼
+   LLM-DD-17         LLM-DD-18         LLM-RF-01
+```
+
+**Context injection prompt addition**:
+
+```
+<shared_context>
+Use the following canonical definitions. Do NOT define these terms differently.
+If the source document contradicts these definitions, flag as [CONFLICT WITH CANONICAL].
+
+## Canonical Glossary
+{paste from SHARED-CONTEXT.yaml}
+
+## Canonical Enumerations
+{paste from SHARED-CONTEXT.yaml}
+
+## Document Map (for cross-reference validation)
+{paste from SHARED-CONTEXT.yaml}
+</shared_context>
+```
+
+**Pros**: Highest consistency, catches conflicts during extraction
+**Cons**: Requires identifying anchor documents, sequential bottleneck in Phase 1
+
+---
+
+### Pattern 2: Three-Phase Pipeline (Extract → Compact → Reconcile)
+
+**When to use**: Large corpus, maximize parallelism, accept post-hoc repair.
+
+**Process**:
+
+```
+Phase 1: Parallel extraction (raw signal capture)
+┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐
+│ Doc A  │ │ Doc B  │ │ Doc C  │ │ Doc D  │  ... (all parallel)
+└────────┘ └────────┘ └────────┘ └────────┘
+     │          │          │          │
+     ▼          ▼          ▼          ▼
+  RAW-A      RAW-B      RAW-C      RAW-D
+
+Phase 2: Automated reconciliation (single context)
+┌─────────────────────────────────────────────────────────┐
+│ Input: All RAW-* outputs                                │
+│ Tasks:                                                  │
+│   1. Build unified glossary, flag conflicts             │
+│   2. Merge enumerations, flag incomplete extractions    │
+│   3. Validate all cross-references                      │
+│   4. Generate RECONCILIATION-REPORT.md                  │
+└─────────────────────────────────────────────────────────┘
+
+Phase 3: Targeted repair (parallel, only flagged docs)
+┌──────────────────┐  ┌──────────────────┐
+│ RAW-B + REPORT   │  │ RAW-D + REPORT   │  (only docs with issues)
+└──────────────────┘  └──────────────────┘
+         │                     │
+         ▼                     ▼
+     LLM-B (fixed)        LLM-D (fixed)
+```
+
+**Reconciliation prompt**:
+
+```
+You are a documentation reconciliation agent. You have received multiple
+independently-extracted LLM views. Your task is to identify inconsistencies
+WITHOUT modifying the extractions.
+
+Input: {all RAW-* documents}
+
+Output a RECONCILIATION-REPORT.md with:
+
+## Glossary Conflicts
+| Term | Doc A Definition | Doc B Definition | Resolution Needed |
+|------|-----------------|-----------------|-------------------|
+
+## Enumeration Gaps
+| Enumeration | Expected Values | Doc | Missing Values |
+|-------------|----------------|-----|----------------|
+
+## Cross-Reference Failures
+| Source Doc | Reference | Target | Issue |
+|------------|-----------|--------|-------|
+
+## Recommended Repairs
+For each flagged document, specify:
+- Document ID
+- Section to repair
+- Specific instruction
+```
+
+**Pros**: Maximum parallelism, systematic issue detection
+**Cons**: Three phases, repair phase may be significant
+
+---
+
+### Pattern 3: Dependency-Ordered Waves
+
+**When to use**: Clear dependency hierarchy, moderate corpus size.
+
+**Process**:
+
+```
+Wave 1: Foundation (no dependencies)
+┌────────┐ ┌────────┐ ┌────────┐
+│ SYS-00 │ │ DD-13  │ │ DD-20  │  (parallel)
+└────────┘ └────────┘ └────────┘
+     │          │          │
+     ▼          ▼          ▼
+ Extract glossary + enumerations from Wave 1 outputs
+                    │
+                    ▼
+              WAVE-1-CONTEXT
+
+Wave 2: Core definitions (depend on Wave 1)
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ DD-14 + W1-CTX  │ │ DD-15 + W1-CTX  │ │ DD-17 + W1-CTX  │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+                    │
+                    ▼
+              WAVE-2-CONTEXT (merged)
+
+Wave 3: Standards + Research (depend on Wave 1-2)
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ STD-* + W2-CTX  │ │ RF-* + W2-CTX   │ │ ADR-* + W2-CTX  │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+```
+
+**Wave assignment heuristic**:
+
+```python
+def assign_wave(doc_id, dependency_graph):
+    """Assign document to earliest valid wave."""
+    if not dependency_graph[doc_id]:
+        return 1  # No dependencies → Wave 1
+
+    max_dep_wave = max(
+        assign_wave(dep, dependency_graph)
+        for dep in dependency_graph[doc_id]
+    )
+    return max_dep_wave + 1
+```
+
+**Pros**: Natural dependency respect, incremental context building
+**Cons**: Requires dependency graph, sequential wave boundaries
+
+---
+
+### Pattern 4: Anchor + Satellite
+
+**When to use**: One or few "master" documents define most shared concepts.
+
+**Process**:
+
+```
+Step 1: Compact anchor document(s) with extra rigor
+┌─────────────────────────────────────────────────────────┐
+│ SYS-00 compaction with ANCHOR flag                      │
+│ - Extract ALL defined terms into structured glossary    │
+│ - Extract ALL enumerations with completeness check      │
+│ - Generate ANCHOR-CONTEXT.yaml as side output           │
+└─────────────────────────────────────────────────────────┘
+
+Step 2: Parallel satellite compaction
+┌────────────────────┐ ┌────────────────────┐
+│ DD-* + ANCHOR-CTX  │ │ RF-* + ANCHOR-CTX  │  ... (all parallel)
+└────────────────────┘ └────────────────────┘
+
+Satellite instruction addition:
+"This document is a SATELLITE. The anchor document (SYS-00) defines
+canonical terms. When extracting:
+- Use anchor terminology, not local synonyms
+- Flag any term that SHOULD be in anchor but isn't as [ANCHOR GAP]
+- Do not redefine anchor terms in your glossary"
+```
+
+**Pros**: Simplest model, single sequential step
+**Cons**: Only works if anchor coverage is high
+
+---
+
+### Recommended Pattern by Corpus Type
+
+| Corpus Characteristic | Recommended Pattern | Rationale |
+|----------------------|---------------------|-----------|
+| <10 documents, clear hierarchy | Dependency-Ordered Waves | Natural fit, manageable waves |
+| 10-30 documents, one master doc | Anchor + Satellite | SYS-00 defines most terms |
+| 30+ documents, need speed | Three-Phase Pipeline | Maximum parallelism, systematic repair |
+| High consistency requirement | Pre-Flight Context Injection | Catches conflicts during extraction |
+| Unknown structure | Three-Phase Pipeline | Reconciliation reveals structure |
+
+---
+
+### Context Injection Template
+
+For any pattern requiring context injection, use this template:
+
+```
+<injected_context>
+## Instructions
+You are receiving pre-extracted canonical definitions. These are AUTHORITATIVE.
+
+1. Use these exact terms when the source discusses the same concepts
+2. If source uses a synonym, map to canonical term and note: [LOCAL: "x" → CANONICAL: "y"]
+3. If source contradicts canonical definition, flag: [CONFLICT] and preserve both
+4. If source defines a term NOT in canonical list, extract normally to your glossary
+5. Validate cross-references against the document map; flag failures
+
+## Canonical Glossary
+{{GLOSSARY}}
+
+## Canonical Enumerations
+### Lifecycle States
+{{LIFECYCLE_STATES}}
+
+### Source Tiers
+{{SOURCE_TIERS}}
+
+### Roles
+{{ROLES}}
+
+## Document Map
+{{DOCUMENT_MAP}}
+</injected_context>
+```
+
+---
+
+### Reconciliation Report Schema
+
+For post-hoc reconciliation (Patterns 2 and 3), generate structured output:
+
+```yaml
+# RECONCILIATION-REPORT.yaml
+generated: 2026-02-03
+documents_processed: 24
+issues_found: 7
+
+glossary_conflicts:
+  - term: "active"
+    definitions:
+      DD-13-LLM: "Artifact is canonical and authoritative"
+      DD-15-LLM: "User account is enabled"
+    resolution: "Context-dependent; add qualifier (artifact-active vs user-active)"
+
+enumeration_gaps:
+  - enumeration: "source_tiers"
+    canonical: [T1, T2, T3, T4, T5]
+    document: RF-03-LLM
+    extracted: [T1, T2, T3, T4]
+    missing: [T5]
+    action: "Re-extract §Evidence Summary from RF-03"
+
+cross_reference_failures:
+  - source: LLM-DD-17
+    reference: "DD-15-01 §3.4"
+    issue: "DD-15-01 has no §3.4; likely meant §3.2 (Approval Requirements)"
+    action: "Flag as [BROKEN REF] in LLM-DD-17 Open Questions"
+
+repair_queue:
+  - document: RF-03-LLM
+    priority: high
+    instructions:
+      - "Re-extract Evidence Summary table"
+      - "Ensure all 5 source tiers represented"
+  - document: LLM-DD-17
+    priority: low
+    instructions:
+      - "Add [BROKEN REF] note to Open Questions"
+```
+
+---
+
 ## Version History
 
 - 2026-02-03: Initial version based on LLM documentation evaluation findings
+- 2026-02-03: Added parallel orchestration patterns for fresh-context-window processing
