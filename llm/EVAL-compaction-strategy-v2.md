@@ -6,6 +6,8 @@
 - v1: `PROMPT-llm-compaction.md` (2026-02-03)
 - v2: Proposed update (2026-02-04)
 
+**Status**: Evaluation complete. Suggestions from "Concerns and Suggestions" section have been applied in v2.1.
+
 ---
 
 ## Summary
@@ -165,7 +167,9 @@ v2 adds one new failure mode and corresponding mitigation:
 
 ## Concerns and Suggestions
 
-### 1. Compression Ratio Terminology
+> **Note**: All suggestions below have been applied in v2.1.
+
+### 1. Compression Ratio Terminology ✓ APPLIED
 
 The wording around compression ratios could be clearer:
 
@@ -175,23 +179,31 @@ The wording around compression ratios could be clearer:
 
 **Recommendation**: Standardize terminology. Use "target output length: X% of source" consistently throughout.
 
-### 2. Human-Oriented Explanations Rule
+**Resolution**: Quality Checklist now says "Output length is 15-40% of source".
+
+### 2. Human-Oriented Explanations Rule ✓ APPLIED
 
 v2 adds: "Don't explain standard technical vocabulary." This is reasonable but could be over-applied.
 
 **Recommendation**: Add guidance on threshold—domain-specific terms still need definition even if LLMs "know" them, since usage may differ from standard meaning.
 
-### 3. "Scope and Non-Goals" Removal
+**Resolution**: Added clarification: "However, DO preserve definitions for domain-specific terms even if they use common words—'active' may have a corpus-specific meaning that differs from general usage."
+
+### 3. "Scope and Non-Goals" Removal ✓ APPLIED
 
 v2 moves this from required to "omit when redundant." However, scope boundaries are frequently misunderstood.
 
 **Recommendation**: Consider keeping this as optional-but-encouraged rather than omit-by-default.
 
-### 4. Evidence and Freshness Removal
+**Resolution**: Changed to: "'Scope and Non-Goals' is optional but encouraged... err toward inclusion—scope boundaries are frequently misunderstood."
+
+### 4. Evidence and Freshness Removal ✓ APPLIED
 
 For research findings, v2 removes the Evidence and Freshness section. This information is valuable for downstream decision-making.
 
 **Recommendation**: For RF-* documents specifically, preserve evidence tier ratings even without the boilerplate framing.
+
+**Resolution**: Added "Evidence Quality" section to RF-* template with tier ratings. Added explicit PRESERVE directive for evidence tier ratings.
 
 ---
 

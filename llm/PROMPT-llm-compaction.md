@@ -80,7 +80,7 @@ These rules address common fluff patterns that add no signal for LLM consumption
 
 5. **Omit "Evidence and Freshness" boilerplate.** If a document has no external citations, do not include a section stating "No external citations required." Staleness is tracked in frontmatter.
 
-6. **Omit "Scope and Non-Goals" when redundant.** If the dependency graph makes clear what this document does NOT cover, do not restate. Only include when out-of-scope boundaries are non-obvious or frequently confused.
+6. **"Scope and Non-Goals" is optional but encouraged.** Include when out-of-scope boundaries are non-obvious or frequently confused. May omit if the dependency graph makes scope completely clear, but err toward inclusion—scope boundaries are frequently misunderstood.
 
 7. **Omit Glossary Snapshot for corpus-defined terms.** If a term (e.g., "Canonical ID", "Handoff bundle") is defined in the shared corpus glossary, do not redefine. Only include terms that are NEW or SPECIFIC to this document.
 
@@ -138,7 +138,7 @@ These rules prevent orphaned references and human-centric temporal framing:
 
 5. **Formatting verbosity**: Tables with sparse data → bulleted lists. Nested bullets with single items → inline.
 
-6. **Human-oriented explanations of technical terms**: An LLM knows what "idempotency" and "webhook" mean. Don't explain standard technical vocabulary.
+6. **Human-oriented explanations of standard technical terms**: An LLM knows what "idempotency" and "webhook" mean. Don't explain standard technical vocabulary. However, DO preserve definitions for domain-specific terms even if they use common words—"active" may have a corpus-specific meaning that differs from general usage.
 
 ### What to OMIT (low signal for LLM consumption)
 
@@ -243,6 +243,9 @@ Add section:
 ## Findings
 {Key discoveries, 3-7 bullets}
 
+## Evidence Quality
+{Source tier ratings for key claims—T1/T2/T3/T4/T5 with brief justification}
+
 ## Limitations
 {Methodology gaps, confidence caveats}
 
@@ -253,7 +256,9 @@ Focus on: Source tier ratings, confidence levels, methodology limitations, impli
 
 Hunt for: Hedged language ("may", "likely", "suggests"), unstated confidence intervals, source conflicts.
 
-OMIT: Detailed citation metadata if captured in structured evidence artifacts elsewhere.
+PRESERVE: Evidence tier ratings—these are critical for downstream decision-making even when removing other citation boilerplate.
+
+OMIT: Detailed citation metadata (URLs, access dates, full bibliographic info) if captured in structured evidence artifacts elsewhere.
 
 ### For SYSTEM SPEC documents (SYS-*)
 
@@ -286,7 +291,7 @@ Before finalizing, verify:
 - [ ] Status field omitted if "draft"
 - [ ] Author field omitted (unless authorship matters for the content)
 - [ ] Ambiguities flagged, not resolved
-- [ ] Compression ratio is 60-85% of source (flag if outside this range)
+- [ ] Output length is 15-40% of source (flag if outside this range)
 - [ ] Exception cases ("when NOT to") captured
 - [ ] Implicit conventions made explicit and marked
 - [ ] Frontmatter links array populated with valid relationships
@@ -1157,3 +1162,4 @@ When an entity must be referenced but isn't self-explanatory:
 - 2026-02-03: Added parallel orchestration patterns for fresh-context-window processing
 - 2026-02-03: Added model selection strategy for capability/context/cost optimization
 - 2026-02-04: v2 — Added Critical Omission Rules, Entity Reference Rules, temporal handling, frontmatter optimization based on compaction methodology review; adjusted compression ratios; added failure mode detection patterns; added entity context templates
+- 2026-02-04: v2.1 — Standardized compression ratio terminology; added domain-specific term preservation guidance; changed Scope and Non-Goals to optional-but-encouraged; added Evidence Quality section for RF-* documents with tier rating preservation
