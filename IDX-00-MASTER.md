@@ -1488,7 +1488,74 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | **ADR-09-01** | **proposed** | 2026-01-25 |
 | RF-10-01 | draft | 2026-01-28 |
 | **ADR-10-01** | **proposed** | 2026-01-28 |
-| **This Index** | **1.6** | 2026-02-03 |
+| **This Index** | **1.7** | 2026-02-03 |
+
+---
+
+## Risk Factors Index
+
+Risk-related content is distributed across documents where decisions are made. This index consolidates references to help LLM agents locate risk assessments.
+
+### Critical Decision Zones
+
+**System Definition § 1.8 (Critical Junctions)** identifies seven decision zones where poor choices create significant risk:
+
+| Decision Zone | Risk Category | Key Document |
+|---------------|---------------|--------------|
+| Memory and retrieval architecture | Technical debt, data loss | RF-03-01, ADR-03-01 |
+| Artifact truth and versioning model | Documentation drift | DD-13-01 § Part 5 |
+| Dynamic interaction UI | User experience failures | DD-19-01, RF-07-01 |
+| Integration strategy | External service failures | DD-17-01, STD-17-01 |
+| Handoff adapter design | Platform lock-in | DD-11-01, STD-11-01 |
+| Security and privacy posture | Compliance violations | System Definition § 4.3–4.4 |
+| Operational reliability tiers | Service level mismatches | DD-14-01 § 2.1 |
+
+### Reliability Tier Risk Mapping
+
+**DD-14-01 § 2.1** defines reliability tiers with associated failure impact:
+
+| Tier | Availability | Failure Impact | Example Archetypes |
+|------|--------------|----------------|-------------------|
+| Tier 1 | 99.9% | Visible to audience | Broadcast-Critical tools |
+| Tier 2 | 99% | Blocks content creation | Production Pipeline |
+| Tier 3 | 95% | Delays publication | Publishing Pipeline |
+| Tier 4 | 90% | Impacts efficiency | Internal Utility, Analytics |
+| Tier 5 | Best effort | Expected/acceptable | Exploratory tools |
+
+### ADR Trade-offs and Consequences
+
+Each Architecture Decision Record documents accepted risks in its "Consequences" section:
+
+| ADR | Decision | Key Accepted Risk | Mitigation |
+|-----|----------|-------------------|------------|
+| ADR-01-01 | Convex backend | Vendor lock-in (proprietary model) | Abstraction layers, portable formats |
+| ADR-02-01 | Mastra + AI SDK | Young framework (2025) | Fallback to XState if needed |
+| ADR-04-01 | Obsidian + Git | No real-time collaboration | Async via Git acceptable for small team |
+| ADR-07-01 | Thesys C1 + shadcn | C1 vendor dependency | Maintain shadcn/ui fallback |
+| ADR-09-01 | Tiered Claude strategy | Single-provider concentration | Gemini/OpenAI fallback chain |
+
+### Budget Risk Thresholds
+
+**System Definition § 4.1** defines budget constraints:
+
+| Phase | Budget Target | Current Projection | Headroom |
+|-------|---------------|-------------------|----------|
+| Phase 1 | $600–$2000/year | ~$150–180/month | 86–87% |
+| Phase 3 | $3000–$5000/year | ~$700–900/month | ~80% |
+
+**Risk indicator**: If projected costs exceed 80% of budget ceiling, reassess tool selections.
+
+### Security and Privacy Risks
+
+**System Definition § 4.3–4.4** defines security requirements. Violations in these areas create compliance risk:
+
+- Authentication must use SSO (enterprise identity)
+- Authorization must explicitly define who can see/do what
+- Data ownership must remain with EFN (no training on user data)
+- Encryption required at rest and in transit
+- Audit logs required for access and changes
+
+**Sensitive data context**: Analytics archetype (DD-14-01 § 2.3) handles competitive/business intelligence requiring strict privacy controls.
 
 ---
 
@@ -1506,8 +1573,14 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - Task-oriented navigation (Cross-Reference Tables)
 - Document-by-document exploration (Section Maps)
 - Quick reference during work (Quick Lookup Tables)
+- Risk assessment lookup (Risk Factors Index)
 
-**Recent updates (v1.6):**
+**Recent updates (v1.7):**
+- Added Risk Factors Index section consolidating risk-related content references
+- Cross-references Critical Junctions (SYS-00 § 1.8), reliability tiers (DD-14-01 § 2.1), and ADR consequences
+- Added budget risk thresholds and security/privacy risk references
+
+**Previous updates (v1.6):**
 - Added DD-11-01 Handoff Bundle Schema Definition and STD-11-01 Handoff Bundle Standard
 - Added ADR-03-01 Memory and Retrieval Architecture Selection
 - Added RF-05-01/ADR-05-01 PM integration research and decision

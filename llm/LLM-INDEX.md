@@ -79,9 +79,30 @@ This index is the preferred entry point for LLM retrieval in the Compass reposit
 - This index is derived from local artifacts only.
 - Staleness is based on the source document `updated` date.
 
+## Risk Factors Quick Reference
+Risk-related content is distributed across documents. Key locations:
+
+| Risk Category | Key Document | Section |
+|---------------|--------------|---------|
+| Critical decision zones | SYS-00 | § 1.8 Critical Junctions |
+| Reliability tiers | DD-14-01 | § 2.1 |
+| ADR trade-offs | ADR-* | Consequences sections |
+| Budget constraints | SYS-00 | § 4.1 |
+| Security/privacy | SYS-00 | § 4.3–4.4 |
+
+Key accepted risks by ADR:
+- ADR-01-01 (Convex): Vendor lock-in → mitigated by abstraction layers
+- ADR-02-01 (Mastra): Young framework → mitigated by XState fallback
+- ADR-04-01 (Obsidian): No real-time collab → acceptable for small team
+- ADR-07-01 (C1): Vendor dependency → mitigated by shadcn/ui fallback
+- ADR-09-01 (Claude): Single-provider concentration → mitigated by Gemini/OpenAI fallback
+
+See `IDX-00-MASTER § Risk Factors Index` for comprehensive cross-references.
+
 ## Open Questions
 - None.
 
 ## Change Log
+- 2026-02-03: Added Risk Factors Quick Reference section with key locations and ADR trade-offs.
 - 2026-02-03: Initial LLM index created from Phase 1 LLM views.
 - 2026-02-03: Added Phase 2 LLM views for ADR, RF, and remaining DD/STD artifacts.

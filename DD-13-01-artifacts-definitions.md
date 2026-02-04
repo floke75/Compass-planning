@@ -433,6 +433,43 @@ Every artifact must pass these validation rules:
 - [ ] `related` is an array (can be empty)
 - [ ] Type-specific required fields are present
 
+### 2.4 Document ID Naming Convention
+
+Document IDs follow a structured format that encodes document type, domain area, and version:
+
+**Format**: `{TYPE}-{AREA}-{VERSION}`
+
+| Component | Description | Format |
+|-----------|-------------|--------|
+| **TYPE** | Document type prefix | Uppercase letters (e.g., DD, RF, ADR, STD, SPEC) |
+| **AREA** | Domain area code | Two-digit number (01–99) |
+| **VERSION** | Document version | Two-digit number starting at 01 |
+
+**Examples**:
+
+| ID | Breakdown | Meaning |
+|----|-----------|---------|
+| `DD-14-01` | DD / 14 / 01 | Definition Document, area 14 (EFN Ecosystem), version 1 |
+| `RF-09-01` | RF / 09 / 01 | Research Finding, area 09 (LLM Provider), version 1 |
+| `ADR-01-01` | ADR / 01 / 01 | Architecture Decision Record, area 01 (Backend), version 1 |
+| `STD-20-01` | STD / 20 / 01 | Standard, area 20 (Evidence), version 1 |
+
+**Versioning rules**:
+
+- **VERSION-01** indicates the first major version of a document
+- When a document is superseded, the replacement receives VERSION-02, VERSION-03, etc.
+- Minor updates to an active document do NOT increment the version; use the `updated` frontmatter field instead
+- Version increments only when a document is formally superseded (see Part 5.3)
+
+**Special cases**:
+
+- **System documents** (SYS-00) use `00` as the area code
+- **Index documents** (IDX-00) use `00` as the area code
+- **Specifications** (SPEC-) may use descriptive identifiers instead of area codes (e.g., `SPEC-auth-001`)
+- **Handoff bundles** (HANDOFF-) typically use project or feature identifiers
+
+**Area code registry**: See IDX-00-MASTER § Quick Lookup Tables for the complete list of area codes (01–20).
+
 ---
 
 ## Part 3: Lifecycle States
