@@ -3,17 +3,10 @@ id: DD-14-01-LLM
 type: definition
 area: 14-efn-ecosystem
 title: EFN Tooling Ecosystem Requirements (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of EFN tooling ecosystem taxonomy and requirements
 tags: [ecosystem, archetypes, reliability, integration, llm, view]
-related:
-  - DD-14-01
-  - STD-14-01
-  - DD-12-01
-  - DD-13-01
 links:
   - rel: related
     target_id: "STD-14-01"
@@ -47,16 +40,6 @@ DD-14 defines the EFN tooling ecosystem taxonomy and requirements so tools are p
 ## Dependencies and Interfaces
 - Enforcement standard: `STD-14-01`.
 - Repository and artifact standards: `DD-12-01`, `DD-13-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; taxonomy is internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-14-01` with no semantic changes.
 
 ## Core Invariants
 - Archetype classification precedes detailed planning.

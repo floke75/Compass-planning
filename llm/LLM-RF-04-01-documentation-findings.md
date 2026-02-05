@@ -3,17 +3,10 @@ id: RF-04-01-LLM
 type: rf
 area: 04-documentation
 title: Documentation Platform Research Findings (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of documentation platform research findings
 tags: [documentation, obsidian, gitbook, mcp, research, llm, view]
-related:
-  - RF-04-01
-  - ADR-04-01
-  - DD-12-01
-  - DD-13-01
 view: llm
 source_id: RF-04-01
 source_updated: 2026-01-26
@@ -40,20 +33,15 @@ This research evaluates documentation platforms against Compass requirements for
 - Artifact schema: `DD-13-01`.
 - Decision output: `ADR-04-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- Some collaboration assessments are based on documentation, not hands-on tests.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `RF-04-01` with no semantic changes.
-
 ## Findings
 - Obsidian provides the best balance of frontmatter fidelity, backlinks, and MCP access.
 - GitBook excels at collaboration but risks frontmatter loss when edited in-app.
 - Mintlify fails cost constraints; Notion and Outline fail frontmatter and Git needs.
+
+## Evidence Quality
+- Platform documentation: T1/S1 (official sources)
+- Feature comparisons: T2/S2 (based on documentation review)
+- Collaboration assessments: T3/S3 (not independently verified)
 
 ## Limitations
 - Real-time collaboration claims not independently verified.

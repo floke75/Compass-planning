@@ -3,16 +3,10 @@ id: ADR-08-01-LLM
 type: adr
 area: 08-hosting
 title: Frontend Hosting Platform Selection (LLM View)
-status: proposed
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the frontend hosting decision
 tags: [hosting, vercel, frontend, deployment, decision, llm, view]
-related:
-  - ADR-08-01
-  - RF-08-01
-  - ADR-01-01
 links:
   - rel: related
     target_id: "RF-08-01"
@@ -42,15 +36,13 @@ This ADR proposes Vercel as the frontend hosting platform for Compass. The decis
 - Research evidence: `RF-08-01`.
 - Backend selection: `ADR-01-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- Evidence grounded in `RF-08-01` hosting comparison.
+## Core Invariants
+- Preview deployments must have isolated Convex backends.
+- Deployment workflows must be low-configuration.
+- Convex Marketplace integration is required.
 
 ## Open Questions
 - Final stakeholder approval and decision date remain pending.
-
-## Change Log
-- 2026-02-03: LLM view created from `ADR-08-01` with no semantic changes.
 
 ## Decision
 - Use Vercel as the frontend hosting platform.

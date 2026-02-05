@@ -3,16 +3,10 @@ id: DD-12-01-LLM
 type: definition
 area: 12-repository-structure
 title: Repository Structure and Organization (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of repository structure, naming conventions, and navigation standards
 tags: [repository, structure, naming, llms, index, llm, view]
-related:
-  - DD-12-01
-  - DD-13-01
-  - SYS-00
 links:
   - rel: related
     target_id: "DD-13-01"
@@ -45,16 +39,6 @@ DD-12 defines the Compass repository structure and conventions so both humans an
 ## Dependencies and Interfaces
 - Artifact taxonomy and frontmatter: `DD-13-01`.
 - System requirements and principles: `SYS-00`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- External patterns are referenced in Appendix C, but no operational rules depend on external citations.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-12-01` with no semantic changes.
 
 ## Core Invariants
 - Shallow nesting (max three levels).

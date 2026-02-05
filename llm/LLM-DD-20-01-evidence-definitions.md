@@ -3,16 +3,10 @@ id: DD-20-01-LLM
 type: definition
 area: 20-evidence-standards
 title: Evidence Standards for Citations and Sources (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of evidence grading, source taxonomy, and freshness rules
 tags: [evidence, citations, sources, research, llm, view]
-related:
-  - DD-20-01
-  - STD-20-01
-  - DD-13-01
 links:
   - rel: related
     target_id: "STD-20-01"
@@ -47,16 +41,6 @@ DD-20 defines evidence standards for Compass research and citations. It introduc
 ## Dependencies and Interfaces
 - Citation format specification: `STD-20-01`.
 - Artifact metadata requirements: `DD-13-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- The standard itself does not cite external sources; it governs how future citations are recorded.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-20-01` with no semantic changes.
 
 ## Core Invariants
 - Evidence quality is multi-dimensional (S/I/Confidence).

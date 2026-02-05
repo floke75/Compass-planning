@@ -3,17 +3,10 @@ id: ADR-04-01-LLM
 type: adr
 area: 04-documentation
 title: Documentation Platform Selection (LLM View)
-status: proposed
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the documentation platform selection decision
 tags: [documentation, obsidian, git, decision, llm, view]
-related:
-  - ADR-04-01
-  - RF-04-01
-  - DD-12-01
-  - DD-13-01
 links:
   - rel: related
     target_id: "RF-04-01"
@@ -47,15 +40,13 @@ This ADR proposes Obsidian with Git as the documentation platform for Compass. T
 - Repository structure: `DD-12-01`.
 - Artifact taxonomy and frontmatter: `DD-13-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- Evidence grounded in `RF-04-01` platform comparison.
+## Core Invariants
+- YAML frontmatter must be preserved without loss.
+- Wiki-links and backlinks are required for navigation.
+- MCP access is mandatory for LLM retrieval.
 
 ## Open Questions
 - Final stakeholder approval and decision date remain pending.
-
-## Change Log
-- 2026-02-03: LLM view created from `ADR-04-01` with no semantic changes.
 
 ## Decision
 - Use Obsidian with Git as the documentation platform.

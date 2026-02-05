@@ -3,16 +3,10 @@ id: STD-15-01-LLM
 type: standard
 area: 15-governance
 title: Governance and Audit Standards (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of governance audit standards and compliance rules
 tags: [governance, audit, standards, logging, llm, view]
-related:
-  - STD-15-01
-  - DD-15-01
-  - DD-13-01
 links:
   - rel: related
     target_id: "DD-15-01"
@@ -44,16 +38,6 @@ STD-15 specifies the enforceable governance and audit logging standards for Comp
 ## Dependencies and Interfaces
 - Governance definitions: `DD-15-01`.
 - Artifact metadata: `DD-13-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; standards are internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-15-01` with no semantic changes.
 
 ## Enforcement
 - Enforced via system configuration checks and periodic review.

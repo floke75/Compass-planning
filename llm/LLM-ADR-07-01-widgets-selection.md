@@ -3,17 +3,10 @@ id: ADR-07-01-LLM
 type: adr
 area: 07-widget-libraries
 title: Widget Component Library Selection (LLM View)
-status: proposed
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the widget rendering library decision
 tags: [widgets, components, thesys, shadcn, decision, llm, view]
-related:
-  - ADR-07-01
-  - RF-07-01
-  - ADR-02-01
-  - DD-19-01
 links:
   - rel: related
     target_id: "RF-07-01"
@@ -46,15 +39,13 @@ This ADR proposes a hybrid widget rendering approach: Thesys C1 as the primary g
 - Orchestration context: `ADR-02-01`.
 - Widget schema: `DD-19-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- Evidence grounded in `RF-07-01` library evaluation.
+## Core Invariants
+- Widget rendering must support streaming and schema-driven specs.
+- Custom components required where C1 lacks coverage.
+- Thesys C1 is the primary layer; shadcn/ui fills gaps.
 
 ## Open Questions
 - Final stakeholder approval and C1 integration prototype outcomes.
-
-## Change Log
-- 2026-02-03: LLM view created from `ADR-07-01` with no semantic changes.
 
 ## Decision
 - Use Thesys C1 plus custom shadcn/ui components for widget rendering.

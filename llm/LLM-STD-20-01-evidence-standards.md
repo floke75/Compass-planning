@@ -3,15 +3,10 @@ id: STD-20-01-LLM
 type: standard
 area: 20-evidence-standards
 title: Evidence Citation Format Specification (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of citation format requirements and compliance rules
 tags: [evidence, citations, format, compliance, llm, view]
-related:
-  - STD-20-01
-  - DD-20-01
 links:
   - rel: related
     target_id: "DD-20-01"
@@ -46,16 +41,6 @@ STD-20 specifies the enforceable citation format for Compass documentation. It d
 ## Dependencies and Interfaces
 - Evidence grading and source taxonomy: `DD-20-01`.
 - Artifact metadata rules: `DD-13-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- This standard defines citation structure and does not rely on external evidence.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-20-01` with no semantic changes.
 
 ## Enforcement
 - Enforced via Research Finding review checklist.

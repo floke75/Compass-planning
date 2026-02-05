@@ -3,16 +3,10 @@ id: DD-13-01-LLM
 type: definition
 area: 13-artifact-taxonomy
 title: Artifact Taxonomy and Frontmatter (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of artifact types, frontmatter schema, lifecycle, and templates
 tags: [artifacts, taxonomy, frontmatter, lifecycle, llm, view]
-related:
-  - DD-13-01
-  - DD-12-01
-  - SYS-00
 links:
   - rel: related
     target_id: "DD-12-01"
@@ -60,17 +54,6 @@ Special cases: SYS-00 and IDX-00 use `00` as area code. SPEC and HANDOFF may use
 ## Dependencies and Interfaces
 - Repository structure and navigation: `DD-12-01`.
 - System principles and core requirements: `SYS-00`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; evidence practices live in `DD-20-01` and `STD-20-01`.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: Added Document ID Format section with `{TYPE}-{AREA}-{VERSION}` convention.
-- 2026-02-03: LLM view created from `DD-13-01` with no semantic changes.
 
 ## Core Invariants
 - Artifact types are explicit and limited.

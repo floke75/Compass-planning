@@ -6,18 +6,8 @@ title: Compass System Definition (LLM View)
 status: active
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the Compass system definition and core requirements
 tags: [system, specification, compass, architecture, llm, view]
-related:
-  - SYS-00
-  - DD-12-01
-  - DD-13-01
-  - DD-18-01
-  - DD-19-01
-  - DD-20-01
-  - STD-15-01
-  - STD-20-01
 links:
   - rel: related
     target_id: "DD-12-01"
@@ -68,17 +58,6 @@ Document purposes: SYS-00 defines *who uses Compass*; DD-15-01 defines *permissi
 - Widget schemas and guarantees: `DD-19-01` and `STD-19-01`.
 - Evidence standards and citations: `DD-20-01` and `STD-20-01`.
 - Governance and audit logging: `DD-15-01` and `STD-15-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-24; staleness marked fresh.
-- No external citations in the system definition; research evidence lives in `RF-*` and `STD-20-01`.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: Added User Role Cross-Reference table mapping user types across documents.
-- 2026-02-03: LLM view created from `SYS-00` with no semantic changes.
 
 ## Core Invariants
 - Specification is permanent; implementation is ephemeral.

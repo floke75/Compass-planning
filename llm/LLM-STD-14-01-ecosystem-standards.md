@@ -3,17 +3,10 @@ id: STD-14-01-LLM
 type: standard
 area: 14-efn-ecosystem
 title: EFN Shared Standards and Compliance Checklist (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of archetype-based standards and compliance checklists
 tags: [standards, compliance, ecosystem, archetypes, llm, view]
-related:
-  - STD-14-01
-  - DD-14-01
-  - DD-12-01
-  - DD-13-01
 links:
   - rel: related
     target_id: "DD-14-01"
@@ -47,16 +40,6 @@ STD-14 provides enforceable standards and archetype-specific checklists for EFN 
 ## Dependencies and Interfaces
 - Ecosystem definitions: `DD-14-01`.
 - Repository and artifact standards: `DD-12-01`, `DD-13-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; standards are internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-14-01` with no semantic changes.
 
 ## Enforcement
 - Enforced via pre-launch review and periodic audits.

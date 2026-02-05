@@ -3,17 +3,10 @@ id: STD-19-01-LLM
 type: standard
 area: 19-widget-schema
 title: Widget Schema Standards (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of widget schema compliance standards
 tags: [widgets, schema, standards, validation, llm, view]
-related:
-  - STD-19-01
-  - DD-19-01
-  - ADR-02-01
-  - ADR-07-01
 links:
   - rel: related
     target_id: "DD-19-01"
@@ -51,16 +44,6 @@ STD-19 defines the mandatory compliance rules for all Compass widget specificati
 ## Dependencies and Interfaces
 - Schema definition: `DD-19-01`.
 - Orchestration and rendering context: `ADR-02-01`, `ADR-07-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- No external citations required; standards are internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-19-01` with no semantic changes.
 
 ## Enforcement
 - Enforced by schema validation in the orchestration layer.
