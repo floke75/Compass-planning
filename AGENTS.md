@@ -24,6 +24,15 @@ This repository contains the canonical planning, research, and decision artifact
   - Change Log
 - LLM Summary must be 120-180 words.
 - Never add decisions or requirements to LLM views.
+- See `llm/LLM-INDEX.md` for the full list of available LLM views.
+
+### Key LLM Views by Domain
+- **Reliability & Observability**: `llm/LLM-DD-16-01-reliability-tiers.md` (tier definitions, requirements matrix, Compass target), `llm/LLM-STD-16-01-reliability-standard.md` (checklists, logging schema, alerts, health checks, incident response)
+- **Execution Integration**: `llm/LLM-RF-21-01-claude-code-cli-integration-findings.md` (Claude Code CLI integration patterns, Agent SDK, MCP bridge, cost model)
+- **System Definition**: `llm/LLM-SYS-00-system-definition.md`
+- **Ecosystem & Archetypes**: `llm/LLM-DD-14-01-ecosystem-definitions.md`
+- **Planning Arc**: `llm/LLM-DD-18-01-questioning-arc.md`
+- **Widget Schema**: `llm/LLM-DD-19-01-widget-schema.md`
 
 ## Structured Cross-Links
 - Use frontmatter `links` for typed relationships.
