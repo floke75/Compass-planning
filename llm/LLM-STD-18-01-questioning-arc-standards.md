@@ -3,17 +3,10 @@ id: STD-18-01-LLM
 type: standard
 area: 18-questioning-arc
 title: Questioning Arc Standards (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of questioning arc validation and completion standards
 tags: [questioning-arc, standards, validation, checklists, llm, view]
-related:
-  - STD-18-01
-  - DD-18-01
-  - DD-15-01
-  - STD-15-01
 links:
   - rel: related
     target_id: "DD-18-01"
@@ -49,16 +42,6 @@ STD-18 defines enforceable validation rules and completion criteria for the ques
 ## Dependencies and Interfaces
 - Arc definition: `DD-18-01`.
 - Governance and audit context: `DD-15-01`, `STD-15-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- No external citations required; standards are internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-18-01` with no semantic changes.
 
 ## Enforcement
 - Enforced by workflow validation logic and planner review.

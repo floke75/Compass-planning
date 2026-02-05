@@ -3,16 +3,10 @@ id: DD-17-01-LLM
 type: definition
 area: 17-integration-patterns
 title: Integration Architecture Patterns (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of integration patterns and reliability rules
 tags: [integration, patterns, webhooks, retries, secrets, llm, view]
-related:
-  - DD-17-01
-  - STD-17-01
-  - DD-14-01
 links:
   - rel: related
     target_id: "RF-01-01"
@@ -46,16 +40,6 @@ DD-17 defines standard integration patterns for how Compass connects to external
 ## Dependencies and Interfaces
 - Ecosystem context: `DD-14-01`.
 - Enforcement standard: `STD-17-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; patterns are internal guidelines.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-17-01` with no semantic changes.
 
 ## Core Invariants
 - Reliability over immediacy for external calls.

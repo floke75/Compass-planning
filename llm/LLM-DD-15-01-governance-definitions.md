@@ -3,17 +3,10 @@ id: DD-15-01-LLM
 type: definition
 area: 15-governance
 title: Governance, Roles, Permissions, and Audit (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of governance roles, permissions, and audit principles
 tags: [governance, roles, permissions, audit, llm, view]
-related:
-  - DD-15-01
-  - STD-15-01
-  - DD-13-01
-  - DD-14-01
 links:
   - rel: related
     target_id: "DD-13-01"
@@ -46,16 +39,6 @@ DD-15 defines governance for Compass with a focus on practical accountability ra
 - Artifact lifecycle: `DD-13-01`.
 - Ecosystem requirements: `DD-14-01`.
 - Enforcement standard: `STD-15-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; governance is internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-15-01` with no semantic changes.
 
 ## Core Invariants
 - Minimum viable governance over heavy process.

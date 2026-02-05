@@ -3,17 +3,10 @@ id: RF-10-01-LLM
 type: rf
 area: 10-dev-tooling
 title: Development Tooling Research Findings (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of development tooling research findings
 tags: [dev-tooling, testing, linting, ci, vitest, biome, research, llm, view]
-related:
-  - RF-10-01
-  - ADR-10-01
-  - ADR-01-01
-  - ADR-08-01
 view: llm
 source_id: RF-10-01
 source_updated: 2026-01-28
@@ -39,20 +32,15 @@ This research evaluates development tooling for Compass and recommends Vitest wi
 - Backend and hosting context: `ADR-01-01`, `ADR-08-01`.
 - Decision output: `ADR-10-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-28; staleness marked fresh.
-- Tooling preferences are somewhat subjective; ecosystem evolves quickly.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `RF-10-01` with no semantic changes.
-
 ## Findings
 - Vitest and convex-test align with Convex patterns and LLM familiarity.
 - Biome reduces configuration complexity relative to ESLint plus Prettier.
 - Vercel-managed deployment minimizes CI/CD overhead.
+
+## Evidence Quality
+- Tool documentation: T1/S1 (official sources)
+- Ecosystem assessments: T2/S2 (based on community adoption)
+- LLM familiarity claims: T3/S3 (subjective, based on training data assumptions)
 
 ## Limitations
 - Some tooling choices are subjective and ecosystem-dependent.

@@ -3,17 +3,10 @@ id: STD-17-01-LLM
 type: standard
 area: 17-integration-patterns
 title: Integration Standards (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of integration compliance rules for secrets and error handling
 tags: [integration, standards, secrets, errors, llm, view]
-related:
-  - STD-17-01
-  - DD-17-01
-  - DD-14-01
-  - STD-14-01
 links:
   - rel: related
     target_id: "DD-17-01"
@@ -47,16 +40,6 @@ STD-17 defines enforceable standards for Compass integrations, focusing on secre
 ## Dependencies and Interfaces
 - Integration patterns: `DD-17-01`.
 - Ecosystem standards: `DD-14-01`, `STD-14-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- No external citations required; standards are internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-17-01` with no semantic changes.
 
 ## Enforcement
 - Enforced via code review and integration testing.

@@ -3,17 +3,10 @@ id: STD-11-01-LLM
 type: standard
 area: 11-handoff-schema
 title: Handoff Bundle Standard (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of handoff bundle validation standards
 tags: [handoff, standards, validation, compliance, llm, view]
-related:
-  - STD-11-01
-  - DD-11-01
-  - DD-13-01
-  - STD-20-01
 links:
   - rel: related
     target_id: "DD-11-01"
@@ -50,16 +43,6 @@ STD-11 defines enforceable requirements for handoff bundles, specifying minimum 
 - Schema definition: `DD-11-01`.
 - Artifact rules: `DD-13-01`.
 - Citation standards: `STD-20-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-28; staleness marked fresh.
-- No external citations required; standard is internal.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `STD-11-01` with no semantic changes.
 
 ## Enforcement
 - Enforced via pre-handoff validation checklist and review gate.

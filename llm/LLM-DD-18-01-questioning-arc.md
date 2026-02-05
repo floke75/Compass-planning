@@ -3,18 +3,10 @@ id: DD-18-01-LLM
 type: definition
 area: 18-questioning-arc
 title: Questioning Arc Definition (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the five-stage questioning arc and branching mechanics
 tags: [questioning-arc, planning, workflow, state-machine, llm, view]
-related:
-  - DD-18-01
-  - STD-18-01
-  - DD-19-01
-  - ADR-02-01
-  - DD-15-01
 links:
   - rel: related
     target_id: "RF-02-01"
@@ -55,16 +47,6 @@ DD-18 defines the questioning arc, a state-machine workflow that turns vague ide
 - Widget taxonomy and UX guarantees: `DD-19-01` and `STD-19-01`.
 - Orchestration framework context: `ADR-02-01`.
 - Governance and audit logging: `DD-15-01` and `STD-15-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- Evidence standards for research branches are defined in `DD-20-01` and `STD-20-01`.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-18-01` with no semantic changes.
 
 ## Core Invariants
 - Five-stage arc governs planning conversations.

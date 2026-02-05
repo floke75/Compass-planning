@@ -3,18 +3,10 @@ id: DD-19-01-LLM
 type: definition
 area: 19-widget-schema
 title: Widget Schema and Rendering Specification (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of widget schemas, rendering contract, and interaction logging
 tags: [widgets, schema, json, rendering, llm, view]
-related:
-  - DD-19-01
-  - STD-19-01
-  - DD-18-01
-  - ADR-02-01
-  - ADR-07-01
 links:
   - rel: related
     target_id: "RF-02-01"
@@ -64,16 +56,6 @@ DD-19 defines the widget schema contract between LLM-generated specifications an
 - Rendering decision: `ADR-07-01`.
 - Questioning arc integration: `DD-18-01`.
 - Enforcement standard: `STD-19-01`.
-
-## Evidence and Freshness
-- Source updated 2026-01-26; staleness marked fresh.
-- No external citations required; schemas are internal contracts.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `DD-19-01` with no semantic changes.
 
 ## Core Invariants
 - Schema is the contract between LLM output and UI rendering.

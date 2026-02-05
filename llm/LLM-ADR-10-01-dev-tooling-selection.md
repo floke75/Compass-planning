@@ -3,17 +3,10 @@ id: ADR-10-01-LLM
 type: adr
 area: 10-dev-tooling
 title: Development Tooling Selection (LLM View)
-status: proposed
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of the development tooling stack decision
 tags: [dev-tooling, testing, linting, ci, decision, llm, view]
-related:
-  - ADR-10-01
-  - RF-10-01
-  - ADR-01-01
-  - ADR-08-01
 links:
   - rel: related
     target_id: "RF-10-01"
@@ -46,15 +39,13 @@ This ADR proposes a development tooling stack optimized for LLM maintainability 
 - Research evidence: `RF-10-01`.
 - Backend and hosting context: `ADR-01-01`, `ADR-08-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-28; staleness marked fresh.
-- Evidence grounded in `RF-10-01` tool evaluation.
+## Core Invariants
+- Testing must use Vitest with convex-test.
+- Biome is the single linting/formatting tool.
+- CI validates only; deployment is Vercel-managed.
 
 ## Open Questions
 - Final stakeholder approval and decision date remain pending.
-
-## Change Log
-- 2026-02-03: LLM view created from `ADR-10-01` with no semantic changes.
 
 ## Decision
 - Use Vitest + convex-test, Biome, GitHub Actions (validation), and Vercel-managed deployment.
@@ -68,7 +59,7 @@ This ADR proposes a development tooling stack optimized for LLM maintainability 
 - Jest + custom mocks: Rejected due to added maintenance.
 - ESLint + Prettier: Rejected due to configuration complexity.
 - Full CI deployment: Rejected in favor of Vercel integration.
-- Playwright E2E: Deferred until post-MVP.
+- Playwright E2E: Deferred until core functionality is stable.
 
 ## Consequences
 - Positive: Simpler toolchain and faster iteration.

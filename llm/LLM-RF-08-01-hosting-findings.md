@@ -3,16 +3,10 @@ id: RF-08-01-LLM
 type: rf
 area: 08-hosting
 title: Frontend Hosting Platform Research Findings (LLM View)
-status: draft
 created: 2026-02-03
 updated: 2026-02-03
-author: compass-research
 summary: LLM-optimized view of frontend hosting research findings
 tags: [hosting, vercel, cloudflare, netlify, research, llm, view]
-related:
-  - RF-08-01
-  - ADR-08-01
-  - ADR-01-01
 view: llm
 source_id: RF-08-01
 source_updated: 2026-01-25
@@ -37,20 +31,15 @@ This research evaluates frontend hosting platforms for a Convex-backed Compass a
 - Backend selection: `ADR-01-01`.
 - Decision output: `ADR-08-01`.
 
-## Evidence and Freshness
-- Source updated 2026-01-25; staleness marked fresh.
-- Pricing verified January 25, 2026; subject to change.
-
-## Open Questions
-- None.
-
-## Change Log
-- 2026-02-03: LLM view created from `RF-08-01` with no semantic changes.
-
 ## Findings
 - Vercel provides the best Convex integration and lowest deployment friction.
 - Cloudflare Pages trades integration effort for lower cost.
 - Netlify is viable but pricing adds complexity.
+
+## Evidence Quality
+- Platform documentation: T1/S1 (official sources)
+- Integration quality: T2/S2 (based on Convex Marketplace verification)
+- Pricing data: T1/S2 (verified January 2026)
 
 ## Limitations
 - No hands-on deployment testing performed.
