@@ -16,7 +16,7 @@ related:
   - ADR-02-01
   - RF-02-01
 confidence: high
-methodology: "Web research with official Anthropic documentation, GitHub repositories, community tools (GSD, Auto-Claude, Claude-Flow), and SDK specifications"
+methodology: "Web research with official Anthropic documentation, GitHub repositories, community tools (GSD, Auto-Claude), and SDK specifications"
 limitations:
   - "No hands-on performance benchmarking conducted"
   - "Claude Code CLI features evolve rapidly; some capabilities may have changed"
@@ -36,7 +36,7 @@ implications_for: [SYS-00, DD-11-01, DD-17-01, ADR-02-01]
 2. **Claude Agent SDK** — Programmatic control of Claude Code from Compass backend for automated workflows
 3. **MCP Server Bridge** — Bidirectional communication allowing Claude Code to query Compass state and report progress
 
-**Confidence**: High — Patterns are well-documented in official Anthropic SDK and demonstrated by successful community tools (GSD, Auto-Claude, Claude-Flow).
+**Confidence**: High — Patterns are well-documented in official Anthropic SDK and demonstrated by successful community tools (GSD, Auto-Claude).
 
 **Key insight**: Compass's value proposition—converting vague intent into rigorous specifications—is orthogonal to Claude Code's strength—autonomous local execution. Rather than competing, they form a natural pipeline: Compass plans, Claude Code executes.
 
@@ -73,7 +73,6 @@ Several tools have validated this pattern:
 |------|----------|----------------|
 | **GSD (Get Shit Done)** | Planning layer atop Claude Code | Phase-based workflows prevent context rot |
 | **Auto-Claude** | Multi-agent orchestration | Parallel execution across 12+ agent terminals |
-| **Claude-Flow** | Swarm orchestration | 87 MCP tools for distributed coordination |
 | **claude-code-webui** | Web frontend for CLI | Session management and visualization |
 | **Opcode** | Tauri desktop app | GUI wrapper with usage tracking |
 
@@ -504,25 +503,20 @@ const pipeline = [
 ];
 ```
 
-### 4.3 Claude-Flow
+### 4.3 Excluded Tools
 
-**Key innovation**: MCP-based swarm orchestration with 87 specialized tools.
+**Claude-Flow** was initially considered but excluded from this analysis due to credibility concerns:
 
-**Applicable to Compass**:
-- Agent coordination through MCP namespaces (`mcp__claude-flow__*`)
-- Distributed execution across local and remote machines
-- RAG integration for context retrieval
+- Multiple reports of artificially inflated GitHub stars (suspected purchased engagement)
+- Limited verified user success stories despite high star count
+- Community feedback suggesting significant AI-generated ("AI-slop") content in documentation and codebase
+- Lack of independent validation of claimed capabilities (87 MCP tools, swarm orchestration)
 
-**Pattern to adopt**:
-```typescript
-// Claude-Flow-style MCP tool namespacing
-const compassTools = {
-  'mcp__compass__get_spec': getSpecHandler,
-  'mcp__compass__report_progress': reportProgressHandler,
-  'mcp__compass__request_clarification': requestClarificationHandler,
-  'mcp__compass__record_decision': recordDecisionHandler
-};
-```
+**Future research note**: If Claude-Flow demonstrates genuine adoption with verified user testimonials and independent reviews, it may warrant re-evaluation. Key validation criteria would include:
+- Verified production deployments
+- Independent performance benchmarks
+- Community-contributed improvements (not just maintainer commits)
+- Transparent engagement metrics
 
 ---
 
@@ -817,24 +811,21 @@ const options: ClaudeAgentOptions = {
 6. **[T2/S2]** GitHub. "Auto-Claude - Autonomous multi-session AI coding". Retrieved 2026-02-05. https://github.com/AndyMik90/Auto-Claude
    Note: Community tool demonstrating multi-agent orchestration.
 
-7. **[T2/S2]** GitHub. "Claude-Flow - Agent orchestration platform". Retrieved 2026-02-05. https://github.com/ruvnet/claude-flow
-   Note: Community framework demonstrating MCP-based swarm coordination.
-
-8. **[T2/S2]** GitHub. "claude-code-webui - Web interface for Claude CLI". Retrieved 2026-02-05. https://github.com/sugyan/claude-code-webui
+7. **[T2/S2]** GitHub. "claude-code-webui - Web interface for Claude CLI". Retrieved 2026-02-05. https://github.com/sugyan/claude-code-webui
    Note: Community tool demonstrating web frontend integration.
 
-9. **[T2/S2]** GitHub. "Opcode - GUI app for Claude Code". Retrieved 2026-02-05. https://github.com/winfunc/opcode
+8. **[T2/S2]** GitHub. "Opcode - GUI app for Claude Code". Retrieved 2026-02-05. https://github.com/winfunc/opcode
    Note: Community tool demonstrating Tauri-based desktop integration.
 
-10. **[T2/S2]** PyPI. "claude-code-sdk". Retrieved 2026-02-05. https://pypi.org/project/claude-code-sdk/
+9. **[T2/S2]** PyPI. "claude-code-sdk". Retrieved 2026-02-05. https://pypi.org/project/claude-code-sdk/
     Note: Official Python SDK package.
 
 ### Tier 3: General Technology Sources
 
-11. **[T3/S2]** Medium. "GSD Framework: Meta-Prompting System That Ships Faster". Retrieved 2026-02-05. https://medium.com/@joe.njenga/i-tested-gsd-claude-code-meta-prompting-that-ships-faster-no-agile-bs-ca62aff18c04
+10. **[T3/S2]** Medium. "GSD Framework: Meta-Prompting System That Ships Faster". Retrieved 2026-02-05. https://medium.com/@joe.njenga/i-tested-gsd-claude-code-meta-prompting-that-ships-faster-no-agile-bs-ca62aff18c04
     Note: Practitioner experience with GSD framework.
 
-12. **[T3/S2]** Pasquale Pillitteri. "GSD Framework: The System Revolutionizing Development with Claude Code". Retrieved 2026-02-05. https://pasqualepillitteri.it/en/news/169/gsd-framework-claude-code-ai-development
+11. **[T3/S2]** Pasquale Pillitteri. "GSD Framework: The System Revolutionizing Development with Claude Code". Retrieved 2026-02-05. https://pasqualepillitteri.it/en/news/169/gsd-framework-claude-code-ai-development
     Note: Analysis of GSD approach.
 
 ---
