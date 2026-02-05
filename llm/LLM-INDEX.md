@@ -43,6 +43,7 @@ This index is the preferred entry point for LLM retrieval in the Compass reposit
 | `LLM-DD-13-01-artifacts-definitions.md` | DD-13-01 | draft | fresh | `DD-13-01-artifacts-definitions.md` |
 | `LLM-DD-14-01-ecosystem-definitions.md` | DD-14-01 | draft | fresh | `DD-14-01-ecosystem-definitions.md` |
 | `LLM-DD-15-01-governance-definitions.md` | DD-15-01 | draft | fresh | `DD-15-01-governance-definitions.md` |
+| `LLM-DD-16-01-reliability-tiers.md` | DD-16-01 | draft | fresh | `DD-16-01-reliability-tiers.md` |
 | `LLM-DD-17-01-integration-definitions.md` | DD-17-01 | draft | fresh | `DD-17-01-integration-definitions.md` |
 | `LLM-DD-18-01-questioning-arc.md` | DD-18-01 | draft | fresh | `DD-18-01-questioning-arc.md` |
 | `LLM-DD-19-01-widget-schema.md` | DD-19-01 | draft | fresh | `DD-19-01-widget-schema.md` |
@@ -50,6 +51,7 @@ This index is the preferred entry point for LLM retrieval in the Compass reposit
 | `LLM-STD-11-01-handoff-standards.md` | STD-11-01 | draft | fresh | `STD-11-01-handoff-standards.md` |
 | `LLM-STD-14-01-ecosystem-standards.md` | STD-14-01 | draft | fresh | `STD-14-01-ecosystem-standards.md` |
 | `LLM-STD-15-01-governance-standards.md` | STD-15-01 | draft | fresh | `STD-15-01-governance-standards.md` |
+| `LLM-STD-16-01-reliability-standard.md` | STD-16-01 | draft | fresh | `STD-16-01-reliability-standard.md` |
 | `LLM-STD-17-01-integration-standards.md` | STD-17-01 | draft | fresh | `STD-17-01-integration-standards.md` |
 | `LLM-STD-18-01-questioning-arc-standards.md` | STD-18-01 | draft | fresh | `STD-18-01-questioning-arc-standards.md` |
 | `LLM-STD-19-01-widget-schema-standards.md` | STD-19-01 | draft | fresh | `STD-19-01-widget-schema-standards.md` |
@@ -74,6 +76,7 @@ This index is the preferred entry point for LLM retrieval in the Compass reposit
 | `LLM-RF-08-01-hosting-findings.md` | RF-08-01 | draft | fresh | `RF-08-01-hosting-findings.md` |
 | `LLM-RF-09-01-llm-provider-findings.md` | RF-09-01 | draft | fresh | `RF-09-01-llm-provider-findings.md` |
 | `LLM-RF-10-01-dev-tooling-findings.md` | RF-10-01 | draft | fresh | `RF-10-01-dev-tooling-findings.md` |
+| `LLM-RF-21-01-claude-code-cli-integration-findings.md` | RF-21-01 | draft | fresh | `RF-21-01-claude-code-cli-integration-findings.md` |
 
 ## Evidence and Freshness
 - This index is derived from local artifacts only.
@@ -85,7 +88,7 @@ Risk-related content is distributed across documents. Key locations:
 | Risk Category | Key Document | Section |
 |---------------|--------------|---------|
 | Critical decision zones | SYS-00 | § 1.8 Critical Junctions |
-| Reliability tiers | DD-14-01 | § 2.1 |
+| Reliability tiers | DD-14-01, DD-16-01, STD-16-01 | DD-14-01 § 2.1, DD-16-01 (full), STD-16-01 (full) |
 | ADR trade-offs | ADR-* | Consequences sections |
 | Budget constraints | SYS-00 | § 4.1 |
 | Security/privacy | SYS-00 | § 4.3–4.4 |

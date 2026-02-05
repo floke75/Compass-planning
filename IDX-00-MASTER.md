@@ -65,6 +65,8 @@ This document provides structured navigation for LLM agents working with Compass
 | ADR-09-01 | `ADR-09-01-llm-provider-selection.md` | ADR | LLM | **Decision**: Tiered Claude strategy (Opus for planning, Haiku for orchestration) |
 | RF-10-01 | `RF-10-01-dev-tooling-findings.md` | Research Finding | Dev Tooling | Development tooling evaluation: testing, linting, CI/CD, environment |
 | ADR-10-01 | `ADR-10-01-dev-tooling-selection.md` | ADR | Dev Tooling | **Decision**: Vitest + convex-test, Biome, GitHub Actions, Vercel deploy |
+| DD-16-01 | `DD-16-01-reliability-tiers.md` | Definition | Reliability | Reliability tier definitions, per-tier operational requirements, tier assignment criteria |
+| STD-16-01 | `STD-16-01-reliability-standard.md` | Standard | Reliability | Enforceable observability/reliability requirements, logging schema, alerts, health checks |
 | RF-21-01 | `RF-21-01-claude-code-cli-integration-findings.md` | Research Finding | Execution Integration | Claude Code CLI integration patterns: Agent SDK, MCP bridge, desktop orchestration |
 
 ### Document Relationships
@@ -83,6 +85,11 @@ Compass System Definition (authoritative source)
     ├── DD-14-01 EFN Ecosystem ←──companion──→ STD-14-01 Compliance Checklists
     │
     ├── DD-15-01 Governance ←──companion──→ STD-15-01 Audit Standards
+    │
+    ├── DD-16-01 Reliability Tiers ←──companion──→ STD-16-01 Reliability Standard
+    │       ├── depends on: DD-14-01 (archetype-to-tier mapping)
+    │       ├── references: DD-17-01 (circuit breakers, idempotency, retries)
+    │       └── references: ADR-01-01 (Convex reliability characteristics)
     │
     ├── DD-17-01 Integration Patterns ←──companion──→ STD-17-01 Integration Standards
     │
@@ -305,6 +312,51 @@ The authoritative specification. **Read first** before any research or planning.
 | Level 2 | Before production | All archetype items, logging, README |
 | Level 3 | Within 30 days | Full observability, runbook |
 | Level 4 | Within 90 days | Polished docs, automated scanning |
+
+---
+
+### DD-16-01: Reliability Tiers and Operational Standards
+
+| Part | Key Content |
+|------|-------------|
+| **Part 1: Tier Catalog** | Five tiers (Broadcast-Critical → Best Effort), availability targets, recovery time objectives |
+| **Part 2: Requirements Matrix** | Per-tier requirements for safeguards, observability, backup/recovery, incident response |
+| **Part 3: Assignment Criteria** | Decision framework (4 questions), factors increasing/decreasing tier, override conditions, re-evaluation triggers |
+| **Part 4: Compass Reliability** | Compass as Tier 2 with enhancements: continuous state persistence, auto-save, graceful degradation |
+| **Part 5: Archetype Mapping** | Definitive mapping from DD-14-01 archetypes to default tiers, sample tool classifications, transition procedures |
+| **Part 6: Operational Simplicity** | Debuggability, managed services preference, progressive reliability investment |
+| **Appendix A** | Glossary (availability, circuit breaker, correlation ID, graceful degradation, RTO, RPO, etc.) |
+| **Appendix B** | Related documents |
+
+**Tier quick reference:**
+
+| Tier | Name | Availability | RTO | Failure Impact |
+|------|------|-------------|-----|----------------|
+| 1 | Broadcast-Critical | 99.9% (broadcast windows) | < 30 sec | Visible to audience |
+| 2 | Business-Critical | 99% (business hours) | < 1 hour | Blocks content creation |
+| 3 | Business-Important | 95% | < 4 hours | Delays publication |
+| 4 | Internal Standard | 90% | < 24 hours | Causes inconvenience |
+| 5 | Best Effort | No target | No target | Acceptable |
+
+**Compass target**: Tier 2 (99% business hours, <1 hour RTO, <1 min RPO for conversation state).
+
+---
+
+### STD-16-01: Reliability and Observability Standard
+
+| Part | Key Content |
+|------|-------------|
+| **Part 1: Tier Checklists** | Per-tier compliance checklists covering architecture, observability, alerting, backup/recovery, incident response |
+| **Part 2: Logging Standards** | JSON log entry schema, required/recommended fields, log levels, what to log/never log, retention by tier |
+| **Part 3: Alert Definitions** | Severity levels (CRITICAL/HIGH/MEDIUM/LOW), tier-specific alert configs, routing rules, best practices |
+| **Part 4: Health Check Specs** | `/health` endpoint requirements, response schema, status values, dependency check requirements by tier |
+| **Part 5: Incident Response** | SEV-1 through SEV-4 classification, response time targets, communication templates, post-incident review |
+| **Part 6: Compliance Verification** | Pre-launch verification, periodic audit schedule, findings classification, exception handling |
+| **Appendix A** | Quick reference cards (logging, alerts, health check) |
+| **Appendix B** | Implementation examples (TypeScript logging, Convex health check) |
+| **Appendix C** | Related documents |
+
+**Use this document** for enforceable reliability and observability requirements. DD-16-01 provides tier rationale and assignment; this provides schemas, checklists, and verification procedures.
 
 ---
 
@@ -1014,10 +1066,12 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - **Agent (role)** → DD-15-01 § 1.2 (LLM agent acting on behalf of a user with scoped permissions)
 - **Agent Pack** → System Definition § Appendix A
 - **Allocation widget** → DD-19-01 § Part 1 (distribute fixed budget across categories)
+- **Alert severity levels** → STD-16-01 § 3.1 (CRITICAL/HIGH/MEDIUM/LOW with response time targets)
 - **Archetype (tool)** → DD-14-01 § Part 1
 - **Artifact** → DD-13-01 § Part 1; System Definition § Appendix A
 - **Artifact store** → System Definition § 5.1 (Layer 3)
 - **Audit truth** → System Definition § 3.2
+- **Archetype-to-tier mapping** → DD-16-01 § Part 5 (definitive mapping from DD-14-01 archetypes to reliability tiers)
 - **Audit log schema** → STD-15-01 § Part 1 (JSON schema for governance audit events)
 - **Backend platform** → RF-01-01; ADR-01-01 (Convex selected)
 - **Backlinks** → RF-04-01 § 1.1; ADR-04-01 (wiki-link navigation in documentation)
@@ -1033,6 +1087,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - **Card sort widget** → DD-19-01 § Part 1 (organize items into categories)
 - **Citation** → DD-20-01 § Part 3; STD-20-01 § Parts 1–4
 - **Claude 4.5** → RF-09-01 § 2.1; ADR-09-01 (Opus for planning, Haiku for orchestration)
+- **Compass reliability target** → DD-16-01 § Part 4 (Tier 2 with continuous state persistence, 99% business hours)
 - **Compliance levels** → STD-14-01 § Part 4
 - **Confidence levels** → DD-20-01 § 1.4
 - **Convergence signal** → DD-18-01 § Appendix A (indication that stage is approaching completion)
@@ -1079,11 +1134,14 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 
 ### H–M
 
+- **Health check specification** → STD-16-01 § Part 4 (`/health` endpoint, response schema, dependency checks)
 - **Handoff bundle** → System Definition § 2.7; DD-13-01 § 1.2
 - **HANDOFF- prefix** → DD-13-01 § 1.2
 - **Help me think** → DD-19-01 § 2.2; STD-19-01 § 1.3 (widget support feature)
 - **Hybrid strategy (LLM)** → RF-09-01 § 6; ADR-09-01 (different models for different task types)
 - **Idempotency** → DD-17-01 § Part 2 (processing same operation multiple times yields same result)
+- **Incident response procedures** → STD-16-01 § Part 5 (SEV-1 through SEV-4 classification, response targets, post-incident review)
+- **Incident severity (SEV-1 to SEV-4)** → STD-16-01 § 5.1
 - **IDX- prefix** → DD-13-01 § 1.2
 - **Index document** → DD-13-01 § 1.2; DD-12-01 § 2.4
 - **Information quality (I1–I4)** → DD-20-01 § 1.3
@@ -1096,6 +1154,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - **llms.txt** → DD-12-01 § 2.3; RF-01-01 (LLM navigation index)
 - **LLM maintainability** → RF-01-01 (evaluation criterion: how well AI assistants generate correct code)
 - **LLM provider** → RF-09-01; ADR-09-01 (Claude primary, Gemini/OpenAI fallback)
+- **Logging schema (structured)** → STD-16-01 § Part 2 (JSON format, required fields, log levels, retention by tier)
 - **Logging standard** → DD-14-01 § 3.3; STD-14-01 § 2.3
 - **MCP (Model Context Protocol)** → System Definition § 5.3; RF-01-01; RF-04-01 § Part 4 (LLM tool integration standard)
 - **Memory layers** → System Definition § 3.2 (session, project, ecosystem)
@@ -1127,7 +1186,10 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 - **Ranked choice widget** → DD-19-01 § Part 1 (order options by preference)
 - **Real-time collaboration** → RF-01-01 § 2.1 (Convex: automatic reactivity without WebSocket config)
 - **Reconciliation** → DD-13-01 § Part 5
-- **Reliability tier** → DD-14-01 § 2.1
+- **Recovery Point Objective (RPO)** → DD-16-01 § Appendix A (maximum acceptable data loss measured in time)
+- **Recovery Time Objective (RTO)** → DD-16-01 § Appendix A (maximum acceptable downtime)
+- **Reliability tier** → DD-14-01 § 2.1; DD-16-01 § Part 1 (detailed tier definitions, availability targets, operational requirements)
+- **Reliability standard** → STD-16-01 (enforceable checklists, logging schema, alerts, health checks)
 - **Research branch** → DD-18-01 § Part 3 (temporary divergence to investigate uncertainty)
 - **Research Brief** → DD-13-01 § 1.2
 - **Research Finding** → DD-13-01 § 1.2; DD-20-01 § Part 6
@@ -1229,6 +1291,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | DD-11-01 | STD-11-01 | Handoff bundles |
 | DD-14-01 | STD-14-01 | EFN tool requirements |
 | DD-15-01 | STD-15-01 | Governance and audit |
+| DD-16-01 | STD-16-01 | Reliability tiers and observability |
 | DD-17-01 | STD-17-01 | Integration patterns |
 | DD-18-01 | STD-18-01 | Questioning arc workflow |
 | DD-19-01 | STD-19-01 | Widget schemas |
@@ -1260,7 +1323,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | First-time orientation | System Definition (full) | — |
 | Planning new feature | System Definition § 2, DD-13-01 | DD-12-01 |
 | Conducting research | DD-20-01, STD-20-01 | DD-13-01 § 6.3 |
-| Classifying EFN tool | DD-14-01 | STD-14-01 |
+| Classifying EFN tool | DD-14-01 | STD-14-01, DD-16-01 |
 | Creating any artifact | DD-13-01 | DD-12-01 |
 | Setting up repository | DD-12-01 | DD-13-01 |
 | **Implementing backend** | RF-01-01, ADR-01-01 | System Definition § 4 |
@@ -1278,6 +1341,8 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | **Implementing questioning arc** | DD-18-01, STD-18-01 | ADR-02-01, DD-15-01 |
 | **Building integrations** | DD-17-01, STD-17-01 | DD-14-01 |
 | **Setting up governance** | DD-15-01, STD-15-01 | — |
+| **Assigning reliability tiers** | DD-16-01 | DD-14-01, STD-14-01 |
+| **Implementing observability/reliability** | STD-16-01 | DD-16-01, DD-17-01 |
 
 ---
 
@@ -1320,6 +1385,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | 18 | Questioning Arc |
 | 19 | Widget Schema |
 | 20 | Evidence Standards |
+| 21 | Execution Integration |
 
 ### Architecture Layers (System Definition § 5.1)
 
@@ -1466,6 +1532,8 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | STD-14-01 | draft | 2026-01-25 |
 | DD-15-01 | draft | 2026-01-25 |
 | STD-15-01 | draft | 2026-01-25 |
+| DD-16-01 | draft | 2026-02-01 |
+| STD-16-01 | draft | 2026-02-01 |
 | DD-17-01 | draft | 2026-01-25 |
 | STD-17-01 | draft | 2026-01-25 |
 | DD-18-01 | draft | 2026-01-26 |
@@ -1495,7 +1563,7 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | RF-10-01 | draft | 2026-01-28 |
 | **ADR-10-01** | **proposed** | 2026-01-28 |
 | RF-21-01 | draft | 2026-02-05 |
-| **This Index** | **1.8** | 2026-02-05 |
+| **This Index** | **1.9** | 2026-02-05 |
 
 ---
 
@@ -1515,7 +1583,7 @@ Risk-related content is distributed across documents where decisions are made. T
 | Integration strategy | External service failures | DD-17-01, STD-17-01 |
 | Handoff adapter design | Platform lock-in | DD-11-01, STD-11-01 |
 | Security and privacy posture | Compliance violations | System Definition § 4.3–4.4 |
-| Operational reliability tiers | Service level mismatches | DD-14-01 § 2.1 |
+| Operational reliability tiers | Service level mismatches | DD-14-01 § 2.1, DD-16-01, STD-16-01 |
 
 ### Reliability Tier Risk Mapping
 
@@ -1582,7 +1650,14 @@ Each Architecture Decision Record documents accepted risks in its "Consequences"
 - Quick reference during work (Quick Lookup Tables)
 - Risk assessment lookup (Risk Factors Index)
 
-**Recent updates (v1.8):**
+**Recent updates (v1.9):**
+- Added DD-16-01 Reliability Tiers and Operational Standards (Area 16: Reliability)
+- Added STD-16-01 Reliability and Observability Standard (Area 16: Reliability)
+- Added section maps, concept index entries, and cross-references for DD-16-01 and STD-16-01
+- Updated Risk Factors Index to reference DD-16-01 and STD-16-01
+- Added area code 21 (Execution Integration) to area codes table
+
+**Previous updates (v1.8):**
 - Added RF-21-01 Claude Code CLI Integration Research Findings (Area 21: Execution Integration)
 - Evaluates integration patterns: Agent SDK, GSD framework, Auto-Claude, MCP bridge, desktop orchestration
 - Added "Integrating with Claude Code CLI" to Required Reading by Task
