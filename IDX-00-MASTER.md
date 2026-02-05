@@ -4,7 +4,7 @@ type: index
 title: Compass Project Reference Index
 status: active
 created: 2026-01-25
-updated: 2026-02-03
+updated: 2026-02-05
 author: compass-research
 summary: Master navigation index for LLM agents traversing Compass documentation
 tags: [index, navigation, reference, retrieval]
@@ -65,6 +65,7 @@ This document provides structured navigation for LLM agents working with Compass
 | ADR-09-01 | `ADR-09-01-llm-provider-selection.md` | ADR | LLM | **Decision**: Tiered Claude strategy (Opus for planning, Haiku for orchestration) |
 | RF-10-01 | `RF-10-01-dev-tooling-findings.md` | Research Finding | Dev Tooling | Development tooling evaluation: testing, linting, CI/CD, environment |
 | ADR-10-01 | `ADR-10-01-dev-tooling-selection.md` | ADR | Dev Tooling | **Decision**: Vitest + convex-test, Biome, GitHub Actions, Vercel deploy |
+| RF-21-01 | `RF-21-01-claude-code-cli-integration-findings.md` | Research Finding | Execution Integration | Claude Code CLI integration patterns: Agent SDK, MCP bridge, desktop orchestration |
 
 ### Document Relationships
 
@@ -137,9 +138,13 @@ Compass System Definition (authoritative source)
     │       ├── Recommends: Tiered strategy (Opus + Haiku)
     │       └── ADR-09-01 LLM Provider Selection ← formalizes decision
     │
-    └── RF-10-01 Development Tooling Evaluation (Area 10)
-            ├── Evaluates: Vitest, Biome, GitHub Actions, Vercel
-            └── ADR-10-01 Development Tooling Selection ← formalizes decision
+    ├── RF-10-01 Development Tooling Evaluation (Area 10)
+    │       ├── Evaluates: Vitest, Biome, GitHub Actions, Vercel
+    │       └── ADR-10-01 Development Tooling Selection ← formalizes decision
+    │
+    └── RF-21-01 Claude Code CLI Integration Evaluation (Area 21)
+            ├── Evaluates: Agent SDK, GSD, Auto-Claude, MCP integration
+            └── Recommends: Hybrid architecture (handoff + MCP bridge + desktop)
 ```
 
 ---
@@ -1268,7 +1273,8 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | **Deploying frontend** | RF-08-01, ADR-08-01 | ADR-01-01 |
 | **Building widgets** | RF-07-01, ADR-07-01, DD-19-01 | System Definition § 2.2, ADR-02-01 |
 | **Setting up dev tooling** | RF-10-01, ADR-10-01 | ADR-01-01, ADR-08-01 |
-| **Creating handoff bundles** | DD-11-01, STD-11-01 | DD-18-01, DD-13-01 |
+| **Integrating with Claude Code CLI** | RF-21-01 | DD-11-01, DD-17-01, ADR-02-01 |
+| **Creating handoff bundles** | DD-11-01, STD-11-01 | DD-18-01, DD-13-01, RF-21-01 |
 | **Implementing questioning arc** | DD-18-01, STD-18-01 | ADR-02-01, DD-15-01 |
 | **Building integrations** | DD-17-01, STD-17-01 | DD-14-01 |
 | **Setting up governance** | DD-15-01, STD-15-01 | — |
@@ -1488,7 +1494,8 @@ Quick lookup for key terms. Format: **Term** → Document § Section
 | **ADR-09-01** | **proposed** | 2026-01-25 |
 | RF-10-01 | draft | 2026-01-28 |
 | **ADR-10-01** | **proposed** | 2026-01-28 |
-| **This Index** | **1.7** | 2026-02-03 |
+| RF-21-01 | draft | 2026-02-05 |
+| **This Index** | **1.8** | 2026-02-05 |
 
 ---
 
@@ -1575,7 +1582,13 @@ Each Architecture Decision Record documents accepted risks in its "Consequences"
 - Quick reference during work (Quick Lookup Tables)
 - Risk assessment lookup (Risk Factors Index)
 
-**Recent updates (v1.7):**
+**Recent updates (v1.8):**
+- Added RF-21-01 Claude Code CLI Integration Research Findings (Area 21: Execution Integration)
+- Evaluates integration patterns: Agent SDK, GSD framework, Auto-Claude, MCP bridge, desktop orchestration
+- Added "Integrating with Claude Code CLI" to Required Reading by Task
+- Updated handoff bundle reading to reference RF-21-01
+
+**Previous updates (v1.7):**
 - Added Risk Factors Index section consolidating risk-related content references
 - Cross-references Critical Junctions (SYS-00 § 1.8), reliability tiers (DD-14-01 § 2.1), and ADR consequences
 - Added budget risk thresholds and security/privacy risk references
