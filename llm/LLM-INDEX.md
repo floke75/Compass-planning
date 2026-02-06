@@ -5,7 +5,7 @@ area: null
 title: LLM Views Index
 status: active
 created: 2026-02-03
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
 summary: LLM-optimized navigation index listing available LLM views and guardrails
 tags: [index, llm, navigation, retrieval]
@@ -14,7 +14,7 @@ related:
 links: []
 view: llm
 source_id: IDX-00-MASTER
-source_updated: 2026-02-03
+source_updated: 2026-02-06
 staleness: fresh
 ---
 
@@ -46,6 +46,7 @@ This index is the preferred entry point for LLM retrieval in the Compass reposit
 | `LLM-DD-16-01-reliability-tiers.md` | DD-16-01 | draft | fresh | `DD-16-01-reliability-tiers.md` |
 | `LLM-DD-17-01-integration-definitions.md` | DD-17-01 | draft | fresh | `DD-17-01-integration-definitions.md` |
 | `LLM-DD-18-01-questioning-arc.md` | DD-18-01 | draft | fresh | `DD-18-01-questioning-arc.md` |
+| `LLM-DD-18-02-elicitation-methods.md` | DD-18-02 | draft | fresh | `DD-18-02-elicitation-methods.md` |
 | `LLM-DD-19-01-widget-schema.md` | DD-19-01 | draft | fresh | `DD-19-01-widget-schema.md` |
 | `LLM-DD-20-01-evidence-definitions.md` | DD-20-01 | draft | fresh | `DD-20-01-evidence-definitions.md` |
 | `LLM-STD-11-01-handoff-standards.md` | STD-11-01 | draft | fresh | `STD-11-01-handoff-standards.md` |

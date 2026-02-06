@@ -4,7 +4,7 @@ type: definition
 area: 15-governance
 title: Governance, Roles, Permissions, and Audit (LLM View)
 created: 2026-02-03
-updated: 2026-02-03
+updated: 2026-02-06
 summary: LLM-optimized view of governance roles, permissions, and audit principles
 tags: [governance, roles, permissions, audit, llm, view]
 links:
@@ -16,7 +16,7 @@ links:
     target_id: "STD-15-01"
 view: llm
 source_id: DD-15-01
-source_updated: 2026-02-03
+source_updated: 2026-02-06
 staleness: fresh
 ---
 
@@ -30,6 +30,7 @@ DD-15 defines governance for Compass with a focus on practical accountability ra
 - Roles MUST be explicit and limited to a small, clear set.
 - Audit logging MUST enable reconstruction of what happened.
 - Human approval gates SHOULD be used only for high-stakes changes.
+- The Archivist (DD-18-01 §Part 5) is NOT an Agent per DD-15-01 role definitions; it is infrastructure that does not require a sponsoring user.
 
 ## Scope and Non-Goals
 - In scope: Roles, permissions, approvals, and audit principles.
@@ -51,3 +52,4 @@ DD-15 defines governance for Compass with a focus on practical accountability ra
 - **Contributor**: Can propose changes but not approve.
 - **Viewer**: Read-only stakeholder.
 - **Agent**: LLM acting on behalf of a user.
+- **Archivist**: Background subsystem for planning housekeeping. Not an Agent—does not require a sponsoring user, does not produce proposals needing merge gate approval, does not participate in conversation.

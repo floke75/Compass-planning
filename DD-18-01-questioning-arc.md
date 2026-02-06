@@ -5,15 +5,16 @@ area: 18-questioning-arc
 title: Questioning Arc Definition
 status: draft
 created: 2026-01-26
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
-summary: Defines the structured questioning progression that transforms vague intent into implementation-ready specifications, including the five-stage planning workflow, research branching, and merge gate protocols
-tags: [questioning-arc, planning, workflow, state-machine, conversation]
+summary: Defines the structured questioning progression that transforms vague intent into implementation-ready specifications, including the five-stage planning workflow, decision dependency tracking, decision status lifecycle, Git-like exploration branching, the Archivist subsystem, research branching with subtypes, and merge gate protocols
+tags: [questioning-arc, planning, workflow, state-machine, conversation, decisions, branching]
 related:
   - RF-02-01
   - ADR-02-01
   - DD-13-01
   - DD-15-01
+  - DD-18-02
 links:
   - rel: related
     target_id: "RF-02-01"
@@ -23,6 +24,8 @@ links:
     target_id: "DD-13-01"
   - rel: related
     target_id: "DD-15-01"
+  - rel: related
+    target_id: "DD-18-02"
   - rel: companion
     target_id: "STD-18-01"
   - rel: informed_by
@@ -42,16 +45,21 @@ This document defines the **questioning arc**: the structured progression throug
 **What this document covers**:
 
 - The five-stage planning workflow (OPEN through GROUND)
-- How users move between stages (transitions and triggers)
-- Research branching and merge gates for handling uncertainty
+- User-controlled fast mode for streamlined input
+- Decision dependency tracking between planning decisions
+- Decision status lifecycle within the planning arc
+- Research branching with subtypes and merge gates
+- Git-like exploration branching with fork, divergence, and merge conflict detection
+- The Archivist background subsystem for automated housekeeping
 - State persistence and session management
-- How the arc integrates with widgets and artifacts
+- How the arc integrates with widgets, artifacts, and governance
 
 **What this document does not cover**:
 
 - Specific widget implementations (see DD-19-01)
 - Orchestration framework details (see ADR-02-01)
 - Evidence and citation standards (see STD-20-01)
+- Elicitation method guidance (see DD-18-02)
 
 **Audience**: Compass builders, planners, and LLM agents operating within the system.
 
@@ -258,6 +266,7 @@ The system walks through each constraint category systematically: "What's the bu
 - All relevant constraint categories are addressed
 - Constraints are specific enough to be testable
 - No fundamental conflicts exist between constraints and prioritized requirements
+- All must-have decisions have reached CHOSEN or DEFERRED status
 - The specification is ready for handoff bundle generation
 
 **Example of what a conversation might address**:
@@ -278,17 +287,113 @@ Movement between stages follows predictable patterns, though the system supports
 
 **Backward revisitation**: When new information invalidates earlier assumptions. The user might say "Actually, thinking about that constraint changes what I said about priorities." The system can return to SHARPEN while preserving GROUND progress.
 
-**Lateral research**: When uncertainty blocks progress. "I don't know enough about X to answer that question" triggers a research branch (see Part 2).
+**Lateral research**: When uncertainty blocks progress. "I don't know enough about X to answer that question" triggers a research branch (see Part 3).
 
 **Convergence signals**: The system watches for signals that a stage is complete, including explicit statements ("I think we've covered the main cases"), diminishing new information (several turns without substantial additions), and completeness checks passing (see STD-18-01 for checklists).
 
+### 1.4 User-Controlled Fast Mode
+
+The questioning arc supports a **fast mode** that changes how the system interacts with the user. Fast mode is a user-controlled setting—the user toggles it on or off, and it is not triggered by system signal detection.
+
+**Normal mode** (default): Open exploration. The system asks broad questions, invites the user to think through options, and uses varied elicitation methods (see DD-18-02). The user's role is primarily that of an author generating content.
+
+**Fast mode** (user toggle): Pre-filled suggestions. The system does more of the cognitive work for the user:
+
+- Instead of "What features do you need?", the system presents "Based on the context so far, these features seem relevant: [pre-filled list]. Accept, modify, or replace."
+- Instead of open-ended prioritization, the system presents a pre-ranked list the user can adjust.
+- Stage turn counts may naturally be shorter, but stages are NOT skipped—all five stages still apply.
+- Exit conditions are the same as normal mode.
+
+**Fast mode does NOT**:
+
+- Skip stages
+- Reduce the quality or completeness of the output
+- Auto-accept suggestions without user confirmation
+
+**Fast mode DOES**:
+
+- Shift the user's role from "author" to "editor"
+- Reduce cognitive load for users who know roughly what they want
+- Produce the same artifacts and decisions as normal mode
+
 ---
 
-## Part 2: Research Branching and Merge Gates
+## Part 2: Decision Tracking
+
+During the planning arc, decisions emerge, evolve, and interact. This part defines how decisions relate to each other through typed dependencies and how each decision progresses through its own lifecycle.
+
+### 2.1 Decision Dependency Types
+
+Decisions within a planning workflow can have typed relationships that affect how the arc state machine manages them. These are **decision-to-decision** relationships within a planning workflow, distinct from DD-13-01's artifact-to-artifact `links` (which handle document navigation and cross-referencing between artifacts).
+
+| Type | Semantics | Example |
+|------|-----------|---------|
+| DEPENDS_ON | Hard prerequisite — can't finalize X without Y resolved | DB schema depends on hosting choice |
+| ENABLES | Unlocks options — choosing X makes Y possible | Choosing AWS enables Lambda |
+| BLOCKS | Eliminates options — choosing X makes Y impossible | Choosing serverless blocks VMs |
+| CONFLICTS_WITH | Mutually exclusive — X and Y can't both be CHOSEN | OAuth conflicts with custom auth |
+| INFORMS | Soft influence — X makes Y more or less likely | Budget informs scope ambition |
+
+**How dependencies are used**:
+
+- Dependencies are recorded as decisions are captured during the arc. The Archivist (see Part 5) maintains the dependency graph.
+- The system warns when a user tries to finalize a decision whose DEPENDS_ON targets are unresolved.
+- BLOCKS and CONFLICTS_WITH relationships surface automatically when a choice eliminates options.
+- Dependencies form a directed graph; cycles are invalid and must be detected (Archivist responsibility).
+- ENABLES relationships unlock new decisions for consideration: when a decision is CHOSEN, any decisions it ENABLES may transition to the ENABLED status.
+- INFORMS relationships are advisory only—they surface context but do not create hard constraints.
+
+### 2.2 Decision Status Lifecycle
+
+Decisions within a planning arc progress through their own lifecycle that is **separate from** DD-13-01's artifact lifecycle (`draft → review → active → deprecated`). An artifact (such as an ADR) can be in `active` status while the decision it records is still `EXPLORING`—these are different systems tracking different concerns.
+
+```
+EXPLORING ──→ CHOSEN
+    │             │
+    │             └──→ (arc complete)
+    │
+    ├──→ REJECTED (explicit, with rationale)
+    │
+    ├──→ BLOCKED (by another decision via BLOCKS dependency)
+    │
+    ├──→ DEFERRED (postponed to a later phase)
+    │
+    └──→ ENABLED (unlocked by another decision via ENABLES dependency)
+              │
+              └──→ EXPLORING (when user begins considering it)
+```
+
+**Status definitions**:
+
+| Status | Meaning |
+|--------|---------|
+| EXPLORING | Actively under consideration; options being evaluated |
+| ENABLED | Unlocked by another decision but not yet actively considered |
+| BLOCKED | Cannot be finalized because a BLOCKS dependency prevents it |
+| CHOSEN | Selected as the decision for this planning arc |
+| REJECTED | Explicitly ruled out, with rationale recorded |
+| DEFERRED | Postponed to a later planning phase |
+
+**Transition triggers**:
+
+- **User action**: EXPLORING → CHOSEN, REJECTED, or DEFERRED
+- **Dependency resolution**: → ENABLED (when an ENABLES source is CHOSEN) or → BLOCKED (when a BLOCKS source is CHOSEN)
+- **Merge gate results**: Branch merge may trigger status changes for affected decisions
+
+**Consistency rules**:
+
+- A CHOSEN decision must not have unresolved DEPENDS_ON dependencies.
+- A BLOCKED decision cannot be CHOSEN without first resolving the blocking relationship.
+- Status history is preserved—a decision that was EXPLORING, then BLOCKED, then ENABLED, then CHOSEN retains that full history for audit.
+- All must-have decisions must reach CHOSEN or DEFERRED before GROUND stage completion.
+
+---
+
+## Part 3: Research Branching and Merge Gates
 
 Not everything can be decided in a single planning session. Sometimes the right answer is "we need to find out," and Compass supports this with research branches.
 
-### 2.1 What Research Branching Is
+### 3.1 What Research Branching Is
 
 A research branch is a temporary divergence from the main planning workflow to investigate a specific question. The main arc pauses, research occurs (potentially over days), findings are summarized, and then the main arc resumes with new information.
 
@@ -303,7 +408,7 @@ Main Arc:  OPEN ─> FOLLOW ─> [UNCERTAINTY] ───────────
 
 **Why this matters**: Without explicit research branching, uncertainty either blocks progress (paralysis) or gets papered over with assumptions (brittle specs). Research branches make "we need to find out" a legitimate and trackable response.
 
-### 2.2 Triggering Research Branches
+### 3.2 Triggering Research Branches
 
 Research branches can be triggered in three ways:
 
@@ -313,7 +418,7 @@ Research branches can be triggered in three ways:
 
 **Widget escape hatch**: Every widget includes a "Research this" option. When users select it, the system creates a research brief and pauses for investigation.
 
-### 2.3 Research Branch Lifecycle
+### 3.3 Research Branch Lifecycle
 
 A research branch follows its own lifecycle:
 
@@ -323,9 +428,39 @@ A research branch follows its own lifecycle:
 
 **Documentation**: Findings are captured in Research Finding format (RF-*), following STD-20-01 evidence standards. The output includes what was discovered, sources and confidence levels, recommendation and rationale, and impact on the main arc (what changes based on this).
 
-**Merge gate**: Before findings affect the main arc, a human reviews and approves via the merge gate (see 2.4).
+**Merge gate**: Before findings affect the main arc, a human reviews and approves via the merge gate (see §3.6).
 
-### 2.4 Merge Gates
+### 3.4 Research Branch Subtypes
+
+Research branches support a `branchSubtype` property that indicates the expected output format. All subtypes follow the same lifecycle (create → investigate → merge gate → resolve) but differ in expected output:
+
+| Subtype | Purpose | Output | Example |
+|---------|---------|--------|---------|
+| `investigation` (default) | General inquiry | Findings document | "What transcription services exist?" |
+| `validation` | Test a hypothesis | Pass/fail report | "Can this API handle our throughput?" |
+| `specialist` | Domain expert input | Targeted recommendation | "Security review of auth approach" |
+| `adversarial` | Challenge a decision | Counterargument analysis | "What could go wrong with choosing Convex?" |
+
+All four subtypes use the same branch infrastructure (state isolation, merge gates). The subtype affects the output template and merge gate presentation, not the branch lifecycle. The Archivist tracks subtype for reporting purposes.
+
+### 3.5 The Adversarial Evaluator
+
+The `adversarial` subtype deserves particular attention. It is a **user-triggered** branch that takes a specific decision (typically one in EXPLORING or CHOSEN status) and deliberately argues against it. The purpose is to surface risks, hidden assumptions, and overlooked alternatives before a choice becomes costly to reverse.
+
+**How the adversarial evaluator works**:
+
+1. The user triggers it on a specific decision ("Challenge this choice").
+2. The system examines the decision, its rationale, and the rejected alternatives.
+3. It produces a structured counterargument covering:
+   - Strongest arguments against the current choice
+   - Risks that the planning conversation may have glossed over
+   - Scenarios where a rejected alternative would have been better
+   - Reversibility assessment (how hard would it be to change this later?)
+4. The output feeds back through a merge gate—the user can accept the concerns (which may reopen the decision), acknowledge-and-proceed (logging the risk), or dismiss.
+
+This is NOT an autonomous "devil's advocate" that interrupts the flow. It is an on-demand tool the user activates when they want a second perspective on a decision they're about to commit to.
+
+### 3.6 Merge Gates
 
 Merge gates are explicit checkpoints where proposed changes to canonical artifacts require human confirmation. This is a core principle from the System Definition (§1.7): "Sub-agents produce proposals, not canonical truth."
 
@@ -341,6 +476,8 @@ Merge gates are explicit checkpoints where proposed changes to canonical artifac
 The system presents a summary of proposed changes, including what would change (specific artifacts or decisions), why (the source of the proposal), and what the alternative is (reject, edit, or accept). The human reviews and chooses: Accept as-is, Edit before merging, Reject and continue without changes, or Defer for later decision.
 
 **Merge gate resolution is always logged**: who, when, what decision, and rationale. This creates the audit trail that makes planning history reconstructable.
+
+**Integration requirement**: Merge gate resolution is a state mutation event that must trigger registered integration handlers per DD-17-01. The specific integration chain is an implementation detail determined by ADR-01-01 and ADR-05-01.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -369,36 +506,58 @@ The system presents a summary of proposed changes, including what would change (
 
 ---
 
-## Part 3: Exploration Branching
+## Part 4: Exploration Branching
 
-Separate from research branches, Compass supports exploration branches for investigating alternative approaches in parallel.
+Separate from research branches, Compass supports exploration branches for investigating alternative approaches. Exploration branches follow a Git-like branching model where users can fork, build out, and merge entire planning states.
 
-### 3.1 What Exploration Branching Is
+### 4.1 Fork (Time Travel)
 
-An exploration branch creates parallel planning paths to investigate different approaches before committing to one. Unlike research branches (which gather information), exploration branches work through how a decision would play out.
+A user can navigate back to any prior decision point in the planning history and create a fork. The system:
 
-```
-                              ┌──────────────────┐
-                         ┌───>│  Explore Path A  │───┐
-Main Arc: ... ─> FOLLOW ─┤    └──────────────────┘   ├─> [MERGE GATE] ─> SHARPEN ─> ...
-                         └───>┌──────────────────┐───┘
-                              │  Explore Path B  │
-                              └──────────────────┘
-```
+- Restores the full context/memory state as it was at that decision point
+- Creates a new branch from that snapshot
+- The branch proceeds independently from that point forward
 
-**When exploration branching is useful**: When a significant design decision affects many downstream choices, and the right answer isn't clear without working through implications. "Should we use approach A or approach B?" becomes "Let's see what each approach would look like."
+The key insight: the user isn't just "comparing two options"—they're replaying planning from a different starting assumption. If they chose PostgreSQL on main but want to explore MongoDB, the fork restores the state *before* the database decision and lets them make a different choice. All downstream decisions (ORM selection, schema design, query patterns) then play out under the new assumption.
 
-### 3.2 Exploration Branch Lifecycle
+### 4.2 Branch Divergence
 
-**Creation**: The system identifies the decision point and creates parallel branches. Each branch carries forward the same context but assumes a different decision.
+As the branch progresses, decisions accumulate that may differ from main. The system tracks:
 
-**Parallel exploration**: Each branch proceeds through relevant planning steps independently. An implementation approach branch might work through architecture implications, dependency requirements, and integration considerations for each option.
+- **Decisions shared with main**: Made before the fork point; identical on both branches.
+- **Decisions unique to the branch**: Made after fork, potentially different from main.
+- **Decision dependencies that cross the fork boundary**: Dependencies involving both shared and branch-specific decisions.
 
-**Comparison**: When exploration completes, the system generates a comparison summary showing how each approach played out, including trade-offs discovered, complexity differences, and risks identified.
+### 4.3 Merge and Conflict Detection
 
-**Merge gate**: The user reviews the comparison and selects which path to continue. The selected path becomes the main arc; the rejected path is archived (not deleted) as reference.
+When a branch is ready to merge back into main, the system (via the Archivist) performs impact analysis using the decision dependency graph:
 
-### 3.3 Exploration vs. Research Branches
+**Clean merge**: The branch's decisions are compatible with main. No CONFLICTS_WITH or BLOCKS relationships exist between branch decisions and main decisions. The branch decisions can be incorporated directly.
+
+**Merge conflict**: A decision on the branch CONFLICTS_WITH or is BLOCKED by a decision on main. These must be resolved before merging:
+
+- The system presents the conflicting decisions side-by-side.
+- The user chooses which to keep (which may cascade further changes).
+- Resolution is logged and the dependency graph is updated.
+
+**Cascading changes**: A different choice on the branch ENABLES or BLOCKS different downstream decisions than what exists on main. The system identifies which main decisions are affected and presents them for review.
+
+### 4.4 Merge Gate for Branches
+
+The existing merge gate concept applies, but the UI must show:
+
+- Which decisions change (with before/after status)
+- Which decisions conflict (with resolution required)
+- Impact analysis table (decision ID, status on main, status on branch, merge result)
+- The Archivist's conflict detection output
+
+### 4.5 Multiple Concurrent Branches
+
+Multiple branches can exist simultaneously. Each is isolated. Branches can be compared side-by-side without merging. Stale branches (not touched for a configurable period) are surfaced by the Archivist for review or archival.
+
+Rejected branches are archived, not deleted—they remain accessible as reference for why an alternative was considered and ultimately not selected.
+
+### 4.6 Exploration vs. Research Branches
 
 The two branch types serve different purposes:
 
@@ -409,14 +568,59 @@ The two branch types serve different purposes:
 | Output | Findings document | Design comparison |
 | Duration | Variable (hours to weeks) | Typically same session |
 | Parallelism | Usually sequential | Usually parallel |
+| Model | Linear investigation | Git-like fork and merge |
 
 ---
 
-## Part 4: State Management
+## Part 5: The Archivist Subsystem
+
+The Archivist is a **background subsystem** that silently monitors the planning conversation and performs automated housekeeping. It is not a named agent, not conversational, and it rarely interacts with the user directly. It is infrastructure, not a persona.
+
+**Important distinction**: The Archivist is NOT an Agent per DD-15-01's role definitions. It does not require a sponsoring user, does not produce proposals that need merge gate approval, and does not participate in the planning conversation. It produces *analysis* that informs merge gate decisions and *warnings* when it detects problems.
+
+### 5.1 Functions
+
+| Function | What It Does | Output |
+|----------|-------------|--------|
+| Decision Filing | Captures and organizes decisions as they emerge from conversation | Decision records with status, dependencies, rationale |
+| Dependency Analysis | Maintains the decision dependency graph; detects cycles and broken references | Warnings surfaced to the user only when problems are found |
+| Merge Conflict Detection | Analyzes branch merges against the dependency graph | Impact analysis tables presented at merge gates |
+| Research Linking | Connects decisions to the research findings and evidence that informed them | Citation chains for audit |
+| Audit Generation | Produces decision changelogs and planning history | Queryable decision history |
+
+### 5.2 Triggers
+
+| Trigger | Actions |
+|---------|---------|
+| Decision captured | File decision, update dependency graph, check for new conflicts |
+| Branch created | Snapshot state, initialize branch tracking |
+| Merge gate opened | Run conflict detection, generate impact analysis |
+| Periodic (configurable) | Check for stale branches, orphaned decisions, broken references |
+| Manual request | Generate audit report, decision changelog |
+
+### 5.3 Interaction Model
+
+**The Archivist does NOT**:
+
+- Participate in the planning conversation
+- Have a persona or conversational style
+- Require a sponsoring user in the DD-15-01 sense (it's infrastructure, not an agent)
+
+**The Archivist DOES**:
+
+- Surface warnings when it detects problems (conflicts, cycles, staleness)
+- Produce structured outputs consumed by other parts of the system (merge gate UI, audit logs)
+- Run deterministic validation (cycle detection, reference integrity) plus LLM-assisted analysis (impact summarization)
+
+**Output format**: The Archivist's outputs conform to DD-15-01 audit log requirements and STD-15-01 event type enumerations. Research linking outputs follow DD-20-01 citation format.
+
+---
+
+## Part 6: State Management
 
 The questioning arc maintains state across multiple sessions, potentially spanning days or weeks. This section defines how state is structured and preserved.
 
-### 4.1 State Composition
+### 6.1 State Composition
 
 Arc state consists of three layers:
 
@@ -426,7 +630,7 @@ Arc state consists of three layers:
 
 **Branch context**: Metadata about the current position in the arc—active stage, branching history, pending merge gates. This enables resume-from-where-you-left-off.
 
-### 4.2 State Serialization
+### 6.2 State Serialization
 
 All arc state is serializable to JSON. This is a core architectural requirement (System Definition §1.7: "State is externalized"). The system reconstructs context from stored state, not from conversation history alone.
 
@@ -434,7 +638,7 @@ All arc state is serializable to JSON. This is a core architectural requirement 
 
 Per ADR-02-01, Mastra's thread-based memory provides the persistence layer. Working memory uses Zod schemas that define exactly what's stored, enabling both type safety and clear documentation of state structure.
 
-### 4.3 Pause and Resume
+### 6.3 Pause and Resume
 
 Planning sessions can be paused at any point and resumed later—hours, days, or weeks later.
 
@@ -452,7 +656,7 @@ The system reloads state and provides orientation: "We were in the SHARPEN stage
 
 **Suspension points**: Per RF-02-01, Mastra's `suspend()` function maps to natural pause points. Stage transitions and human-input-required moments (like merge gates) are natural suspension points where state is fully serialized.
 
-### 4.4 State Isolation
+### 6.4 State Isolation
 
 State is isolated at multiple levels:
 
@@ -464,11 +668,11 @@ State is isolated at multiple levels:
 
 ---
 
-## Part 5: Integration Points
+## Part 7: Integration Points
 
 The questioning arc integrates with several other Compass subsystems.
 
-### 5.1 Widget System (DD-19-01)
+### 7.1 Widget System (DD-19-01)
 
 Widgets are the primary mechanism for structured input during the questioning arc. The arc determines when to present widgets and what type; the widget system handles rendering and response collection.
 
@@ -483,7 +687,7 @@ Widgets are the primary mechanism for structured input during the questioning ar
 
 Every widget includes three guaranteed escape hatches: "None of these / describe instead," "Help me think" (system provides framing), and "Research this" (creates research branch).
 
-### 5.2 Artifact System (DD-13-01)
+### 7.2 Artifact System (DD-13-01)
 
 The questioning arc produces and updates artifacts throughout its progression.
 
@@ -497,7 +701,7 @@ The questioning arc produces and updates artifacts throughout its progression.
 
 **Artifact lifecycle interaction**: Artifacts created during the arc begin in `draft` status. They transition to `active` when the arc completes or when explicitly approved at merge gates.
 
-### 5.3 Governance System (DD-15-01)
+### 7.3 Governance System (DD-15-01)
 
 The questioning arc interacts with governance through three mechanisms:
 
@@ -507,7 +711,7 @@ The questioning arc interacts with governance through three mechanisms:
 
 **Audit logging**: Stage transitions, merge gate decisions, and branch operations are logged per DD-15-01 audit requirements.
 
-### 5.4 Orchestration Layer (ADR-02-01)
+### 7.4 Orchestration Layer (ADR-02-01)
 
 The questioning arc is implemented using the orchestration framework selected in ADR-02-01 (Mastra + Vercel AI SDK v6).
 
@@ -521,11 +725,11 @@ The questioning arc is implemented using the orchestration framework selected in
 
 ---
 
-## Part 6: Conceptual Example Flows
+## Part 8: Conceptual Example Flows
 
 The following examples illustrate how the questioning arc might progress for different types of projects. These are conceptual patterns, not specific implementations.
 
-### 6.1 Example: New Internal Tool
+### 8.1 Example: New Internal Tool
 
 A planner wants to create a dashboard for tracking podcast metrics.
 
@@ -539,7 +743,7 @@ A planner wants to create a dashboard for tracking podcast metrics.
 
 **GROUND (3 turns)**: Constraints are applied—budget ceiling of $50/month for external services, reliability tier of "internal tool," accessible to anyone with EFN SSO, target launch in 6 weeks.
 
-### 6.2 Example: Research-Heavy Planning
+### 8.2 Example: Research-Heavy Planning
 
 A planner wants to select a video transcription service.
 
@@ -557,25 +761,25 @@ A planner wants to select a video transcription service.
 
 **BOUNDARY / GROUND (6 turns combined)**: The remaining stages proceed with research-informed context.
 
-### 6.3 Example: Exploration Branch
+### 8.3 Example: Exploration Branch
 
 A planner is designing an API but unsure whether to use REST or GraphQL.
 
 **OPEN through FOLLOW (normal progression)**
 
-**[Exploration Branch triggered]**: Instead of forcing a premature decision, the system creates two parallel exploration paths—one assuming REST, one assuming GraphQL. Each path works through how the design would look with that choice.
+**[Exploration Branch triggered]**: Instead of forcing a premature decision, the system creates a fork at the API design decision point. The user explores the REST path first, then returns to the fork point and explores GraphQL. Each path works through how the design would look with that choice.
 
-**[Merge Gate after exploration]**: Both paths return to a merge gate that presents the comparison: "With REST, the design looks like X with trade-offs A and B. With GraphQL, the design looks like Y with trade-offs C and D. Which path do you want to continue?"
+**[Merge Gate after exploration]**: Both paths return to a merge gate that presents the comparison, including the decision dependency impact: "With REST, decisions D-12 through D-15 were made this way. With GraphQL, they differ at D-13 and D-14. Here are the conflicts to resolve."
 
 **[Continue with selected path]**: The main arc continues with the chosen approach, and the rejected path is archived (not deleted—it remains accessible as reference).
 
 ---
 
-## Part 7: Implementation Guidance
+## Part 9: Implementation Guidance
 
 This section provides guidance for implementing the questioning arc. It bridges the conceptual definition to practical implementation patterns.
 
-### 7.1 Stage Implementation Pattern
+### 9.1 Stage Implementation Pattern
 
 Each stage should be implemented as a distinct workflow step that can:
 
@@ -587,7 +791,7 @@ Each stage should be implemented as a distinct workflow step that can:
 
 Stage logic should be encapsulated so that changes to one stage don't cascade to others.
 
-### 7.2 Transition Triggers
+### 9.2 Transition Triggers
 
 Implement transitions as explicit triggers rather than implicit state checks:
 
@@ -597,7 +801,7 @@ Implement transitions as explicit triggers rather than implicit state checks:
 
 **Branch triggers**: User explicit request OR system detection of blocking uncertainty OR widget "Research this" selection.
 
-### 7.3 Merge Gate Implementation
+### 9.3 Merge Gate Implementation
 
 Merge gates require:
 
@@ -607,7 +811,7 @@ Merge gates require:
 - State mutation only after explicit acceptance
 - Rollback capability if merge is later reversed
 
-### 7.4 Degraded Operation
+### 9.4 Degraded Operation
 
 Per System Definition §3.8, the arc should continue functioning when subsystems fail:
 
@@ -621,11 +825,21 @@ Per System Definition §3.8, the arc should continue functioning when subsystems
 
 ## Appendix A: Glossary
 
+**Adversarial evaluator**: A user-triggered research branch subtype that deliberately argues against a decision to surface risks and hidden assumptions.
+
+**Archivist**: A background subsystem that silently monitors planning, files decisions, maintains the dependency graph, detects merge conflicts, and generates audit output. Not an agent per DD-15-01's role definitions.
+
 **Convergence signal**: Indication that a stage is approaching completion, derived from user statements, information density, or checklist passage.
+
+**Decision dependency**: A typed relationship (DEPENDS_ON, ENABLES, BLOCKS, CONFLICTS_WITH, INFORMS) between two decisions within a planning arc.
+
+**Decision status**: The planning-time state of a decision (EXPLORING, ENABLED, BLOCKED, CHOSEN, REJECTED, DEFERRED)—distinct from artifact lifecycle status.
 
 **Escape hatch**: A widget option that allows users to exit structured choices when none fit their needs.
 
-**Exploration branch**: A parallel planning path created to investigate alternative approaches before committing to one.
+**Exploration branch**: A Git-like fork of the planning state created to investigate an alternative approach from a prior decision point.
+
+**Fast mode**: A user-controlled setting where the system pre-fills suggestions for the user to edit rather than asking open-ended questions. All stages still apply.
 
 **Merge gate**: A checkpoint requiring explicit human confirmation before proposed changes become canonical.
 
@@ -644,9 +858,11 @@ Per System Definition §3.8, the arc should continue functioning when subsystems
 ## Appendix B: Related Documents
 
 - **STD-18-01**: Questioning Arc Standards (companion document with checklists and validation rules)
+- **DD-18-02**: Elicitation Methods (guidance on varied questioning techniques)
 - **DD-19-01**: Widget Schema Definition (widget types and behaviors)
 - **DD-13-01**: Artifact Taxonomy (document types and lifecycle)
 - **DD-15-01**: Governance Definitions (roles, permissions, and audit)
+- **DD-20-01**: Evidence Standards (citation format and research linking)
 - **RF-02-01**: Orchestration Research Findings (framework selection analysis)
 - **ADR-02-01**: Orchestration Selection (Mastra + AI SDK decision)
 - **Compass System Definition**: Authoritative system specification (§2.1, §2.3, §2.6)

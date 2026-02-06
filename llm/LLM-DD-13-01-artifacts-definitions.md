@@ -4,7 +4,7 @@ type: definition
 area: 13-artifact-taxonomy
 title: Artifact Taxonomy and Frontmatter (LLM View)
 created: 2026-02-03
-updated: 2026-02-03
+updated: 2026-02-06
 summary: LLM-optimized view of artifact types, frontmatter schema, lifecycle, and templates
 tags: [artifacts, taxonomy, frontmatter, lifecycle, llm, view]
 links:
@@ -18,7 +18,7 @@ links:
     target_id: "STD-20-01"
 view: llm
 source_id: DD-13-01
-source_updated: 2026-02-03
+source_updated: 2026-02-06
 staleness: fresh
 ---
 
@@ -35,6 +35,7 @@ DD-13 defines the Compass artifact taxonomy and the required structure of every 
 - Document IDs MUST follow format `{TYPE}-{AREA}-{VERSION}` where TYPE is the prefix, AREA is a two-digit domain code, and VERSION is a two-digit version starting at 01.
 - If `view: llm` is present, `source_id`, `source_updated`, and `staleness` MUST be included.
 - LLM view IDs SHOULD append `-LLM` to the source ID.
+- Artifact lifecycle states (draft/review/active/deprecated) are DISTINCT from decision statuses (EXPLORING/ENABLED/BLOCKED/CHOSEN/REJECTED/DEFERRED); see DD-18-01 §2.2.
 
 ## Document ID Format
 | Component | Description | Example |

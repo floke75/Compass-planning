@@ -4,7 +4,7 @@ type: spec
 title: Compass System Definition
 status: active
 created: 2026-01-24
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
 summary: Authoritative system specification defining what Compass is, its requirements, architecture, and constraints
 tags: [system, specification, compass, architecture, core]
@@ -192,8 +192,10 @@ Suggested stage cadence (typical, not mandatory): OPEN approximately 3–5 conve
   
 The workflow is not purely linear: users may revisit earlier stages as new information emerges, research branches can pause the main arc and then merge findings back in, and decision branches can explore alternatives in parallel before selecting one.  
   
-Each stage must: create or update one or more artifacts, record decisions with status transitions from exploring to accepted, rejected, or superseded, and expose explicit "Research this" triggers when uncertainty blocks progress.  
-  
+Each stage must: create or update one or more artifacts, record decisions with status transitions from exploring to accepted, rejected, or superseded, and expose explicit "Research this" triggers when uncertainty blocks progress.
+
+The planning workflow tracks **decision dependencies** between choices made during planning. Five typed relationships (DEPENDS_ON, ENABLES, BLOCKS, CONFLICTS_WITH, INFORMS) form a directed graph that the system uses to warn about unresolved prerequisites, surface conflicts, and detect cascading impacts when decisions change. Each decision progresses through its own **status lifecycle** (EXPLORING → CHOSEN/REJECTED/BLOCKED/DEFERRED) that is distinct from artifact lifecycle states (draft → active → deprecated). See DD-18-01 for the full specification. The workflow supports a **user-controlled fast mode** where the system pre-fills suggestions for the user to edit rather than asking open-ended questions; all stages still apply and exit conditions remain unchanged.
+
 ### 2.2 Structured Input Over Freeform Text  
   
 Structured input produces better specs than freeform text. "Fast" and "easy" are vibes; a slider labeled "<100ms" versus "<10s" is actionable.  
@@ -246,15 +248,15 @@ Decision records capture: the question being answered, options considered, evalu
   
 ### 2.6 Branching and Exploration  
   
-Compass supports parallel exploration without losing the plot:  
-  
-**Exploration branches**: Explore approach A versus approach B until one is selected.  
-  
-**Research branches**: Pause planning while external investigation occurs, then merge findings.  
-  
-**Rollback**: Revisit a decision by returning to an earlier state while preserving what happened.  
-  
-Branch management must support compare, merge, conflict detection, and archiving abandoned branches as reference rather than trash.  
+Compass supports parallel exploration through a Git-like branching model:
+
+**Exploration branches**: Users can fork the planning state at any prior decision point, restoring the full context/memory state as it was at that point. The forked branch proceeds independently, replaying planning under different assumptions. When ready to merge, the system uses the decision dependency graph to detect conflicts between branch decisions and main decisions, requiring resolution before merging.
+
+**Research branches**: Pause planning while external investigation occurs, then merge findings through a merge gate. Research branches support subtypes (investigation, validation, specialist, adversarial) that determine output format.
+
+**Rollback**: Revisit a decision by returning to an earlier state while preserving what happened.
+
+Branch management supports compare, merge, conflict detection via the decision dependency graph, and archiving abandoned branches as reference rather than trash. See DD-18-01 for the full branching specification.  
   
 ### 2.7 Handoff to Implementation  
   
@@ -465,28 +467,38 @@ BMAD-style workflows emphasize role-based agents and artifact-driven outputs sto
   
 **Artifact**: A versioned document the system treats as truth including spec, decision record, research finding, and standard.  
   
-**Artifact store**: The canonical location for durable artifacts, typically git-friendly.  
-  
+**Artifact store**: The canonical location for durable artifacts, typically git-friendly.
+
+**Archivist**: A background subsystem that silently monitors planning, files decisions, maintains the dependency graph, detects merge conflicts, and generates audit output.
+
 **Audit truth**: Changelog and ledger plus branch history plus attribution trail.  
   
-**Agent Pack**: A portable configuration in JSON or YAML that defines how an LLM agent should behave for a specific task, commonly used by implementation platforms.  
-  
+**Adversarial evaluator**: A user-triggered research branch subtype that deliberately argues against a decision to surface risks and hidden assumptions.
+
+**Agent Pack**: A portable configuration in JSON or YAML that defines how an LLM agent should behave for a specific task, commonly used by implementation platforms.
+
 **BMAD**: An LLM development methodology using document-centric state management and phase-based prompts.  
   
 **Branch**: A parallel planning universe for research, alternative architecture, and similar purposes.  
   
-**Decision branch**: A workflow state where alternative approaches are explored in parallel before selecting one.  
-  
+**Decision branch**: A workflow state where alternative approaches are explored in parallel before selecting one.
+
+**Decision dependency**: A typed relationship (DEPENDS_ON, ENABLES, BLOCKS, CONFLICTS_WITH, INFORMS) between two decisions within a planning arc.
+
 **Decision gate**: A checkpoint where an explicit choice is required before proceeding.  
   
 **Decision record (ADR)**: A document capturing what was decided, what alternatives were considered, and why.  
   
-**Decision ledger**: The set of all decisions with status, rationale, dependencies, and history.  
-  
+**Decision ledger**: The set of all decisions with status, rationale, dependencies, and history.
+
+**Decision status**: The planning-time state of a decision (EXPLORING, ENABLED, BLOCKED, CHOSEN, REJECTED, DEFERRED)—distinct from artifact lifecycle status.
+
 **Escape hatch**: A widget option that exits constrained choices such as "none of these fit."  
   
-**Execution truth**: Tasks, verification outputs, and release notes representing what was built and validated.  
-  
+**Execution truth**: Tasks, verification outputs, and release notes representing what was built and validated.
+
+**Fast mode**: A user-controlled setting where the system pre-fills suggestions for the user to edit rather than asking open-ended questions. All stages still apply.
+
 **GSD (Get Stuff Done)**: A code implementation platform or pattern using structured commands and verification workflows; an example downstream consumer.  
   
 **Handoff / handoff bundle**: The package of specs, decisions, research, and context exported from Compass to an implementation platform.  

@@ -4,7 +4,7 @@ type: index
 title: Compass Project Reference Index
 status: active
 created: 2026-01-25
-updated: 2026-02-05
+updated: 2026-02-06
 author: compass-research
 summary: Master navigation index for LLM agents traversing Compass documentation
 tags: [index, navigation, reference, retrieval]
@@ -41,6 +41,7 @@ This document provides structured navigation for LLM agents working with Compass
 | STD-17-01 | `STD-17-01-integration-standards.md` | Standard | Integration | Secret rules, error logging, pre-deployment checklists |
 | DD-18-01 | `DD-18-01-questioning-arc.md` | Definition | Planning | Five-stage planning workflow, research branching, merge gates |
 | STD-18-01 | `STD-18-01-questioning-arc-standards.md` | Standard | Planning | Stage completion criteria, transition rules, quality metrics |
+| DD-18-02 | `DD-18-02-elicitation-methods.md` | Definition | Planning | Elicitation method categories and stage affinity guidance |
 | DD-19-01 | `DD-19-01-widget-schema.md` | Definition | Widgets | JSON schemas for all widget types, interaction logging, LLM generation |
 | STD-19-01 | `STD-19-01-widget-schema-standards.md` | Standard | Widgets | Required fields, logging requirements, compliance rules |
 | DD-20-01 | `DD-20-01-evidence-definitions.md` | Definition | Research | Evidence grading, source tiers, freshness rules |
@@ -96,6 +97,7 @@ Compass System Definition (authoritative source)
     ├── DD-18-01 Questioning Arc ←──companion──→ STD-18-01 Arc Standards
     │       ├── informed by: ADR-02-01 (orchestration framework)
     │       └── integration: DD-19-01 (widget types), DD-15-01 (permissions)
+    │       └── DD-18-02 Elicitation Methods (stage affinity guidance)
     │
     ├── DD-19-01 Widget Schema ←──companion──→ STD-19-01 Widget Standards
     │       ├── informed by: RF-02-01, RF-07-01, ADR-02-01, ADR-07-01

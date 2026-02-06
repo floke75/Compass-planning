@@ -5,7 +5,7 @@ area: 13-artifact-taxonomy
 title: Artifact Taxonomy and Documentation Standards
 status: draft
 created: 2026-01-25
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
 summary: Defines the canonical artifact types, frontmatter schema, lifecycle states, and reconciliation protocols for Compass documentation
 tags: [artifacts, taxonomy, documentation, standards, lifecycle]
@@ -504,6 +504,8 @@ Compass uses four lifecycle states with clear meanings and transition rules:
 | **active** | Approved and authoritative | Everyone | Yes—this is the source of truth |
 | **accepted** | (ADR-specific) Decision finalized and authoritative | Everyone | Yes—this is the source of truth |
 | **deprecated** | Superseded or retired, preserved for history | Everyone | Only for historical context |
+
+**Decision status vs. artifact status**: The lifecycle states defined here (draft, review, active, deprecated) apply to *artifacts*—the documents that record decisions, requirements, and specifications. These are distinct from *decision statuses* (EXPLORING, ENABLED, BLOCKED, CHOSEN, REJECTED, DEFERRED), which track a decision's progress within a planning arc. An ADR artifact can be in `active` status while the decision it records is still `EXPLORING`. See DD-18-01 §2.2 for the decision status lifecycle.
 
 ### 3.3 Transition Rules
 
