@@ -5,7 +5,7 @@ area: 15-governance
 title: Governance, Roles, Permissions, and Audit
 status: draft
 created: 2026-01-25
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
 summary: Defines roles, permissions, approval workflows, and audit requirements for Compass with emphasis on practical accountability over bureaucracy
 tags: [governance, roles, permissions, audit, security]
@@ -403,6 +403,8 @@ Agents should handle the tedious parts of governance so humans focus on decision
 - Access credentials or secrets
 - Bypass permission checks
 - Act without attribution to a human sponsor
+
+**The Archivist is not an Agent**: The Archivist (defined in DD-18-01 §Part 5) is a background subsystem that monitors planning conversations, maintains the decision dependency graph, detects merge conflicts, and generates audit output. Despite operating autonomously, the Archivist is infrastructure—not an Agent per the definitions above. It does not require a sponsoring user, does not produce proposals that need merge gate approval, and does not participate in the planning conversation. Its outputs (warnings, impact analysis tables, audit records) inform human decisions but do not constitute agent proposals.
 
 ### 6.2 Agent Audit Trail
 

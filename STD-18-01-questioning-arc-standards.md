@@ -5,7 +5,7 @@ area: 18-questioning-arc
 title: Questioning Arc Standards
 status: draft
 created: 2026-01-26
-updated: 2026-02-03
+updated: 2026-02-06
 author: compass-research
 summary: Establishes validation rules, completion checklists, and quality criteria for the questioning arc workflow, including stage transition requirements and merge gate protocols
 tags: [questioning-arc, standards, validation, checklists, quality]
@@ -43,6 +43,8 @@ This document establishes enforceable standards for the questioning arc workflow
 ## Part 1: Stage Completion Criteria
 
 Each stage has specific completion criteria. These are not just guidelines—they are checkpoints that must pass before transition is permitted.
+
+> **Note**: Stage completion criteria are identical regardless of mode. The user-controlled fast mode (see DD-18-01 §1.4) affects questioning style, not validation rules. All rules in this document apply equally in normal and fast mode.
 
 ### 1.1 OPEN Stage Completion
 
@@ -251,6 +253,32 @@ Deferred merge gates must have a resolution deadline. Default is 7 days, configu
 
 **Auto-resolution**: Deferred merge gates do not auto-resolve. After deadline, they escalate but remain pending. Indefinitely deferred gates are periodically surfaced in project health reports.
 
+### 3.5 Exploration Branch Merge Standards
+
+#### Merge Conflict Resolution Standards
+
+When a branch merge involves conflicting decisions, the merge gate UI must present: the conflicting decisions side-by-side, the dependency graph paths affected, and the cascading changes that would result from each resolution choice.
+
+The user must explicitly confirm resolution for each conflict before the merge can proceed.
+
+All conflict resolutions are logged with the same schema as standard merge gate resolutions (§3.3).
+
+#### Branch Staleness Detection
+
+Default staleness threshold: configurable per project, default 14 days of inactivity.
+
+When a branch becomes stale, the Archivist surfaces it for review.
+
+**Escalation schedule**: Day 14 (initial notice), Day 21 (reminder), Day 30 (escalation to project owner).
+
+Stale branches are not auto-archived; they require explicit user action.
+
+#### Branch State Validation
+
+Before allowing a fork, the system must validate that the target decision point's state is fully restorable (all state layers are present and valid).
+
+If state validation fails, the fork is blocked and the user is informed which state components are missing.
+
 ---
 
 ## Part 4: State Persistence Standards
@@ -455,6 +483,7 @@ Resetting an arc (starting over) is permitted but creates a new arc instance rat
 | GROUND-003 | GROUND | Security/access specified | Block |
 | GROUND-004 | GROUND | Timeline specified | Block |
 | GROUND-005 | GROUND | Constraint consistency check passes | Warn |
+| STATUS-003 | GROUND | All must-have decisions must reach CHOSEN or DEFERRED | Block |
 
 ### Branch Validation Rules
 
@@ -466,6 +495,23 @@ Resetting an arc (starting over) is permitted but creates a new arc instance rat
 | BRANCH-004 | Exploration | At least 2 alternatives specified | Block |
 | BRANCH-005 | Any | Return point captured | Block |
 | BRANCH-006 | Any | Relevant context captured | Warn |
+| BRANCH-007 | Any | Branch state must be restorable before allowing fork | Block |
+
+### Decision Dependency Validation Rules
+
+| Rule ID | Rule | Severity |
+|---------|------|----------|
+| DEPEND-001 | No dependency cycles permitted | Block |
+| DEPEND-002 | DEPENDS_ON targets must be resolved before dependent decision is CHOSEN | Block |
+| DEPEND-003 | CONFLICTS_WITH relationships surfaced before CHOSEN | Warn |
+
+### Decision Status Validation Rules
+
+| Rule ID | Rule | Severity |
+|---------|------|----------|
+| STATUS-001 | CHOSEN requires all DEPENDS_ON targets resolved | Block |
+| STATUS-002 | BLOCKED decisions cannot transition to CHOSEN without resolving blocker | Block |
+| STATUS-003 | All must-have decisions must reach CHOSEN or DEFERRED before GROUND completion | Block |
 
 ---
 
