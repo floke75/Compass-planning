@@ -3,6 +3,16 @@
 ## Purpose
 This repository contains the canonical planning, research, and decision artifacts for Compass. Canonical documents are the source of truth. LLM views are derived for retrieval and must not introduce new decisions or requirements.
 
+## Document Selection — Which Version to Read
+
+This repo maintains two versions of every document: **canonical** (root-level, full-length) and **LLM-optimized** (`llm/LLM-*.md`, 60-85% smaller). Choose based on your task:
+
+- **Gathering context or surveying a topic**: read the LLM view in `llm/`. These are compact, structured for fast retrieval, and contain the key decisions and constraints.
+- **Implementing something that depends on exact rules, schemas, or nuanced requirements**: read the canonical root doc. LLM views are aggressively compressed and may lose small but critical nuances — edge-case behavior, precise thresholds, conditional rules, or subtle rationale.
+- **Editing or updating document content**: always work on the canonical root doc (source of truth), then update the LLM view to match.
+
+When in doubt, start with the LLM view for orientation, then open the canonical doc before acting on anything safety-critical or schema-sensitive.
+
 ## Document Hierarchy
 1. System Definition (`SYS-*`) is authoritative for system intent and requirements.
 2. Definitions (`DD-*`) define concepts, schemas, and taxonomy.
